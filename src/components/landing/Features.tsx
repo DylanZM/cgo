@@ -1,4 +1,5 @@
-import CodeChip from "./CodeChip";
+import CodeChip from './CodeChip'
+import CodeContainer from './CodeContainer'
 
 const features = [
   {
@@ -200,48 +201,42 @@ export default function Features() {
                 </p>
               </div>
 
-              <div className="border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden">
-                <div className="flex items-center justify-between px-4 py-2 border-b border-[var(--color-border)]">
-                  <span className="text-[10px] tracking-[0.1em] text-[var(--color-text-muted)] font-mono">
-                    experiment.cpp
-                  </span>
+              <CodeContainer
+                filename="experiment.cpp"
+                headerExtra={
                   <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)] uppercase">
                     Auto-run
                   </span>
-                </div>
-
-                <div className="p-4 font-mono text-xs">
-                  <ol className="space-y-1">
-                    {feature.code.map((item) => (
-                      <li
-                        key={item.line}
-                        className="flex items-start gap-3 group"
-                      >
-                        <span className="text-[var(--color-text-muted)] select-none w-4 text-right">
-                          {item.line}
-                        </span>
-                        <span className="flex-1 text-[var(--color-text)]">
-                          {item.content}
-                        </span>
-                        {item.time && (
-                          <span className="text-[var(--color-text-muted)] text-[10px] shrink-0">
-                            {item.time}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-
-                <div className="px-4 py-2.5 border-t border-[var(--color-border)] bg-[var(--color-bg)] flex items-center justify-between">
-                  <span className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider">
-                    stdout
-                  </span>
+                }
+                footerLeft="stdout"
+                footerRight={
                   <span className="text-xs font-mono text-[#a5d6ff]">
                     {feature.output}
                   </span>
-                </div>
-              </div>
+                }
+                className="text-xs"
+              >
+                <ol className="space-y-1">
+                  {feature.code.map((item) => (
+                    <li
+                      key={item.line}
+                      className="flex items-start gap-3 group"
+                    >
+                      <span className="text-[var(--color-text-muted)] select-none w-4 text-right">
+                        {item.line}
+                      </span>
+                      <span className="flex-1 text-[var(--color-text)]">
+                        {item.content}
+                      </span>
+                      {item.time && (
+                        <span className="text-[var(--color-text-muted)] text-[10px] shrink-0">
+                          {item.time}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </CodeContainer>
             </article>
           ))}
         </div>
