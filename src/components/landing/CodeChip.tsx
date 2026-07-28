@@ -20,19 +20,17 @@ export default function CodeChip({
   const rotation = rotate === 0 ? '' : rotate > 0 ? `rotate-${rotate}` : `-rotate-${Math.abs(rotate)}`
   const dim = `${size}em`
   const w = width !== undefined ? `${width}em` : dim
-
-
   const rawFontSize = Math.max(size, width ?? size) * 0.55
   const maxFontSize = size * 0.85
   const fontSize = `${Math.min(rawFontSize, maxFontSize)}em`
 
   return (
     <span
-      className={`relative inline-flex ${rotation} align-middle mx-1 overflow-hidden`}
+      className={`relative inline-flex ${rotation} align-middle mx-1 overflow-hidden rounded-sm shadow-sm shadow-black/10`}
       style={{ height: dim, width: w, lineHeight: 1, verticalAlign: 'middle' }}
     >
       <span
-        className={`absolute inset-0 ${filled ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface)]'} border ${filled ? 'border-[var(--color-border-strong)]' : 'border-[var(--color-border)]'}`}
+        className={`absolute inset-0 ${filled ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface)]'} border ${filled ? 'border-[var(--color-border-strong)]' : 'border-[var(--color-border)]'} rounded-sm`}
       />
       <span
         className="relative w-full h-full flex items-center justify-center font-mono font-semibold whitespace-nowrap px-1"
