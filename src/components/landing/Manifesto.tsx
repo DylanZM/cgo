@@ -6,7 +6,7 @@ export default function Manifesto() {
   ]
 
   return (
-    <section className="px-6 py-12 border-y border-[var(--color-border)] bg-[var(--color-surface)]">
+    <section id="manifesto" className="px-6 py-12 border-y border-[var(--color-border)] bg-[var(--color-surface)]">
       <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
         {items.map((item, i) => (
           <div key={item} className="flex items-center gap-6">

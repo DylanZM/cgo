@@ -53,8 +53,8 @@
   }
 
   ::selection {
-    background: var(--color-accent-dim);
-    color: var(--color-accent);
+    background: var(--color-surface-3);
+    color: var(--color-text);
   }
 
   ::-webkit-scrollbar {

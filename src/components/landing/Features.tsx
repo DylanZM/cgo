@@ -43,7 +43,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="px-6 py-24 border-t border-[var(--color-border)]" id="features">
+    <section id="features" className="px-6 py-24 border-t border-[var(--color-border)]">
       <div className="max-w-5xl mx-auto">
         <div className="mb-16">
           <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">

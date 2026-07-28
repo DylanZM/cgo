@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 
 export default function FinalCTA() {
   return (
-    <section className="relative px-6 py-32 border-t border-[var(--color-border)] overflow-hidden">
+    <section id="cta" className="relative px-6 py-32 border-t border-[var(--color-border)] overflow-hidden">
       <div className="relative max-w-5xl mx-auto text-center">
         <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-6">
           Ready when you are.

@@ -26,7 +26,7 @@ const languages = [
 
 export default function Languages() {
   return (
-    <section className="px-6 py-24">
+    <section id="languages" className="px-6 py-24">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
