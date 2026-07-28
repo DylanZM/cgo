@@ -21,8 +21,7 @@ export default function CodeChip({
   const dim = `${size}em`
   const w = width !== undefined ? `${width}em` : dim
 
-  // La fuente puede crecer con el ancho, pero nunca más allá
-  // de un % de la altura del chip (evita que se salga verticalmente)
+
   const rawFontSize = Math.max(size, width ?? size) * 0.55
   const maxFontSize = size * 0.85
   const fontSize = `${Math.min(rawFontSize, maxFontSize)}em`
