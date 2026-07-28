@@ -28,22 +28,32 @@ export default function Languages() {
   return (
     <section id="languages" className="px-6 py-24">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 animate-fade-up">
           <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
             One lab. The whole ecosystem.
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
-            <code className="font-mono text-[0.85em] italic -rotate-2 inline-block px-2 py-0.5 mx-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)] not-italic font-semibold">C</code> and <code className="font-mono text-[0.85em] italic rotate-2 inline-block px-2 py-0.5 mx-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)] not-italic font-semibold">C++</code> at the core.
+            <span className="relative inline-block -rotate-3 align-middle mx-1">
+              <span className="absolute inset-0 aspect-square h-[0.85em] bg-[var(--color-surface)] border border-[var(--color-border)] rounded" />
+              <code className="relative font-mono text-[0.85em] not-italic font-semibold text-[var(--color-text)] inline-flex items-center justify-center aspect-square h-[0.85em]">C</code>
+            </span>
+            {' '}and{' '}
+            <span className="relative inline-block rotate-2 align-middle mx-1">
+              <span className="absolute inset-0 aspect-square h-[0.85em] bg-[var(--color-surface)] border border-[var(--color-border)] rounded" />
+              <code className="relative font-mono text-[0.85em] not-italic font-semibold text-[var(--color-text)] inline-flex items-center justify-center aspect-square h-[0.85em]">C++</code>
+            </span>
+            {' '}at the core.
             <br />
             <span className="text-[var(--color-text-secondary)]">Everything else <em className="text-[var(--color-text)] not-italic font-semibold">included.</em></span>
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {languages.map((lang) => (
+          {languages.map((lang, i) => (
             <article
               key={lang.name}
-              className="group p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] transition-all"
+              className="group p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:-translate-y-1 transition-all duration-300 animate-fade-up"
+              style={{ animationDelay: `${100 + i * 100}ms` }}
             >
               <div className="flex items-start justify-between mb-6">
                 <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)]">

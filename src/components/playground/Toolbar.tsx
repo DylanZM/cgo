@@ -6,6 +6,7 @@ import {
   Settings,
   History,
   ChevronLeft,
+  Loader,
 } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { templates } from './templates'
@@ -139,9 +140,13 @@ export default function Toolbar({
         <button
           onClick={onRun}
           disabled={isRunning}
-          className="flex items-center gap-1.5 px-3 py-1.5 ml-1 text-xs font-medium text-white bg-[var(--color-accent)] rounded-md transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="group flex items-center gap-1.5 px-3 py-1.5 ml-1 text-xs font-medium text-white bg-[var(--color-accent)] rounded-md transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Play className="w-3 h-3" />
+          {isRunning ? (
+            <Loader className="w-3 h-3 animate-spin" />
+          ) : (
+            <Play className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+          )}
           {isRunning ? 'Running...' : 'Run'}
         </button>
       </div>

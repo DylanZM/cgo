@@ -3,7 +3,7 @@ import Github from '../icons/Github'
 export default function OpenSource() {
   return (
     <section id="open-source" className="px-6 py-24 border-t border-[var(--color-border)]">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-8 items-center">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-8 items-center animate-fade-up">
         <div className="text-6xl font-mono text-[var(--color-text-secondary)] opacity-30">
           {'{ }'}
         </div>

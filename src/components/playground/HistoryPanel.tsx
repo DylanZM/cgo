@@ -22,7 +22,7 @@ function timeAgo(timestamp: number): string {
 
 export default function HistoryPanel({ history, onRestore, onRemove, onClear, onClose }: HistoryPanelProps) {
   return (
-    <div className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72">
+    <div className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72 animate-slide-in-right">
       <div className="flex items-center justify-between px-4 h-10 border-b border-[var(--color-border)] shrink-0">
         <span className="text-xs font-medium text-[var(--color-text)]">Version History</span>
         <button onClick={onClose} className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors">

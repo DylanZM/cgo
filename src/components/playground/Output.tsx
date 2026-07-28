@@ -1,4 +1,4 @@
-import { Terminal, Loader2, AlertCircle, CheckCircle2, Clock } from 'lucide-react'
+import { Terminal, Loader, AlertCircle, CheckCircle2, Clock } from 'lucide-react'
 import type { CompileResponse } from '../../types'
 
 interface OutputProps {
@@ -15,12 +15,12 @@ export default function Output({ result, isRunning }: OutputProps) {
         {result && (
           <div className="ml-auto flex items-center gap-2">
             {result.exitCode === 0 ? (
-              <CheckCircle2 className="w-3 h-3 text-[var(--color-success)]" />
+              <CheckCircle2 className="w-3 h-3 text-[var(--color-success)] animate-scale-in" />
             ) : (
-              <AlertCircle className="w-3 h-3 text-[var(--color-error)]" />
+              <AlertCircle className="w-3 h-3 text-[var(--color-error)] animate-scale-in" />
             )}
             {result.time > 0 && (
-              <span className="flex items-center gap-1 text-[10px] text-[var(--color-text-muted)]">
+              <span className="flex items-center gap-1 text-[10px] text-[var(--color-text-muted)] animate-fade-in">
                 <Clock className="w-2.5 h-2.5" />
                 {result.time}ms
               </span>
@@ -31,8 +31,8 @@ export default function Output({ result, isRunning }: OutputProps) {
 
       <div className="flex-1 overflow-auto bg-[var(--color-bg)] p-4">
         {isRunning && (
-          <div className="flex items-center gap-2 text-[var(--color-text-muted)] text-xs">
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          <div className="flex items-center gap-2 text-[var(--color-text-muted)] text-xs animate-fade-in">
+            <Loader className="w-3.5 h-3.5 animate-spin" />
             Compiling and running...
           </div>
         )}
@@ -45,7 +45,7 @@ export default function Output({ result, isRunning }: OutputProps) {
         )}
 
         {!isRunning && result && (
-          <div className="space-y-3">
+          <div key={`${result.output.length}-${result.error.length}`} className="space-y-3 animate-fade-in">
             {result.output && (
               <div>
                 <span className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider">stdout</span>
