@@ -76,13 +76,14 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
                 <span className="text-xs text-[var(--text-secondary)]">{label}</span>
                 <button
                   onClick={() => onUpdate({ [key]: !settings[key] })}
-                  className={`relative w-8 h-4.5 rounded-full transition-colors ${
+                  className={`relative w-8 rounded-full transition-colors ${
                     settings[key] ? 'bg-[var(--accent)]' : 'bg-[var(--surface-3)]'
                   }`}
+                  style={{ height: '18px' }}
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 w-3.5 h-3.5 rounded-full bg-white transition-transform ${
-                      settings[key] ? 'translate-x-3.5' : ''
+                    className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-white transition-transform ${
+                      settings[key] ? 'translate-x-[14px]' : ''
                     }`}
                   />
                 </button>

@@ -70,6 +70,7 @@ export default function Playground() {
             onChange={setCode}
             language={language}
             settings={settings}
+            onRun={handleRun}
           />
         </div>
 
