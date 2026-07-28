@@ -55,7 +55,7 @@ const features = [
         line: 1,
         content: (
           <>
-            <span className="text-[var(--color-text-secondary)]">const</span> prices = [<CodeChip color="#d19a66" rotate={-2} size={1}>12</CodeChip>, <CodeChip color="#d19a66" rotate={2} size={1}>19</CodeChip>, <CodeChip color="#d19a66" rotate={-1} size={1}>8</CodeChip>];
+            <span className="text-[var(--color-text-secondary)]">const</span> prices = [<CodeChip color="#d19a66" rotate={-2} size={1} width={1.4}>12</CodeChip>, <CodeChip color="#d19a66" rotate={2} size={1} width={1.4}>19</CodeChip>, <CodeChip color="#d19a66" rotate={-1} size={1} width={1.1}>8</CodeChip>];
           </>
         ),
         time: '',
@@ -115,7 +115,7 @@ export default function Features() {
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
             A lab for{' '}
-            <CodeChip rotate={-2} size={1.1}>code</CodeChip>
+            <CodeChip rotate={-2} size={1.1} width={2.4}>code</CodeChip>
             <br />
             <span className="text-[var(--color-text-secondary)]">that is not a project <em className="text-[var(--color-text)] not-italic font-semibold">yet.</em></span>
           </h2>

@@ -36,7 +36,7 @@ export default function Languages() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
             <CodeChip rotate={-3} size={1.1}>C</CodeChip>
             {' '}and{' '}
-            <CodeChip rotate={2} size={1.1}>C++</CodeChip>
+            <CodeChip rotate={2} size={1.1} width={1.7}>C++</CodeChip>
             {' '}at the core.
             <br />
             <span className="text-[var(--color-text-secondary)]">Everything else <em className="text-[var(--color-text)] not-italic font-semibold">included.</em></span>

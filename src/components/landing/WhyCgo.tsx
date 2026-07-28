@@ -36,7 +36,7 @@ export default function WhyCgo() {
             A scratchpad built for
             <br />
             <span className="text-[var(--color-text-secondary)]">the way you actually </span>
-            <CodeChip rotate={-2} size={1.1}>code</CodeChip>
+            <CodeChip rotate={-2} size={1.1} width={2.4}>code</CodeChip>
             <span className="text-[var(--color-text-secondary)]">.</span>
           </h2>
         </div>

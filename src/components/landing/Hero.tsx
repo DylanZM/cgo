@@ -17,7 +17,7 @@ export default function Hero() {
               Write{' '}
               <CodeChip rotate={-3} size={1.1} color="var(--color-text)">C</CodeChip>
               <span className="text-[var(--color-text)]">/</span>
-              <CodeChip rotate={2} size={1.1} color="var(--color-text)">C++</CodeChip>
+              <CodeChip rotate={2} size={1.1} width={1.7} color="var(--color-text)">C++</CodeChip>
               .
             </span>
             <br />
@@ -30,7 +30,7 @@ export default function Hero() {
 
           <p className="text-base sm:text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto leading-relaxed mb-8 animate-fade-up delay-200">
             A scratchpad that compiles. Real{' '}
-            <CodeChip rotate={1} size={1.2}>g++</CodeChip>
+            <CodeChip rotate={1} size={1.2} width={1.7}>g++</CodeChip>
             {' '}on your machine, the same editor as VS Code, and a history that remembers everything you ran.
           </p>
 
