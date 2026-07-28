@@ -35,7 +35,7 @@ function loadSettings(): Settings {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) return { ...defaultSettings, ...JSON.parse(stored) }
-  } catch {}
+  } catch { /* ignore parse errors */ }
   return defaultSettings
 }
 

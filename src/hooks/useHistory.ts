@@ -8,7 +8,7 @@ function loadHistory(): HistoryEntry[] {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) return JSON.parse(stored)
-  } catch {}
+  } catch { /* ignore parse errors */ }
   return []
 }
 
