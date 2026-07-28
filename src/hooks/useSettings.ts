@@ -4,7 +4,7 @@ import type { Settings } from '../types'
 const STORAGE_KEY = 'cgo-settings'
 
 const defaultSettings: Settings = {
-  theme: 'vs-dark',
+  theme: 'vitesse-dark',
   fontFamily: "'JetBrains Mono', monospace",
   fontSize: 14,
   minimap: false,
@@ -16,19 +16,20 @@ const defaultSettings: Settings = {
 }
 
 export const themes = [
-  { id: 'vs-dark', label: 'Default Dark' },
+  { id: 'vitesse-dark', label: 'Vitesse Dark' },
+  { id: 'vitesse-light', label: 'Vitesse Light' },
   { id: 'github-dark', label: 'GitHub Dark' },
+  { id: 'github-light', label: 'GitHub Light' },
+  { id: 'dracula', label: 'Dracula' },
   { id: 'monokai', label: 'Monokai' },
   { id: 'nord', label: 'Nord' },
-  { id: 'one-dark-pro', label: 'One Dark Pro' },
   { id: 'tokyo-night', label: 'Tokyo Night' },
+  { id: 'one-dark-pro', label: 'One Dark Pro' },
 ]
 
 export const fonts = [
   { id: "'JetBrains Mono', monospace", label: 'JetBrains Mono' },
   { id: "'Cascadia Code', monospace", label: 'Cascadia Code' },
-  { id: "'Fira Code', monospace", label: 'Fira Code' },
-  { id: "Consolas, monospace", label: 'Consolas' },
 ]
 
 function loadSettings(): Settings {

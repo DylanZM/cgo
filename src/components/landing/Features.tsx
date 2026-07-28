@@ -7,8 +7,8 @@ const features = [
     description: 'Write C or C++ code and watch it compile with g++ 16. Output streams as the binary executes, errors highlight the exact line that broke.',
     code: [
       { line: 1, content: <><span className="text-[var(--color-accent)]">int</span> main() {'{'}</>, time: '' },
-      { line: 2, content: <>&nbsp;&nbsp;std::cout {'<<'} <span className="text-[#a5d6ff]">"Hello"</span>;</>, time: '0.2 ms' },
-      { line: 3, content: <>&nbsp;&nbsp;<span className="text-[var(--color-accent)]">return</span> <span className="text-[#d19a66]">0</span>;</>, time: '' },
+      { line: 2, content: <>&nbsp;&nbsp;std::cout {'<<'} <span className="text-[#a5d6ff] italic -rotate-2 inline-block">"Hello"</span>;</>, time: '0.2 ms' },
+      { line: 3, content: <>&nbsp;&nbsp;<span className="text-[var(--color-accent)]">return</span> <span className="text-[#d19a66] italic rotate-2 inline-block">0</span>;</>, time: '' },
       { line: 4, content: <>{'}'}</>, time: '' },
     ],
     output: 'Hello',
@@ -20,8 +20,8 @@ const features = [
     span: 'a snapshot.',
     description: 'Forget losing code. Every execution is saved with the exact code, language, and output. Restore any version with a single click.',
     code: [
-      { line: 1, content: <><span className="text-[var(--color-accent)]">const</span> prices = [<span className="text-[#d19a66]">12</span>, <span className="text-[#d19a66]">19</span>, <span className="text-[#d19a66]">8</span>];</>, time: '' },
-      { line: 2, content: <>prices.<span className="text-[#79c0ff]">map</span>(n {'=>'} n * <span className="text-[#d19a66]">1.21</span>);</>, time: '[14.52, 22.99, 9.68]' },
+      { line: 1, content: <><span className="text-[var(--color-accent)]">const</span> prices = [<span className="text-[#d19a66] italic -rotate-2 inline-block">12</span>, <span className="text-[#d19a66] italic rotate-2 inline-block">19</span>, <span className="text-[#d19a66] italic -rotate-1 inline-block">8</span>];</>, time: '' },
+      { line: 2, content: <>prices.<span className="text-[#79c0ff] italic rotate-2 inline-block">map</span>(n {'=>'} n * <span className="text-[#d19a66] italic -rotate-2 inline-block">1.21</span>);</>, time: '[14.52, 22.99, 9.68]' },
       { line: 3, content: <></>, time: '' },
     ],
     output: '3 versions saved',
@@ -31,7 +31,7 @@ const features = [
     overline: 'PERSONALIZATION',
     title: 'Your space,',
     span: 'your way.',
-    description: 'Six editor themes, four font families, full control over minimap, ligatures, and line numbers. Every preference persists across sessions.',
+    description: 'Nine editor themes, two font families, full control over minimap, ligatures, and line numbers. Every preference persists across sessions.',
     code: [
       { line: 1, content: <><span className="text-[var(--color-text-muted)]">// theme: Tokyo Night</span></>, time: '' },
       { line: 2, content: <><span className="text-[var(--color-text-muted)]">// font: JetBrains Mono</span></>, time: '' },
@@ -114,7 +114,7 @@ export default function Features() {
                   <span className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider">
                     stdout
                   </span>
-                  <span className="text-xs font-mono text-[#a5d6ff]">
+                  <span className="text-xs font-mono text-[#a5d6ff] italic -rotate-1 inline-block">
                     {feature.output}
                   </span>
                 </div>

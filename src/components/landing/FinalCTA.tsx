@@ -4,10 +4,6 @@ import { ArrowRight } from 'lucide-react'
 export default function FinalCTA() {
   return (
     <section className="relative px-6 py-32 border-t border-[var(--color-border)] overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[var(--color-accent)] opacity-[0.04] blur-[100px]" />
-      </div>
-
       <div className="relative max-w-5xl mx-auto text-center">
         <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-6">
           Ready when you are.
@@ -16,12 +12,12 @@ export default function FinalCTA() {
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05] mb-8">
           Your next scratch file
           <br />
-          <span className="text-[var(--color-accent)]">deserves better.</span>
+          deserves better.
         </h2>
 
         <Link
           to="/app"
-          className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--color-accent)] text-white font-medium text-sm transition-all hover:brightness-110 active:scale-[0.97]"
+          className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] font-medium text-sm transition-all hover:opacity-90 active:scale-[0.97]"
         >
           Open Playground
           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
