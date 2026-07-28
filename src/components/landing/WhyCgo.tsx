@@ -1,4 +1,5 @@
 import { Zap, Code2, Eye, Shield } from 'lucide-react'
+import CodeChip from './CodeChip'
 
 const reasons = [
   {
@@ -35,10 +36,7 @@ export default function WhyCgo() {
             A scratchpad built for
             <br />
             <span className="text-[var(--color-text-secondary)]">the way you actually </span>
-            <span className="relative inline-block -rotate-2 align-middle mx-1">
-              <span className="absolute inset-0 aspect-square h-[0.85em] bg-[var(--color-surface)] border border-[var(--color-border)] rounded" />
-              <code className="relative font-mono text-[0.85em] not-italic font-medium text-[var(--color-text)] inline-flex items-center justify-center aspect-square h-[0.85em]">code</code>
-            </span>
+            <CodeChip rotate={-2} size={1.1}>code</CodeChip>
             <span className="text-[var(--color-text-secondary)]">.</span>
           </h2>
         </div>

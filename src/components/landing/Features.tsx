@@ -1,32 +1,4 @@
-function CodeChip({
-  children,
-  rotate = 0,
-  color = '#a5d6ff',
-  size = '1em',
-  width,
-}: {
-  children: React.ReactNode
-  rotate?: number
-  color?: string
-  size?: string
-  width?: string
-}) {
-  const rotation = rotate === 0 ? '' : rotate > 0 ? `rotate-${rotate}` : `-rotate-${Math.abs(rotate)}`
-  return (
-    <span className={`relative inline-block ${rotation} align-middle mx-0.5`}>
-      <span
-        className="absolute inset-0 bg-[var(--color-surface-2)] border border-[var(--color-border)] rounded"
-        style={{ height: size, width: width ?? size, aspectRatio: '1 / 1' }}
-      />
-      <code
-        className="relative font-mono not-italic font-semibold inline-flex items-center justify-center"
-        style={{ color, height: size, width: width ?? size, aspectRatio: '1 / 1', fontSize: `calc(${size} * 0.55)` }}
-      >
-        {children}
-      </code>
-    </span>
-  )
-}
+import CodeChip from './CodeChip'
 
 const features = [
   {
@@ -83,7 +55,7 @@ const features = [
         line: 1,
         content: (
           <>
-            <span className="text-[var(--color-text-secondary)]">const</span> prices = [<CodeChip color="#d19a66" rotate={-2}>12</CodeChip>, <CodeChip color="#d19a66" rotate={2}>19</CodeChip>, <CodeChip color="#d19a66" rotate={-1}>8</CodeChip>];
+            <span className="text-[var(--color-text-secondary)]">const</span> prices = [<CodeChip color="#d19a66" rotate={-2} size={1}>12</CodeChip>, <CodeChip color="#d19a66" rotate={2} size={1}>19</CodeChip>, <CodeChip color="#d19a66" rotate={-1} size={1}>8</CodeChip>];
           </>
         ),
         time: '',
@@ -93,7 +65,7 @@ const features = [
         content: (
           <>
             prices.<span className="text-[var(--color-text-secondary)]">map</span>(n {'=>'} n *{' '}
-            <CodeChip color="#d19a66" rotate={-2} size="1.2em" width="1.6em">1.21</CodeChip>);
+            <CodeChip color="#d19a66" rotate={-2} size={1.2} width={1.6}>1.21</CodeChip>);
           </>
         ),
         time: '[14.52, 22.99, 9.68]',
@@ -143,10 +115,7 @@ export default function Features() {
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
             A lab for{' '}
-            <span className="relative inline-block -rotate-2 align-middle mx-1">
-              <span className="absolute inset-0 aspect-square h-[0.85em] bg-[var(--color-surface)] border border-[var(--color-border)] rounded" />
-              <code className="relative font-mono text-[0.85em] not-italic font-semibold text-[var(--color-text)] inline-flex items-center justify-center aspect-square h-[0.85em]">code</code>
-            </span>
+            <CodeChip rotate={-2} size={1.1}>code</CodeChip>
             <br />
             <span className="text-[var(--color-text-secondary)]">that is not a project <em className="text-[var(--color-text)] not-italic font-semibold">yet.</em></span>
           </h2>
