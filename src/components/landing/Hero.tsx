@@ -12,13 +12,13 @@ export default function Hero() {
           </p>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05] text-[var(--color-text)] mb-6">
-            Write C/C++.
+            Write <code className="font-mono text-[0.85em] italic -rotate-2 inline-block px-2 py-0.5 mx-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)] not-italic font-semibold">C</code>/<code className="font-mono text-[0.85em] italic rotate-2 inline-block px-2 py-0.5 mx-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)] not-italic font-semibold">C++</code>.
             <br />
-            <span className="text-[var(--color-accent)]">See it run.</span>
+            <span className="text-[var(--color-text-secondary)]">See it <code className="font-mono text-[0.85em] not-italic font-semibold text-[var(--color-text)] underline decoration-[var(--color-border-strong)] decoration-2 underline-offset-4">run</code>.</span>
           </h1>
 
           <p className="text-base sm:text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto leading-relaxed mb-8">
-            A scratchpad that compiles. Real g++ on your machine, the same editor as VS Code, and a history that remembers everything you ran.
+            A scratchpad that compiles. Real <code className="text-[0.9em] font-mono px-1.5 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)]">g++</code> on your machine, the same editor as VS Code, and a history that remembers everything you ran.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">

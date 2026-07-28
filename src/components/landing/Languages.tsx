@@ -33,9 +33,9 @@ export default function Languages() {
             One lab. The whole ecosystem.
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
-            C and C++ at the core.
+            <code className="font-mono text-[0.85em] italic -rotate-2 inline-block px-2 py-0.5 mx-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)] not-italic font-semibold">C</code> and <code className="font-mono text-[0.85em] italic rotate-2 inline-block px-2 py-0.5 mx-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)] not-italic font-semibold">C++</code> at the core.
             <br />
-            <span className="text-[var(--color-text-secondary)]">Everything else <em className="text-[var(--color-accent)] not-italic font-semibold">included.</em></span>
+            <span className="text-[var(--color-text-secondary)]">Everything else <em className="text-[var(--color-text)] not-italic font-semibold">included.</em></span>
           </h2>
         </div>
 
@@ -49,7 +49,7 @@ export default function Languages() {
                 <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)]">
                   {lang.number}
                 </span>
-                <lang.icon className="w-5 h-5 text-[var(--color-accent)]" />
+                <lang.icon className="w-5 h-5 text-[var(--color-text-secondary)]" />
               </div>
 
               <div className="mb-6">

@@ -50,9 +50,9 @@ export default function Features() {
             The distance between idea and answer: zero.
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
-            A lab for code
+            A lab for <code className="font-mono text-[0.85em] italic -rotate-2 inline-block px-2 py-0.5 mx-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text)] not-italic font-semibold">code</code>
             <br />
-            <span className="text-[var(--color-text-secondary)]">that is not a project <em className="text-[var(--color-accent)] not-italic font-semibold">yet.</em></span>
+            <span className="text-[var(--color-text-secondary)]">that is not a project <em className="text-[var(--color-text)] not-italic font-semibold">yet.</em></span>
           </h2>
         </div>
 
@@ -61,7 +61,7 @@ export default function Features() {
             <article key={feature.number} className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-16 items-start">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-medium tracking-[0.2em] text-[var(--color-accent)]">
+                  <span className="text-xs font-medium tracking-[0.2em] text-[var(--color-text-secondary)] font-mono">
                     {feature.number}
                   </span>
                   <span className="h-px flex-1 bg-[var(--color-border)]" />
