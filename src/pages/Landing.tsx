@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Code2 } from 'lucide-react'
 import Hero from '../components/landing/Hero'
+import Features from '../components/landing/Features'
+import Footer from '../components/landing/Footer'
 
 export default function Landing() {
   return (
@@ -12,7 +14,7 @@ export default function Landing() {
         </Link>
         <Link
           to="/app"
-          className="px-4 py-2 text-sm font-medium text-[var(--text)] hover:text-[var(--text)] bg-[var(--surface)] border border-[var(--border)] rounded-lg transition-colors hover:border-[var(--border-strong)]"
+          className="px-4 py-2 text-sm font-medium text-[var(--text)] bg-[var(--surface)] border border-[var(--border)] rounded-lg transition-colors hover:border-[var(--border-strong)]"
         >
           Open Playground
         </Link>
@@ -20,7 +22,10 @@ export default function Landing() {
 
       <main className="flex-1">
         <Hero />
+        <Features />
       </main>
+
+      <Footer />
     </div>
   )
 }
