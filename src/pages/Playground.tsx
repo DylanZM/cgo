@@ -50,7 +50,7 @@ export default function Playground() {
   }, [])
 
   return (
-    <div className="h-dvh flex flex-col bg-[var(--bg)]">
+    <div className="h-dvh flex flex-col bg-[var(--color-bg)]">
       <Toolbar
         language={language}
         onLanguageChange={setLanguage}
@@ -74,7 +74,7 @@ export default function Playground() {
           />
         </div>
 
-        <div className="w-[400px] min-w-[280px] flex flex-col border-l border-[var(--border)]">
+        <div className="w-[400px] min-w-[280px] flex flex-col border-l border-[var(--color-border)]">
           <Output result={lastResult} isRunning={isRunning} />
         </div>
 

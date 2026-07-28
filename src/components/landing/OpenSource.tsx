@@ -8,14 +8,14 @@ function Github(props: React.SVGProps<SVGSVGElement>) {
 
 export default function OpenSource() {
   return (
-    <section className="px-6 py-24 border-t border-[var(--border)]">
+    <section className="px-6 py-24 border-t border-[var(--color-border)]">
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-8 items-center">
-        <div className="text-6xl font-mono text-[var(--accent)] opacity-30">
+        <div className="text-6xl font-mono text-[var(--color-accent)] opacity-30">
           {'{ }'}
         </div>
 
         <div>
-          <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--text-muted)] uppercase mb-3">
+          <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-3">
             Free means free
           </p>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-[1.1] mb-4">
@@ -23,7 +23,7 @@ export default function OpenSource() {
             <br />
             be another subscription.
           </h2>
-          <p className="text-[var(--text-secondary)] leading-relaxed max-w-md">
+          <p className="text-[var(--color-text-secondary)] leading-relaxed max-w-md">
             Every feature. Every platform. No account and no artificial limits. Inspect the code, report a bug, or build the feature you want next.
           </p>
         </div>
@@ -32,14 +32,14 @@ export default function OpenSource() {
           href="https://github.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-3 px-4 py-3 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--surface-2)] transition-colors"
+          className="group flex items-center gap-3 px-4 py-3 rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-2)] transition-colors"
         >
-          <Github className="w-5 h-5 text-[var(--text-secondary)]" />
+          <Github className="w-5 h-5 text-[var(--color-text-secondary)]" />
           <div className="flex flex-col">
-            <span className="text-xs text-[var(--text-muted)]">github.com/</span>
-            <span className="text-sm font-medium text-[var(--text)]">View source</span>
+            <span className="text-xs text-[var(--color-text-muted)]">github.com/</span>
+            <span className="text-sm font-medium text-[var(--color-text)]">View source</span>
           </div>
-          <span className="text-[10px] text-[var(--text-muted)] ml-2">MIT ↗</span>
+          <span className="text-[10px] text-[var(--color-text-muted)] ml-2">MIT ↗</span>
         </a>
       </div>
     </section>
