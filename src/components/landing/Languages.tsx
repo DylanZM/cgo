@@ -47,7 +47,7 @@ export default function Languages() {
           {languages.map((lang, i) => (
             <article
               key={lang.name}
-              className="group p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:-translate-y-1 transition-all duration-300 animate-fade-up"
+              className="group p-6 border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:-translate-y-1 transition-all duration-300 animate-fade-up"
               style={{ animationDelay: `${100 + i * 100}ms` }}
             >
               <div className="flex items-start justify-between mb-6">

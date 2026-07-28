@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Play } from 'lucide-react'
+import { ArrowRight, Play, } from 'lucide-react'
 import Github from '../icons/Github'
 import CodeChip from './CodeChip'
 
@@ -59,7 +59,7 @@ export default function Hero() {
             Live · Editable · Real
           </div>
 
-          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden">
+          <div className="border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden">
             <div className="flex items-center justify-between px-4 py-2.5 border-b border-[var(--color-border)]">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[var(--color-error)]" />

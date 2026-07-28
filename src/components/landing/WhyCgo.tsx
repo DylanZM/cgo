@@ -41,7 +41,7 @@ export default function WhyCgo() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[var(--color-border)] rounded-xl overflow-hidden border border-[var(--color-border)]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[var(--color-border)] overflow-hidden border border-[var(--color-border)]">
           {reasons.map((reason, i) => (
             <article
               key={reason.title}
