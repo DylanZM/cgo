@@ -2,36 +2,51 @@ import { useState, useCallback } from 'react'
 import Toolbar from '../components/playground/Toolbar'
 import Editor from '../components/playground/Editor'
 import Output from '../components/playground/Output'
-import type { CompileResponse } from '../types'
+import SettingsPanel from '../components/playground/SettingsPanel'
+import HistoryPanel from '../components/playground/HistoryPanel'
+import { useSettings } from '../hooks/useSettings'
+import { useHistory } from '../hooks/useHistory'
+import { compileCode } from '../lib/compiler'
 import { templates } from '../components/playground/templates'
+import type { HistoryEntry } from '../types'
 
 export default function Playground() {
   const [language, setLanguage] = useState<'c' | 'c++'>('c++')
   const [code, setCode] = useState(templates[0].code)
-  const [result, setResult] = useState<CompileResponse | null>(null)
   const [isRunning, setIsRunning] = useState(false)
+  const [lastResult, setLastResult] = useState<{ output: string; error: string; exitCode: number; time: number } | null>(null)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [historyOpen, setHistoryOpen] = useState(false)
+
+  const { settings, updateSettings } = useSettings()
+  const { history, addEntry, removeEntry, clearHistory } = useHistory()
 
   const handleRun = useCallback(async () => {
     setIsRunning(true)
     try {
-      const res = await fetch('/api/compile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, language }),
-      })
-      const data: CompileResponse = await res.json()
-      setResult(data)
+      const result = await compileCode(code, language)
+      setLastResult(result)
+      addEntry({ code, language, output: result.output, error: result.error, exitCode: result.exitCode })
     } catch {
-      setResult({ output: '', error: 'Failed to connect to compilation server.', exitCode: 1, time: 0 })
+      const err = { output: '', error: 'Failed to connect to compilation server.', exitCode: 1, time: 0 }
+      setLastResult(err)
+      addEntry({ code, language, output: '', error: err.error, exitCode: 1 })
     } finally {
       setIsRunning(false)
     }
-  }, [code, language])
+  }, [code, language, addEntry])
 
   const handleLoadTemplate = useCallback((templateCode: string, lang: 'c' | 'c++') => {
     setCode(templateCode)
     setLanguage(lang)
-    setResult(null)
+    setLastResult(null)
+  }, [])
+
+  const handleRestore = useCallback((entry: HistoryEntry) => {
+    setCode(entry.code)
+    setLanguage(entry.language)
+    setLastResult({ output: entry.output, error: entry.error, exitCode: entry.exitCode, time: 0 })
+    setHistoryOpen(false)
   }, [])
 
   return (
@@ -42,23 +57,43 @@ export default function Playground() {
         onRun={handleRun}
         isRunning={isRunning}
         onLoadTemplate={handleLoadTemplate}
-        onToggleSettings={() => {}}
-        onToggleHistory={() => {}}
-        settingsOpen={false}
-        historyOpen={false}
+        onToggleSettings={() => { setSettingsOpen(!settingsOpen); setHistoryOpen(false) }}
+        onToggleHistory={() => { setHistoryOpen(!historyOpen); setSettingsOpen(false) }}
+        settingsOpen={settingsOpen}
+        historyOpen={historyOpen}
       />
 
       <div className="flex-1 flex min-h-0">
-        <div className="flex-1 min-w-0 border-r border-[var(--border)]">
+        <div className="flex-1 min-w-0">
           <Editor
             code={code}
             onChange={setCode}
             language={language}
+            settings={settings}
           />
         </div>
-        <div className="w-[400px] min-w-[300px] flex flex-col border-[var(--border)]">
-          <Output result={result} isRunning={isRunning} />
+
+        <div className="w-[400px] min-w-[280px] flex flex-col border-l border-[var(--border)]">
+          <Output result={lastResult} isRunning={isRunning} />
         </div>
+
+        {settingsOpen && (
+          <SettingsPanel
+            settings={settings}
+            onUpdate={updateSettings}
+            onClose={() => setSettingsOpen(false)}
+          />
+        )}
+
+        {historyOpen && (
+          <HistoryPanel
+            history={history}
+            onRestore={handleRestore}
+            onRemove={removeEntry}
+            onClear={clearHistory}
+            onClose={() => setHistoryOpen(false)}
+          />
+        )}
       </div>
     </div>
   )
