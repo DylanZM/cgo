@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tooling
+.hallmark/
+design.md
+.interface-design/

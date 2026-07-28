@@ -1,16 +1,32 @@
+import { Link } from 'react-router-dom'
 import { Code2 } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className="px-6 py-8 border-t border-[var(--border)]">
-      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-[var(--text-secondary)] text-sm">
+    <footer className="px-6 py-6 border-t border-[var(--border)] bg-[var(--surface)]">
+      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors">
           <Code2 className="w-4 h-4 text-[var(--accent)]" />
-          <span>cgo playground</span>
-        </div>
+          <span className="text-sm">cgo<span className="text-[var(--text-muted)]">_</span></span>
+        </Link>
+
         <p className="text-xs text-[var(--text-muted)]">
           Built with React, Monaco Editor, and g++.
         </p>
+
+        <div className="flex items-center gap-4">
+          <Link to="/app" className="text-xs text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors">
+            Web app
+          </Link>
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
     </footer>
   )

@@ -1,53 +1,125 @@
-import { Code2, Play, Terminal, History } from 'lucide-react'
-
 const features = [
   {
-    icon: Code2,
-    title: 'VS Code Editor',
-    description: 'Full Monaco editor with syntax highlighting, autocomplete, and error detection for C and C++.',
+    number: '01',
+    overline: 'NATIVE COMPILATION',
+    title: 'Compile and run.',
+    span: 'In real time.',
+    description: 'Write C or C++ code and watch it compile with g++ 16. Output streams as the binary executes, errors highlight the exact line that broke.',
+    code: [
+      { line: 1, content: <><span className="text-[var(--accent)]">int</span> main() {'{'}</>, time: '' },
+      { line: 2, content: <>&nbsp;&nbsp;std::cout {'<<'} <span className="text-[#a5d6ff]">"Hello"</span>;</>, time: '0.2 ms' },
+      { line: 3, content: <>&nbsp;&nbsp;<span className="text-[var(--accent)]">return</span> <span className="text-[#d19a66]">0</span>;</>, time: '' },
+      { line: 4, content: <>{'}'}</>, time: '' },
+    ],
+    output: 'Hello',
   },
   {
-    icon: Play,
-    title: 'Instant Execution',
-    description: 'Compile and run your code with a single click or Ctrl+Enter. See results immediately.',
+    number: '02',
+    overline: 'VERSION HISTORY',
+    title: 'Every run is',
+    span: 'a snapshot.',
+    description: 'Forget losing code. Every execution is saved with the exact code, language, and output. Restore any version with a single click.',
+    code: [
+      { line: 1, content: <><span className="text-[var(--accent)]">const</span> prices = [<span className="text-[#d19a66]">12</span>, <span className="text-[#d19a66]">19</span>, <span className="text-[#d19a66]">8</span>];</>, time: '' },
+      { line: 2, content: <>prices.<span className="text-[#79c0ff]">map</span>(n {'=>'} n * <span className="text-[#d19a66]">1.21</span>);</>, time: '[14.52, 22.99, 9.68]' },
+      { line: 3, content: <></>, time: '' },
+    ],
+    output: '3 versions saved',
   },
   {
-    icon: Terminal,
-    title: 'C & C++ Support',
-    description: 'Switch between C11 and C++17 standards. Full standard library support.',
-  },
-  {
-    icon: History,
-    title: 'Version History',
-    description: 'Every execution is saved. Browse, restore, and compare previous versions.',
+    number: '03',
+    overline: 'PERSONALIZATION',
+    title: 'Your space,',
+    span: 'your way.',
+    description: 'Six editor themes, four font families, full control over minimap, ligatures, and line numbers. Every preference persists across sessions.',
+    code: [
+      { line: 1, content: <><span className="text-[var(--text-muted)]">// theme: Tokyo Night</span></>, time: '' },
+      { line: 2, content: <><span className="text-[var(--text-muted)]">// font: JetBrains Mono</span></>, time: '' },
+      { line: 3, content: <><span className="text-[var(--text-muted)]">// size: 14px</span></>, time: '' },
+    ],
+    output: 'Settings saved',
   },
 ]
 
 export default function Features() {
   return (
-    <section className="px-6 py-24 border-t border-[var(--border)]">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] tracking-tight mb-4">
-            Everything you need.
-            <br />
-            Nothing you don&apos;t.
-          </h2>
-          <p className="text-[var(--text-secondary)] text-lg max-w-md mx-auto">
-            A minimal environment focused on what matters: writing and running code.
+    <section className="px-6 py-24 border-t border-[var(--border)]" id="features">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-16">
+          <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--text-muted)] uppercase mb-4">
+            The distance between idea and answer: zero.
           </p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
+            A lab for code
+            <br />
+            <span className="text-[var(--text-secondary)]">that is not a project <em className="text-[var(--accent)] not-italic font-semibold">yet.</em></span>
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-20">
           {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="group p-6 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors"
-            >
-              <feature.icon className="w-5 h-5 text-[var(--accent)] mb-4" />
-              <h3 className="text-sm font-medium text-[var(--text)] mb-2">{feature.title}</h3>
-              <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{feature.description}</p>
-            </div>
+            <article key={feature.number} className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-16 items-start">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xs font-medium tracking-[0.2em] text-[var(--accent)]">
+                    {feature.number}
+                  </span>
+                  <span className="h-px flex-1 bg-[var(--border)]" />
+                </div>
+
+                <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--text-muted)] uppercase mb-3">
+                  {feature.overline}
+                </p>
+
+                <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-[1.1] mb-4">
+                  {feature.title}
+                  <br />
+                  <span className="text-[var(--text-secondary)]">{feature.span}</span>
+                </h3>
+
+                <p className="text-[var(--text-secondary)] leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
+                <div className="flex items-center justify-between px-4 py-2 border-b border-[var(--border)]">
+                  <span className="text-[10px] tracking-[0.1em] text-[var(--text-muted)] font-mono">
+                    experiment.{feature.number === '01' ? 'cpp' : feature.number === '02' ? 'cpp' : 'cpp'}
+                  </span>
+                  <span className="text-[10px] tracking-[0.2em] text-[var(--text-muted)] uppercase">
+                    Auto-run
+                  </span>
+                </div>
+
+                <div className="p-4 font-mono text-xs">
+                  <ol className="space-y-1">
+                    {feature.code.map((item) => (
+                      <li key={item.line} className="flex items-start gap-3 group">
+                        <span className="text-[var(--text-muted)] select-none w-4 text-right">
+                          {item.line}
+                        </span>
+                        <span className="flex-1 text-[var(--text)]">{item.content}</span>
+                        {item.time && (
+                          <span className="text-[var(--text-muted)] text-[10px] shrink-0">
+                            {item.time}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                <div className="px-4 py-2.5 border-t border-[var(--border)] bg-[var(--bg)] flex items-center justify-between">
+                  <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">
+                    stdout
+                  </span>
+                  <span className="text-xs font-mono text-[#a5d6ff]">
+                    {feature.output}
+                  </span>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </div>
