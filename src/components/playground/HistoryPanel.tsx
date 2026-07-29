@@ -28,14 +28,14 @@ function firstLine(code: string): string {
 export default function HistoryPanel({ history, onRestore, onRemove, onClear, onClose }: HistoryPanelProps) {
   return (
     <div
-      className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72"
+      className="h-full flex flex-col bg-surface border-l border-border w-72"
       style={{ animation: 'panel-in 200ms cubic-bezier(0.23, 1, 0.32, 1)' }}
     >
-      <div className="flex items-center justify-between px-4 h-11 border-b border-[var(--color-border)] shrink-0">
+      <div className="flex items-center justify-between px-4 h-11 border-b border-border shrink-0">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-[var(--color-text)]">Version history</span>
+          <span className="text-xs font-semibold text-text">Version history</span>
           {history.length > 0 && (
-            <span className="px-1.5 py-0.5 text-[10px] tabular-nums rounded-full bg-[var(--color-surface-3)] text-[var(--color-text-muted)] font-medium">
+            <span className="px-1.5 py-0.5 text-[10px] tabular-nums rounded-full bg-surface-3 text-text-muted font-medium">
               {history.length}
             </span>
           )}
@@ -43,7 +43,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
         <button
           onClick={onClose}
           aria-label="Close history"
-          className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+          className="p-1 rounded text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -52,17 +52,17 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
       <div className="flex-1 overflow-y-auto">
         {history.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full px-6 text-center">
-            <div className="w-12 h-12 rounded-full border border-dashed border-[var(--color-border)] flex items-center justify-center mb-3">
-              <Clock className="w-5 h-5 text-[var(--color-text-muted)] opacity-60" />
+            <div className="w-12 h-12 rounded-full border border-dashed border-border flex items-center justify-center mb-3">
+              <Clock className="w-5 h-5 text-text-muted opacity-60" />
             </div>
-            <p className="text-xs text-[var(--color-text-secondary)] font-medium">No versions yet</p>
-            <p className="text-[10px] text-[var(--color-text-muted)] mt-1 leading-relaxed">
+            <p className="text-xs text-text-secondary font-medium">No versions yet</p>
+            <p className="text-[10px] text-text-muted mt-1 leading-relaxed">
               A snapshot is saved every time your code runs. Restore any version with one click.
             </p>
           </div>
         ) : (
           <ol className="relative px-3 py-3">
-            <span className="absolute left-[27px] top-3 bottom-3 w-px bg-[var(--color-border)]" aria-hidden />
+            <span className="absolute left-[27px] top-3 bottom-3 w-px bg-border" aria-hidden />
 
             {history.map((entry, i) => {
               const isFirst = i === 0
@@ -70,15 +70,15 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
               return (
                 <li
                   key={entry.id}
-                  className="group relative pl-9 pr-2 py-2 rounded-md hover:bg-[var(--color-surface-2)] transition-colors"
+                  className="group relative pl-9 pr-2 py-2 rounded-md hover:bg-surface-2 transition-colors"
                 >
                   <span
-                    className={`absolute left-3 top-3 w-2.5 h-2.5 rounded-full border-2 border-[var(--color-surface)] z-10 ${
+                    className={`absolute left-3 top-3 w-2.5 h-2.5 rounded-full border-2 border-surface z-10 ${
                       isFirst
-                        ? 'bg-[var(--color-text)]'
+                        ? 'bg-text'
                         : hasError
-                          ? 'bg-[var(--color-error)]'
-                          : 'bg-[var(--color-success)]'
+                          ? 'bg-error'
+                          : 'bg-success'
                     }`}
                     aria-hidden
                   />
@@ -86,25 +86,25 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                   <div className="flex items-start justify-between gap-2 min-w-0">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-medium text-[var(--color-text)] tabular-nums">
+                        <span className="text-xs font-medium text-text tabular-nums">
                           {isFirst ? 'Current' : `#${String(i).padStart(2, '0')}`}
                         </span>
                         {hasError ? (
-                          <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-[var(--color-error)]">
+                          <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-error">
                             <AlertCircle className="w-2.5 h-2.5" />
                             Error
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-[var(--color-success)]">
+                          <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-success">
                             <CheckCircle2 className="w-2.5 h-2.5" />
                             OK
                           </span>
                         )}
                       </div>
-                      <p className="font-mono text-[10px] text-[var(--color-text-muted)] truncate leading-relaxed">
+                      <p className="font-mono text-[10px] text-text-muted truncate leading-relaxed">
                         {firstLine(entry.code)}
                       </p>
-                      <div className="flex items-center gap-1.5 mt-1 text-[10px] text-[var(--color-text-muted)]">
+                      <div className="flex items-center gap-1.5 mt-1 text-[10px] text-text-muted">
                         <span>{timeAgo(entry.timestamp)}</span>
                       </div>
                     </div>
@@ -114,7 +114,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                         onClick={() => onRestore(entry)}
                         aria-label="Restore this version"
                         title="Restore"
-                        className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-3)] transition-colors"
+                        className="p-1 rounded text-text-muted hover:text-text hover:bg-surface-3 transition-colors"
                       >
                         <RotateCcw className="w-3 h-3" />
                       </button>
@@ -122,7 +122,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                         onClick={() => onRemove(entry.id)}
                         aria-label="Delete this version"
                         title="Delete"
-                        className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-error)] hover:bg-[var(--color-error-dim)] transition-colors"
+                        className="p-1 rounded text-text-muted hover:text-error hover:bg-error-dim transition-colors"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -136,10 +136,10 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
       </div>
 
       {history.length > 0 && (
-        <div className="px-4 py-3 border-t border-[var(--color-border)]">
+        <div className="px-4 py-3 border-t border-border">
           <button
             onClick={onClear}
-            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs text-[var(--color-error)] hover:bg-[var(--color-error-dim)] rounded-md transition-colors"
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs text-error hover:bg-error-dim rounded-md transition-colors"
           >
             <Trash2 className="w-3 h-3" />
             Clear history

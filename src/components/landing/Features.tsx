@@ -136,25 +136,25 @@ function FeatureRow({
         style={{ transitionDelay: `${index * 100}ms` }}
       >
         <div className="flex items-center gap-3 mb-4">
-          <span className="text-xs font-medium tracking-[0.2em] text-[var(--color-text-secondary)] font-mono">
+          <span className="text-xs font-medium tracking-[0.2em] text-text-secondary font-mono">
             {feature.number}
           </span>
-          <span className="h-px flex-1 bg-[var(--color-border)]" />
+          <span className="h-px flex-1 bg-border" />
         </div>
 
-        <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-3">
+        <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted uppercase mb-3">
           {feature.overline}
         </p>
 
         <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-[1.1] mb-4">
           {feature.title}
           <br />
-          <span className="text-[var(--color-text-secondary)]">
+          <span className="text-text-secondary">
             {feature.span}
           </span>
         </h3>
 
-        <p className="text-[var(--color-text-secondary)] leading-relaxed">
+        <p className="text-text-secondary leading-relaxed">
           {feature.description}
         </p>
       </div>
@@ -168,7 +168,7 @@ function FeatureRow({
           filename="experiment.cpp"
           compact
           headerExtra={
-            <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)] uppercase">
+            <span className="text-[10px] tracking-[0.2em] text-text-muted uppercase">
               Auto-run
             </span>
           }
@@ -210,22 +210,22 @@ export default function Features() {
   const [headerRef, headerInView] = useInView<HTMLDivElement>()
 
   return (
-    <section id="features" className="px-6 py-24 border-t border-[var(--color-border)]">
+    <section id="features" className="px-6 py-24 border-t border-border">
       <div className="max-w-5xl mx-auto">
         <div
           ref={headerRef}
           className={`mb-16 reveal-up ${headerInView ? 'is-visible' : ''}`}
         >
-          <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
+          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted uppercase mb-4">
             The distance between idea and answer: zero.
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
             A lab for{' '}
             <CodeChip rotate={-2} size={1.3} width={2.6}>code</CodeChip>
             <br />
-            <span className="text-[var(--color-text-secondary)]">
+            <span className="text-text-secondary">
               that is not a project{' '}
-              <em className="text-[var(--color-text)] not-italic font-semibold">
+              <em className="text-text not-italic font-semibold">
                 yet.
               </em>
             </span>

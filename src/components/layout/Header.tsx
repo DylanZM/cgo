@@ -24,16 +24,16 @@ export default function Header({
   brand,
 }: HeaderProps) {
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 h-14 bg-[var(--color-bg)]/80 backdrop-blur-lg border-b border-[var(--color-border)]">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 h-14 bg-bg/80 backdrop-blur-lg border-b border-border">
       <Link
         to="/"
-        className="flex items-center gap-0.5 text-[var(--color-text)] shrink-0 font-sans"
+        className="flex items-center gap-0.5 text-text shrink-0 font-sans"
       >
         {brand ?? (
           <>
             <img src="/cgo.webp" alt="" className="w-14 h-14" />
             <span className="text-base font-semibold tracking-tight leading-none">
-              Cgo<span className="text-[var(--color-text-muted)] animate-blink">_</span>
+              Cgo<span className="text-text-muted animate-blink">_</span>
             </span>
           </>
         )}
@@ -44,7 +44,7 @@ export default function Header({
           <a
             key={s.id}
             href={`#${s.id}`}
-            className="px-3 py-1.5 text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors font-sans"
+            className="px-3 py-1.5 text-xs text-text-secondary hover:text-text transition-colors font-sans"
           >
             {s.label}
           </a>

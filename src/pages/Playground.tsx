@@ -54,7 +54,7 @@ export default function Playground() {
   const isHorizontal = layout === 'horizontal'
 
   return (
-    <div className="h-dvh flex flex-col bg-[var(--color-bg)]">
+    <div className="h-dvh flex flex-col bg-bg">
       <Toolbar
         onRun={handleRun}
         isRunning={isRunning}
@@ -69,7 +69,7 @@ export default function Playground() {
 
       <div className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
         <div
-          className={`flex-1 min-w-0 min-h-0 ${isHorizontal ? 'border-r' : 'border-b'} border-[var(--color-border)]`}
+          className={`flex-1 min-w-0 min-h-0 ${isHorizontal ? 'border-r' : 'border-b'} border-border`}
         >
           <Editor
             code={code}

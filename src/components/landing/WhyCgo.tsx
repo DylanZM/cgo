@@ -31,21 +31,21 @@ export default function WhyCgo() {
   const [gridRef, gridInView] = useInView<HTMLDivElement>()
 
   return (
-    <section id="why" className="px-6 py-24 border-t border-[var(--color-border)]">
+    <section id="why" className="px-6 py-24 border-t border-border">
       <div className="max-w-5xl mx-auto">
         <div
           ref={headerRef}
           className={`mb-16 reveal-up ${headerInView ? 'is-visible' : ''}`}
         >
-          <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
+          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted uppercase mb-4">
             Why cgo
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
             A scratchpad built for
             <br />
-            <span className="text-[var(--color-text-secondary)]">the way you actually </span>
+            <span className="text-text-secondary">the way you actually </span>
             <CodeChip rotate={-2} size={1.1} width={2.4}>code</CodeChip>
-            <span className="text-[var(--color-text-secondary)]">.</span>
+            <span className="text-text-secondary">.</span>
           </h2>
         </div>
 

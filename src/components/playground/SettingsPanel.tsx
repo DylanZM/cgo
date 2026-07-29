@@ -26,23 +26,23 @@ function Toggle({
       className="w-full flex items-center justify-between gap-3 py-2 text-left group"
     >
       <div className="min-w-0">
-        <div className="text-xs text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors">
+        <div className="text-xs text-text-secondary group-hover:text-text transition-colors">
           {label}
         </div>
         {description && (
-          <div className="text-[10px] text-[var(--color-text-muted)] mt-0.5">
+          <div className="text-[10px] text-text-muted mt-0.5">
             {description}
           </div>
         )}
       </div>
       <span
         className={`relative shrink-0 w-8 rounded-full transition-colors duration-200 ${
-          checked ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface-3)]'
+          checked ? 'bg-text' : 'bg-surface-3'
         }`}
         style={{ height: '18px' }}
       >
         <span
-          className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-[var(--color-bg)] transition-transform duration-200 cubic-bezier(0.23, 1, 0.32, 1) ${
+          className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-bg transition-transform duration-200 cubic-bezier(0.23, 1, 0.32, 1) ${
             checked ? 'translate-x-[14px]' : ''
           }`}
         />
@@ -54,8 +54,8 @@ function Toggle({
 function SectionHeader({ icon: Icon, title }: { icon: typeof Sun; title: string }) {
   return (
     <div className="flex items-center gap-2 mb-3">
-      <Icon className="w-3 h-3 text-[var(--color-text-muted)]" />
-      <h3 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
+      <Icon className="w-3 h-3 text-text-muted" />
+      <h3 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-text-muted">
         {title}
       </h3>
     </div>
@@ -65,15 +65,15 @@ function SectionHeader({ icon: Icon, title }: { icon: typeof Sun; title: string 
 export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsPanelProps) {
   return (
     <div
-      className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72"
+      className="h-full flex flex-col bg-surface border-l border-border w-72"
       style={{ animation: 'panel-in 200ms cubic-bezier(0.23, 1, 0.32, 1)' }}
     >
-      <div className="flex items-center justify-between px-4 h-11 border-b border-[var(--color-border)] shrink-0">
-        <span className="text-xs font-semibold text-[var(--color-text)]">Settings</span>
+      <div className="flex items-center justify-between px-4 h-11 border-b border-border shrink-0">
+        <span className="text-xs font-semibold text-text">Settings</span>
         <button
           onClick={onClose}
           aria-label="Close settings"
-          className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+          className="p-1 rounded text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -85,13 +85,13 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
 
           <div className="space-y-3">
             <label className="block">
-              <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5">
+              <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">
                 Theme
               </div>
               <select
                 value={settings.theme}
                 onChange={(e) => onUpdate({ theme: e.target.value })}
-                className="w-full px-2.5 py-1.5 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md text-[var(--color-text)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors appearance-none cursor-pointer"
+                className="w-full px-2.5 py-1.5 text-xs bg-bg border border-border rounded-md text-text focus:outline-none focus:border-border-strong transition-colors appearance-none cursor-pointer"
                 style={{
                   backgroundImage:
                     "url(\"data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234b5563' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
@@ -107,13 +107,13 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
             </label>
 
             <label className="block">
-              <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5">
+              <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">
                 Font family
               </div>
               <select
                 value={settings.fontFamily}
                 onChange={(e) => onUpdate({ fontFamily: e.target.value })}
-                className="w-full px-2.5 py-1.5 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md text-[var(--color-text)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors appearance-none cursor-pointer"
+                className="w-full px-2.5 py-1.5 text-xs bg-bg border border-border rounded-md text-text focus:outline-none focus:border-border-strong transition-colors appearance-none cursor-pointer"
                 style={{
                   backgroundImage:
                     "url(\"data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234b5563' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
@@ -130,10 +130,10 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
 
             <label className="block">
               <div className="flex items-center justify-between mb-1.5">
-                <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)]">
+                <div className="text-[10px] uppercase tracking-wider text-text-muted">
                   Font size
                 </div>
-                <div className="text-[10px] tabular-nums text-[var(--color-text-secondary)] font-mono">
+                <div className="text-[10px] tabular-nums text-text-secondary font-mono">
                   {settings.fontSize}px
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
                 max={22}
                 value={settings.fontSize}
                 onChange={(e) => onUpdate({ fontSize: Number(e.target.value) })}
-                className="w-full accent-[var(--color-text)]"
+                className="w-full accent-text"
               />
             </label>
           </div>
@@ -188,18 +188,18 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
           <SectionHeader icon={Hash} title="Indentation" />
 
           <label className="block">
-            <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5">
+            <div className="text-[10px] uppercase tracking-wider text-text-muted mb-1.5">
               Tab size
             </div>
-            <div className="flex items-center bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md p-0.5">
+            <div className="flex items-center bg-bg border border-border rounded-md p-0.5">
               {[2, 4].map((size) => (
                 <button
                   key={size}
                   onClick={() => onUpdate({ tabSize: size })}
                   className={`flex-1 px-2 py-1 text-xs font-medium rounded transition-colors ${
                     settings.tabSize === size
-                      ? 'bg-[var(--color-surface-3)] text-[var(--color-text)]'
-                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
+                      ? 'bg-surface-3 text-text'
+                      : 'text-text-muted hover:text-text-secondary'
                   }`}
                 >
                   {size} spaces

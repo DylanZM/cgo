@@ -10,27 +10,27 @@ export default function Hero() {
     <section id="hero" className="relative px-6 pt-12 pb-20">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] mb-8 uppercase animate-fade-down">
+          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted mb-8 uppercase animate-fade-down">
             Free. Open source. Yours.
           </p>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05] text-[var(--color-text)] mb-6 animate-fade-up delay-100">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05] text-text mb-6 animate-fade-up delay-100">
             <span className="inline-block">
               Write{' '}
               <CodeChip rotate={-3} size={1.1} color="var(--color-text)">C</CodeChip>
-              <span className="text-[var(--color-text)]">/</span>
+              <span className="text-text">/</span>
               <CodeChip rotate={2} size={1.1} width={1.7} color="var(--color-text)">C++</CodeChip>
               .
             </span>
             <br />
-            <span className="text-[var(--color-text-secondary)]">
+            <span className="text-text-secondary">
               See it{' '}
               <CodeChip rotate={-2} size={1.1} filled>▶</CodeChip>
               .
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto leading-relaxed mb-8 animate-fade-up delay-200">
+          <p className="text-base sm:text-lg text-text-secondary max-w-xl mx-auto leading-relaxed mb-8 animate-fade-up delay-200">
             A scratchpad that compiles. Real{' '}
             <CodeChip rotate={1} size={1.2} width={1.7}>g++</CodeChip>
             {' '}on your machine, the same editor as VS Code, and a history that remembers everything you ran.
@@ -39,7 +39,7 @@ export default function Hero() {
           <div className="flex flex-wrap items-center justify-center gap-3 animate-fade-up delay-300">
             <Link
               to="/app"
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] font-medium text-sm transition-all hover:opacity-90 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-text text-bg font-medium text-sm transition-all hover:opacity-90 active:scale-[0.97]"
             >
               Start coding
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -48,7 +48,7 @@ export default function Hero() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--color-border-strong)] text-[var(--color-text)] font-medium text-sm hover:bg-[var(--color-surface)] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border-strong text-text font-medium text-sm hover:bg-surface transition-colors"
             >
               <SiGithub className="w-4 h-4" />
               View on GitHub
@@ -57,7 +57,7 @@ export default function Hero() {
         </div>
 
         <div className="relative mt-8 animate-fade-up delay-400">
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[9px] tracking-[0.2em] text-[var(--color-text-muted)] uppercase z-10">
+          <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-surface border border-border text-[9px] tracking-[0.2em] text-text-muted uppercase z-10">
             Live · Editable · Real
           </div>
 
@@ -95,7 +95,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="hidden md:block w-56 pl-6 border-l border-[var(--color-border)]">
+              <div className="hidden md:block w-56 pl-6 border-l border-border">
                 <div className={`text-[10px] ${codeThemes.github.textMuted} uppercase tracking-wider mb-3`}>Output</div>
                 <div className="flex flex-wrap gap-1.5 items-center">
                   {[0, 1, 1, 2, 3, 5, 8, 13, 21, 34].map((n, i) => (
