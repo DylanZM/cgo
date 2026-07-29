@@ -7,7 +7,15 @@ import { codeThemes } from './codeThemes'
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative px-6 pt-12 pb-20">
+    <section id="hero" className="relative px-6 pt-12 pb-20 overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 opacity-40 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(60% 50% at 50% 0%, rgba(192,132,252,0.12), transparent 70%), radial-gradient(40% 40% at 80% 60%, rgba(52,211,153,0.06), transparent 70%)',
+        }}
+      />
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted mb-8 uppercase animate-fade-down">
@@ -57,7 +65,11 @@ export default function Hero() {
         </div>
 
         <div className="relative mt-8 animate-fade-up delay-400">
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-surface border border-border text-[9px] tracking-[0.2em] text-text-muted uppercase z-10">
+          <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-surface border border-border text-[9px] tracking-[0.2em] text-text-muted uppercase z-10 flex items-center gap-1.5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-success" />
+            </span>
             Live · Editable · Real
           </div>
 
@@ -66,7 +78,7 @@ export default function Hero() {
             footerLeft="Press Ctrl+Enter to run"
             theme="github"
             compact
-            typewriter={{ duration: '4.5s', steps: 140 }}
+            typewriter={{ duration: 4.5, steps: 140 }}
           >
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8">
               <div className="space-y-1.5">

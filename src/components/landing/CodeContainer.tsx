@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Play } from 'lucide-react'
 import type { CodeTheme, CodeThemeName } from './codeThemes'
@@ -16,7 +16,7 @@ interface CodeContainerProps {
   className?: string
   compact?: boolean
   typewriter?: {
-    duration?: string
+    duration?: number
     steps?: number
   }
 }
@@ -39,13 +39,6 @@ export default function CodeContainer({
 
   const padding = compact ? 'p-4' : 'p-6'
 
-  const typewriterStyle = typewriter
-    ? ({
-        '--typewriter-duration': typewriter.duration ?? '4s',
-        '--typewriter-steps': String(typewriter.steps ?? 120),
-      } as React.CSSProperties)
-    : undefined
-
   return (
     <div
       className={`border border-border bg-surface overflow-hidden rounded-md ${className}`}
@@ -53,9 +46,9 @@ export default function CodeContainer({
     >
       <div className="flex items-center justify-between px-3 py-2 border-b border-border">
         <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-error" />
-          <span className="w-1.5 h-1.5 rounded-full bg-warning" />
-          <span className="w-1.5 h-1.5 rounded-full bg-success" />
+          <span className="w-1.5 h-1.5 rounded-full bg-error transition-transform duration-200 hover:scale-[1.6]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-warning transition-transform duration-200 hover:scale-[1.6]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-success transition-transform duration-200 hover:scale-[1.6]" />
         </div>
         <div className="flex items-center gap-3">
           {headerExtra}
@@ -75,15 +68,20 @@ export default function CodeContainer({
         </div>
       </div>
 
-      <div
-        className={`${padding} font-mono text-sm ${resolvedTheme.text} relative ${
-          typewriter ? 'typewriter-content' : ''
-        }`}
-        style={typewriterStyle}
-      >
-        {children}
-        {typewriter && <span className="typewriter-cursor" aria-hidden />}
-      </div>
+      {typewriter ? (
+        <TypewriterContent
+          padding={padding}
+          themeText={resolvedTheme.text}
+          duration={typewriter.duration ?? 4}
+          steps={typewriter.steps ?? 140}
+        >
+          {children}
+        </TypewriterContent>
+      ) : (
+        <div className={`${padding} font-mono text-sm ${resolvedTheme.text}`}>
+          {children}
+        </div>
+      )}
 
       {(footerLeft || footerRight) && (
         <div className="flex items-center justify-between px-3 py-1.5 border-t border-border bg-bg">
@@ -99,6 +97,89 @@ export default function CodeContainer({
             )}
           </div>
         </div>
+      )}
+    </div>
+  )
+}
+
+interface TypewriterContentProps {
+  children: ReactNode
+  padding: string
+  themeText: string
+  duration: number
+  steps: number
+}
+
+function TypewriterContent({
+  children,
+  padding,
+  themeText,
+  duration,
+  steps,
+}: TypewriterContentProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
+  const [width, setWidth] = useState(0)
+  const [start, setStart] = useState(false)
+
+  useEffect(() => {
+    if (!ref.current || !innerRef.current) return
+
+    const measure = () => {
+      if (innerRef.current) {
+        setWidth(innerRef.current.scrollWidth)
+      }
+    }
+
+    measure()
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setStart(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(ref.current)
+
+    const resizeObserver = new ResizeObserver(measure)
+    resizeObserver.observe(innerRef.current)
+
+    return () => {
+      observer.disconnect()
+      resizeObserver.disconnect()
+    }
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className={`${padding} font-mono text-sm ${themeText} relative overflow-hidden`}
+    >
+      <div
+        ref={innerRef}
+        className={start ? 'typewriter-content' : ''}
+        style={
+          {
+            '--typewriter-duration': `${duration}s`,
+            '--typewriter-steps': String(steps),
+          } as React.CSSProperties
+        }
+      >
+        {children}
+      </div>
+      {start && (
+        <span
+          aria-hidden
+          className="typewriter-cursor"
+          style={
+            {
+              '--cursor-distance': `${Math.max(0, width - 1.5)}px`,
+            } as React.CSSProperties
+          }
+        />
       )}
     </div>
   )
