@@ -1,12 +1,14 @@
 export interface Template {
   name: string
+  description: string
   language: 'c' | 'c++'
   code: string
 }
 
 export const templates: Template[] = [
   {
-    name: 'Hello World (C++)',
+    name: 'Hello World',
+    description: 'Minimal starting point',
     language: 'c++',
     code: `#include <iostream>
 
@@ -17,6 +19,7 @@ int main() {
   },
   {
     name: 'Hello World (C)',
+    description: 'Minimal C starting point',
     language: 'c',
     code: `#include <stdio.h>
 
@@ -27,6 +30,7 @@ int main() {
   },
   {
     name: 'Fibonacci',
+    description: 'Recursive sequence',
     language: 'c++',
     code: `#include <iostream>
 
@@ -45,6 +49,7 @@ int main() {
   },
   {
     name: 'Structs',
+    description: 'Custom types & methods',
     language: 'c++',
     code: `#include <iostream>
 #include <string>
@@ -70,6 +75,7 @@ int main() {
   },
   {
     name: 'Pointers',
+    description: 'References and memory',
     language: 'c++',
     code: `#include <iostream>
 
@@ -91,6 +97,7 @@ int main() {
   },
   {
     name: 'Arrays (C)',
+    description: 'Bubble sort example',
     language: 'c',
     code: `#include <stdio.h>
 

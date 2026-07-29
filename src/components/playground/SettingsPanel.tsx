@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X, Sun, Code, Hash, Zap } from 'lucide-react'
 import type { Settings } from '../../types'
 import { themes, fonts } from '../../hooks/useSettings'
 
@@ -8,139 +8,238 @@ interface SettingsPanelProps {
   onClose: () => void
 }
 
+function Toggle({
+  checked,
+  onChange,
+  label,
+  description,
+}: {
+  checked: boolean
+  onChange: () => void
+  label: string
+  description?: string
+}) {
+  return (
+    <button
+      onClick={onChange}
+      aria-pressed={checked}
+      className="w-full flex items-center justify-between gap-3 py-2 text-left group"
+    >
+      <div className="min-w-0">
+        <div className="text-xs text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors">
+          {label}
+        </div>
+        {description && (
+          <div className="text-[10px] text-[var(--color-text-muted)] mt-0.5">
+            {description}
+          </div>
+        )}
+      </div>
+      <span
+        className={`relative shrink-0 w-8 rounded-full transition-colors duration-200 ${
+          checked ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface-3)]'
+        }`}
+        style={{ height: '18px' }}
+      >
+        <span
+          className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-[var(--color-bg)] transition-transform duration-200 cubic-bezier(0.23, 1, 0.32, 1) ${
+            checked ? 'translate-x-[14px]' : ''
+          }`}
+        />
+      </span>
+    </button>
+  )
+}
+
+function SectionHeader({ icon: Icon, title }: { icon: typeof Sun; title: string }) {
+  return (
+    <div className="flex items-center gap-2 mb-3">
+      <Icon className="w-3 h-3 text-[var(--color-text-muted)]" />
+      <h3 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
+        {title}
+      </h3>
+    </div>
+  )
+}
+
 export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsPanelProps) {
   return (
-    <div className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72 animate-slide-in-right">
-      <div className="flex items-center justify-between px-4 h-10 border-b border-[var(--color-border)] shrink-0">
-        <span className="text-xs font-medium text-[var(--color-text)]">Settings</span>
-        <button onClick={onClose} className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors">
+    <div
+      className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72"
+      style={{ animation: 'panel-in 200ms cubic-bezier(0.23, 1, 0.32, 1)' }}
+    >
+      <div className="flex items-center justify-between px-4 h-11 border-b border-[var(--color-border)] shrink-0">
+        <span className="text-xs font-semibold text-[var(--color-text)]">Settings</span>
+        <button
+          onClick={onClose}
+          aria-label="Close settings"
+          className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+        >
           <X className="w-3.5 h-3.5" />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6">
+      <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6">
         <section>
-          <h3 className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Appearance</h3>
+          <SectionHeader icon={Sun} title="Appearance" />
 
-          <label className="block mb-3">
-            <span className="text-xs text-[var(--color-text-secondary)] mb-1.5 block">Theme</span>
-            <select
-              value={settings.theme}
-              onChange={(e) => onUpdate({ theme: e.target.value })}
-              className="w-full px-2.5 py-1.5 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md text-[var(--color-text)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors"
-            >
-              {themes.map((t) => (
-                <option key={t.id} value={t.id}>{t.label}</option>
-              ))}
-            </select>
-          </label>
+          <div className="space-y-3">
+            <label className="block">
+              <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5">
+                Theme
+              </div>
+              <select
+                value={settings.theme}
+                onChange={(e) => onUpdate({ theme: e.target.value })}
+                className="w-full px-2.5 py-1.5 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md text-[var(--color-text)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors appearance-none cursor-pointer"
+                style={{
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234b5563' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 8px center',
+                  paddingRight: '24px',
+                }}
+              >
+                {themes.map((t) => (
+                  <option key={t.id} value={t.id}>{t.label}</option>
+                ))}
+              </select>
+            </label>
 
-          <label className="block mb-3">
-            <span className="text-xs text-[var(--color-text-secondary)] mb-1.5 block">Font Family</span>
-            <select
-              value={settings.fontFamily}
-              onChange={(e) => onUpdate({ fontFamily: e.target.value })}
-              className="w-full px-2.5 py-1.5 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md text-[var(--color-text)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors"
-            >
-              {fonts.map((f) => (
-                <option key={f.id} value={f.id}>{f.label}</option>
-              ))}
-            </select>
-          </label>
+            <label className="block">
+              <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5">
+                Font family
+              </div>
+              <select
+                value={settings.fontFamily}
+                onChange={(e) => onUpdate({ fontFamily: e.target.value })}
+                className="w-full px-2.5 py-1.5 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md text-[var(--color-text)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors appearance-none cursor-pointer"
+                style={{
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234b5563' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 8px center',
+                  paddingRight: '24px',
+                }}
+              >
+                {fonts.map((f) => (
+                  <option key={f.id} value={f.id}>{f.label}</option>
+                ))}
+              </select>
+            </label>
 
-          <label className="block">
-            <span className="text-xs text-[var(--color-text-secondary)] mb-1.5 block">Font Size: {settings.fontSize}px</span>
-            <input
-              type="range"
-              min={10}
-              max={22}
-              value={settings.fontSize}
-              onChange={(e) => onUpdate({ fontSize: Number(e.target.value) })}
-              className="w-full accent-[var(--color-text)]"
-            />
-          </label>
-        </section>
-
-        <section>
-          <h3 className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Editor</h3>
-
-          <div className="space-y-2.5">
-            {([
-              { key: 'minimap' as const, label: 'Minimap' },
-              { key: 'lineNumbers' as const, label: 'Line numbers' },
-              { key: 'wordWrap' as const, label: 'Word wrap' },
-              { key: 'fontLigatures' as const, label: 'Font ligatures' },
-              { key: 'stickyScroll' as const, label: 'Sticky scroll' },
-            ]).map(({ key, label }) => (
-              <label key={key} className="flex items-center justify-between cursor-pointer group">
-                <span className="text-xs text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors">{label}</span>
-                <button
-                  onClick={() => onUpdate({ [key]: !settings[key] })}
-                  className={`relative w-8 rounded-full transition-colors ${
-                    settings[key] ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface-3)]'
-                  }`}
-                  style={{ height: '18px' }}
-                >
-                  <span
-                    className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-[var(--color-bg)] transition-transform ${
-                      settings[key] ? 'translate-x-[14px]' : ''
-                    }`}
-                  />
-                </button>
-              </label>
-            ))}
+            <label className="block">
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)]">
+                  Font size
+                </div>
+                <div className="text-[10px] tabular-nums text-[var(--color-text-secondary)] font-mono">
+                  {settings.fontSize}px
+                </div>
+              </div>
+              <input
+                type="range"
+                min={10}
+                max={22}
+                value={settings.fontSize}
+                onChange={(e) => onUpdate({ fontSize: Number(e.target.value) })}
+                className="w-full accent-[var(--color-text)]"
+              />
+            </label>
           </div>
         </section>
 
         <section>
-          <h3 className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Indentation</h3>
+          <SectionHeader icon={Code} title="Editor" />
+
+          <div className="space-y-px">
+            <Toggle
+              checked={settings.minimap}
+              onChange={() => onUpdate({ minimap: !settings.minimap })}
+              label="Minimap"
+              description="Code overview on the right"
+            />
+            <Toggle
+              checked={settings.lineNumbers}
+              onChange={() => onUpdate({ lineNumbers: !settings.lineNumbers })}
+              label="Line numbers"
+            />
+            <Toggle
+              checked={settings.wordWrap}
+              onChange={() => onUpdate({ wordWrap: !settings.wordWrap })}
+              label="Word wrap"
+              description="Wrap long lines"
+            />
+            <Toggle
+              checked={settings.fontLigatures}
+              onChange={() => onUpdate({ fontLigatures: !settings.fontLigatures })}
+              label="Font ligatures"
+            />
+            <Toggle
+              checked={settings.stickyScroll}
+              onChange={() => onUpdate({ stickyScroll: !settings.stickyScroll })}
+              label="Sticky scroll"
+              description="Pin scope headers"
+            />
+          </div>
+        </section>
+
+        <section>
+          <SectionHeader icon={Hash} title="Indentation" />
+
           <label className="block">
-            <span className="text-xs text-[var(--color-text-secondary)] mb-1.5 block">Tab Size</span>
-            <select
-              value={settings.tabSize}
-              onChange={(e) => onUpdate({ tabSize: Number(e.target.value) })}
-              className="w-full px-2.5 py-1.5 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md text-[var(--color-text)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors"
-            >
-              <option value={2}>2 spaces</option>
-              <option value={4}>4 spaces</option>
-            </select>
+            <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5">
+              Tab size
+            </div>
+            <div className="flex items-center bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md p-0.5">
+              {[2, 4].map((size) => (
+                <button
+                  key={size}
+                  onClick={() => onUpdate({ tabSize: size })}
+                  className={`flex-1 px-2 py-1 text-xs font-medium rounded transition-colors ${
+                    settings.tabSize === size
+                      ? 'bg-[var(--color-surface-3)] text-[var(--color-text)]'
+                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
+                  }`}
+                >
+                  {size} spaces
+                </button>
+              ))}
+            </div>
           </label>
         </section>
 
         <section>
-          <h3 className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Execution</h3>
+          <SectionHeader icon={Zap} title="Execution" />
 
-          <label className="flex items-center justify-between cursor-pointer group mb-3">
-            <span className="text-xs text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors">Auto-run on edit</span>
-            <button
-              onClick={() => onUpdate({ autoRun: !settings.autoRun })}
-              className={`relative w-8 rounded-full transition-colors ${
-                settings.autoRun ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface-3)]'
-              }`}
-              style={{ height: '18px' }}
-            >
-              <span
-                className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-[var(--color-bg)] transition-transform ${
-                  settings.autoRun ? 'translate-x-[14px]' : ''
-                }`}
-              />
-            </button>
-          </label>
-
-          <label className={`block ${!settings.autoRun ? 'opacity-40 pointer-events-none' : ''}`}>
-            <span className="text-xs text-[var(--color-text-secondary)] mb-1.5 block">
-              Auto-run delay: {settings.autoRunDelay}ms
-            </span>
-            <input
-              type="range"
-              min={200}
-              max={3000}
-              step={100}
-              value={settings.autoRunDelay}
-              onChange={(e) => onUpdate({ autoRunDelay: Number(e.target.value) })}
-              className="w-full accent-[var(--color-text)]"
+          <div className="space-y-3">
+            <Toggle
+              checked={settings.autoRun}
+              onChange={() => onUpdate({ autoRun: !settings.autoRun })}
+              label="Auto-run on edit"
+              description="Re-run after typing"
             />
-          </label>
+
+            <label className={`block ${!settings.autoRun ? 'opacity-40 pointer-events-none' : ''}`}>
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)]">
+                  Delay
+                </div>
+                <div className="text-[10px] tabular-nums text-[var(--color-text-secondary)] font-mono">
+                  {settings.autoRunDelay}ms
+                </div>
+              </div>
+              <input
+                type="range"
+                min={200}
+                max={3000}
+                step={100}
+                value={settings.autoRunDelay}
+                onChange={(e) => onUpdate({ autoRunDelay: Number(e.target.value) })}
+                className="w-full accent-[var(--color-text)]"
+              />
+            </label>
+          </div>
         </section>
       </div>
     </div>

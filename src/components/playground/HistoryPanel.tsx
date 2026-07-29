@@ -1,4 +1,4 @@
-import { X, Trash2, RotateCcw, Clock } from 'lucide-react'
+import { X, Trash2, RotateCcw, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
 import type { HistoryEntry } from '../../types'
 
 interface HistoryPanelProps {
@@ -20,82 +20,130 @@ function timeAgo(timestamp: number): string {
   return `${days}d ago`
 }
 
+function firstLine(code: string): string {
+  const line = code.split('\n').find((l) => l.trim() && !l.trim().startsWith('#'))
+  return line?.trim().slice(0, 50) ?? code.slice(0, 50)
+}
+
 export default function HistoryPanel({ history, onRestore, onRemove, onClear, onClose }: HistoryPanelProps) {
   return (
-    <div className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72 animate-slide-in-right">
-      <div className="flex items-center justify-between px-4 h-10 border-b border-[var(--color-border)] shrink-0">
-        <span className="text-xs font-medium text-[var(--color-text)]">Version History</span>
-        <button onClick={onClose} className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors">
+    <div
+      className="h-full flex flex-col bg-[var(--color-surface)] border-l border-[var(--color-border)] w-72"
+      style={{ animation: 'panel-in 200ms cubic-bezier(0.23, 1, 0.32, 1)' }}
+    >
+      <div className="flex items-center justify-between px-4 h-11 border-b border-[var(--color-border)] shrink-0">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-semibold text-[var(--color-text)]">Version history</span>
+          {history.length > 0 && (
+            <span className="px-1.5 py-0.5 text-[10px] tabular-nums rounded-full bg-[var(--color-surface-3)] text-[var(--color-text-muted)] font-medium">
+              {history.length}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={onClose}
+          aria-label="Close history"
+          className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+        >
           <X className="w-3.5 h-3.5" />
         </button>
       </div>
 
       <div className="flex-1 overflow-y-auto">
         {history.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full gap-2 text-[var(--color-text-muted)] px-4">
-            <Clock className="w-8 h-8 opacity-30" />
-            <p className="text-xs text-center">No versions yet. A snapshot is saved every time you run.</p>
+          <div className="flex flex-col items-center justify-center h-full px-6 text-center">
+            <div className="w-12 h-12 rounded-full border border-dashed border-[var(--color-border)] flex items-center justify-center mb-3">
+              <Clock className="w-5 h-5 text-[var(--color-text-muted)] opacity-60" />
+            </div>
+            <p className="text-xs text-[var(--color-text-secondary)] font-medium">No versions yet</p>
+            <p className="text-[10px] text-[var(--color-text-muted)] mt-1 leading-relaxed">
+              A snapshot is saved every time your code runs. Restore any version with one click.
+            </p>
           </div>
         ) : (
-          <div className="p-2 space-y-1">
-            {history.map((entry, i) => (
-              <div
-                key={entry.id}
-                className="group relative p-3 rounded-lg border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-surface-2)] transition-colors"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      {i === 0 && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-text)] shrink-0" />
-                      )}
-                      <span className="text-xs font-medium text-[var(--color-text)]">
-                        {i === 0 ? 'Current' : `Snapshot ${i}`}
-                      </span>
+          <ol className="relative px-3 py-3">
+            <span className="absolute left-[27px] top-3 bottom-3 w-px bg-[var(--color-border)]" aria-hidden />
+
+            {history.map((entry, i) => {
+              const isFirst = i === 0
+              const hasError = !!entry.error
+              return (
+                <li
+                  key={entry.id}
+                  className="group relative pl-9 pr-2 py-2 rounded-md hover:bg-[var(--color-surface-2)] transition-colors"
+                >
+                  <span
+                    className={`absolute left-3 top-3 w-2.5 h-2.5 rounded-full border-2 border-[var(--color-surface)] z-10 ${
+                      isFirst
+                        ? 'bg-[var(--color-text)]'
+                        : hasError
+                          ? 'bg-[var(--color-error)]'
+                          : 'bg-[var(--color-success)]'
+                    }`}
+                    aria-hidden
+                  />
+
+                  <div className="flex items-start justify-between gap-2 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-medium text-[var(--color-text)] tabular-nums">
+                          {isFirst ? 'Current' : `#${String(i).padStart(2, '0')}`}
+                        </span>
+                        {hasError ? (
+                          <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-[var(--color-error)]">
+                            <AlertCircle className="w-2.5 h-2.5" />
+                            Error
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-[var(--color-success)]">
+                            <CheckCircle2 className="w-2.5 h-2.5" />
+                            OK
+                          </span>
+                        )}
+                      </div>
+                      <p className="font-mono text-[10px] text-[var(--color-text-muted)] truncate leading-relaxed">
+                        {firstLine(entry.code)}
+                      </p>
+                      <div className="flex items-center gap-1.5 mt-1 text-[10px] text-[var(--color-text-muted)]">
+                        <span className="uppercase tracking-wider">{entry.language}</span>
+                        <span>·</span>
+                        <span>{timeAgo(entry.timestamp)}</span>
+                      </div>
                     </div>
-                    <p className="text-[10px] text-[var(--color-text-muted)]">
-                      {entry.language.toUpperCase()} &middot; {timeAgo(entry.timestamp)}
-                    </p>
-                    {entry.error && (
-                      <span className="inline-block mt-1 px-1.5 py-0.5 text-[9px] rounded bg-[var(--color-error-dim)] text-[var(--color-error)]">
-                        Error
-                      </span>
-                    )}
-                    {!entry.error && entry.output && (
-                      <span className="inline-block mt-1 px-1.5 py-0.5 text-[9px] rounded bg-[var(--color-success-dim)] text-[var(--color-success)]">
-                        OK
-                      </span>
-                    )}
+
+                    <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                      <button
+                        onClick={() => onRestore(entry)}
+                        aria-label="Restore this version"
+                        title="Restore"
+                        className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-3)] transition-colors"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => onRemove(entry.id)}
+                        aria-label="Delete this version"
+                        title="Delete"
+                        className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-error)] hover:bg-[var(--color-error-dim)] transition-colors"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-                    <button
-                      onClick={() => onRestore(entry)}
-                      className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-3)] transition-colors"
-                      title="Restore"
-                    >
-                      <RotateCcw className="w-3 h-3" />
-                    </button>
-                    <button
-                      onClick={() => onRemove(entry.id)}
-                      className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-error)] hover:bg-[var(--color-error-dim)] transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                </li>
+              )
+            })}
+          </ol>
         )}
       </div>
 
       {history.length > 0 && (
-        <div className="p-3 border-t border-[var(--color-border)]">
+        <div className="px-4 py-3 border-t border-[var(--color-border)]">
           <button
             onClick={onClear}
-            className="w-full px-3 py-1.5 text-xs text-[var(--color-error)] hover:bg-[var(--color-error-dim)] rounded-md transition-colors"
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs text-[var(--color-error)] hover:bg-[var(--color-error-dim)] rounded-md transition-colors"
           >
+            <Trash2 className="w-3 h-3" />
             Clear history
           </button>
         </div>
