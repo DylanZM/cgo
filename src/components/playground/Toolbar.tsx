@@ -61,7 +61,7 @@ export default function Toolbar({
           title="Back to home"
         >
           <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-          <img src="/cgo.webp" alt="" className="w-5 h-5" />
+          <img src="/cgo.webp" alt="" className="w-7 h-7" />
           <span className="font-semibold hidden sm:inline tracking-tight">cgo</span>
         </Link>
 

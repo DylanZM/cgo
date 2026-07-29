@@ -27,7 +27,7 @@ export default function Header({
       <Link to="/" className="flex items-center gap-2 text-[var(--color-text)] font-medium text-sm shrink-0">
         {brand ?? (
           <>
-            <img src="/cgo.webp" alt="" className="w-5 h-5" />
+            <img src="/cgo.webp" alt="" className="w-7 h-7" />
             <span>cgo<span className="text-[var(--color-text-muted)]">_</span></span>
           </>
         )}
