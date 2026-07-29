@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Code2, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 
 export interface HeaderSection {
@@ -27,7 +27,7 @@ export default function Header({
       <Link to="/" className="flex items-center gap-2 text-[var(--color-text)] font-medium text-sm shrink-0">
         {brand ?? (
           <>
-            <Code2 className="w-4 h-4 text-[var(--color-text-secondary)]" />
+            <img src="/cgo.webp" alt="" className="w-5 h-5" />
             <span>cgo<span className="text-[var(--color-text-muted)]">_</span></span>
           </>
         )}
