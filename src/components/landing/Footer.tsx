@@ -9,6 +9,9 @@ export default function Footer() {
           className="flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors font-sans"
         >
           <img src="/cgo.webp" alt="" className="w-14 h-14" />
+          <span className="text-base font-semibold tracking-tight leading-none">
+            Cgo<span className="text-[var(--color-text-muted)] animate-blink">_</span>
+          </span>
         </Link>
 
         <p className="text-xs text-[var(--color-text-muted)]">

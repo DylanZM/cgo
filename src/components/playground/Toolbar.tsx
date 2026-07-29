@@ -56,9 +56,7 @@ export default function Toolbar({
           className="group flex items-center gap-1.5 px-1.5 py-1 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors text-sm font-sans"
           title="Back to home"
         >
-          <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-          <img src="/cgo.webp" alt="" className="w-7 h-7" />
-          <span className="font-semibold hidden sm:inline tracking-tight">cgo</span>
+          <img src="/cgo.webp" alt="" className="w-12 h-12" />
         </Link>
 
         <div className="relative" ref={dropdownRef}>
@@ -145,8 +143,6 @@ export default function Toolbar({
         </Button>
 
         <Button
-          variant="primary"
-          size="sm"
           iconOnly
           onClick={onRun}
           loading={isRunning}
