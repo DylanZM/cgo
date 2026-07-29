@@ -23,7 +23,7 @@ function Toggle({
     <button
       onClick={onChange}
       aria-pressed={checked}
-      className="w-full flex items-center justify-between gap-3 py-2 text-left group"
+      className="w-full flex items-center justify-between gap-3 py-2 text-left group active:scale-[0.99] transition-transform duration-150 ease-out"
     >
       <div className="min-w-0">
         <div className="text-xs text-text-secondary group-hover:text-text transition-colors">
@@ -36,14 +36,16 @@ function Toggle({
         )}
       </div>
       <span
-        className={`relative shrink-0 w-8 rounded-full transition-colors duration-200 ${
+        className={`relative shrink-0 w-8 rounded-full transition-colors duration-200 ease-out group-hover:brightness-110 ${
           checked ? 'bg-text' : 'bg-surface-3'
         }`}
         style={{ height: '18px' }}
       >
         <span
-          className={`absolute top-3px left-3px w-3 h-3 rounded-full bg-bg transition-transform duration-200 cubic-bezier(0.23, 1, 0.32, 1) ${
-            checked ? 'translate-x-14px' : ''
+          className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-bg shadow-sm transition-all duration-200 ease-out ${
+            checked
+              ? 'translate-x-[14px] scale-110'
+              : 'translate-x-0 scale-100'
           }`}
         />
       </span>
