@@ -21,7 +21,7 @@ export default function LanguageCard({
   return (
     <article
       style={style}
-      className="group p-6 border border-[var(--color-border)] bg-[var(--color-surface)] rounded-md hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:-translate-y-1 transition-all duration-300 animate-fade-up"
+      className="group p-6 border border-[var(--color-border)] bg-[var(--color-surface)] rounded-md hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:-translate-y-1 transition-all duration-300"
     >
       <div className="flex items-start justify-between mb-6">
         <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)]">

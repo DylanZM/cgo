@@ -1,3 +1,4 @@
+import { useInView } from '../../hooks/useInView'
 import { Cpu, Terminal, Layers } from 'lucide-react'
 import LanguageCard from './LanguageCard'
 import CodeChip from './CodeChip'
@@ -27,10 +28,16 @@ const languages = [
 ]
 
 export default function Languages() {
+  const [headerRef, headerInView] = useInView<HTMLDivElement>()
+  const [gridRef, gridInView] = useInView<HTMLDivElement>()
+
   return (
     <section id="languages" className="px-6 py-24">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12 animate-fade-up">
+        <div
+          ref={headerRef}
+          className={`text-center mb-12 reveal-up ${headerInView ? 'is-visible' : ''}`}
+        >
           <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
             One lab. The whole ecosystem.
           </p>
@@ -44,17 +51,21 @@ export default function Languages() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {languages.map((lang, i) => (
-            <LanguageCard
+            <div
               key={lang.name}
-              number={lang.number}
-              icon={lang.icon}
-              name={lang.name}
-              description={lang.description}
-              detail={lang.detail}
-              style={{ animationDelay: `${100 + i * 100}ms` }}
-            />
+              className={`reveal-up ${gridInView ? 'is-visible' : ''}`}
+              style={{ transitionDelay: `${i * 120}ms` }}
+            >
+              <LanguageCard
+                number={lang.number}
+                icon={lang.icon}
+                name={lang.name}
+                description={lang.description}
+                detail={lang.detail}
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -1,8 +1,9 @@
+import { useInView } from '../../hooks/useInView'
 import CodeChip from './CodeChip'
 import CodeContainer from './CodeContainer'
 import { codeThemes } from './codeThemes'
 
-const t = codeThemes.vitesse
+const t = codeThemes.github
 
 const features = [
   {
@@ -99,7 +100,7 @@ const features = [
     code: [
       {
         line: 1,
-        content: <span className={t.comment}>// theme: Vitesse Dark</span>,
+        content: <span className={t.comment}>// theme: GitHub Dark</span>,
         time: '',
       },
       {
@@ -117,11 +118,104 @@ const features = [
   },
 ]
 
+function FeatureRow({
+  feature,
+  index,
+}: {
+  feature: (typeof features)[number]
+  index: number
+}) {
+  const [textRef, textInView] = useInView<HTMLDivElement>()
+  const [codeRef, codeInView] = useInView<HTMLDivElement>()
+
+  return (
+    <article className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-16 items-start">
+      <div
+        ref={textRef}
+        className={`reveal-left ${textInView ? 'is-visible' : ''}`}
+        style={{ transitionDelay: `${index * 100}ms` }}
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-xs font-medium tracking-[0.2em] text-[var(--color-text-secondary)] font-mono">
+            {feature.number}
+          </span>
+          <span className="h-px flex-1 bg-[var(--color-border)]" />
+        </div>
+
+        <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-3">
+          {feature.overline}
+        </p>
+
+        <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-[1.1] mb-4">
+          {feature.title}
+          <br />
+          <span className="text-[var(--color-text-secondary)]">
+            {feature.span}
+          </span>
+        </h3>
+
+        <p className="text-[var(--color-text-secondary)] leading-relaxed">
+          {feature.description}
+        </p>
+      </div>
+
+      <div
+        ref={codeRef}
+        className={`reveal-right ${codeInView ? 'is-visible' : ''}`}
+        style={{ transitionDelay: `${100 + index * 100}ms` }}
+      >
+        <CodeContainer
+          filename="experiment.cpp"
+          compact
+          headerExtra={
+            <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)] uppercase">
+              Auto-run
+            </span>
+          }
+          footerLeft="stdout"
+          footerRight={
+            <span className={`text-xs font-mono ${t.string}`}>
+              {feature.output}
+            </span>
+          }
+          theme="github"
+        >
+          <ol className="space-y-1 text-xs">
+            {feature.code.map((item) => (
+              <li
+                key={item.line}
+                className="flex items-start gap-3 group"
+              >
+                <span className={`${t.textMuted} select-none w-4 text-right text-[10px]`}>
+                  {item.line}
+                </span>
+                <span className="flex-1">
+                  {item.content}
+                </span>
+                {item.time && (
+                  <span className={`${t.textMuted} text-[10px] shrink-0`}>
+                    {item.time}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </CodeContainer>
+      </div>
+    </article>
+  )
+}
+
 export default function Features() {
+  const [headerRef, headerInView] = useInView<HTMLDivElement>()
+
   return (
     <section id="features" className="px-6 py-24 border-t border-[var(--color-border)]">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-16 animate-fade-up">
+        <div
+          ref={headerRef}
+          className={`mb-16 reveal-up ${headerInView ? 'is-visible' : ''}`}
+        >
           <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
             The distance between idea and answer: zero.
           </p>
@@ -140,74 +234,7 @@ export default function Features() {
 
         <div className="space-y-20">
           {features.map((feature, i) => (
-            <article
-              key={feature.number}
-              className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-16 items-start animate-fade-up"
-              style={{ animationDelay: `${200 + i * 150}ms` }}
-            >
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-medium tracking-[0.2em] text-[var(--color-text-secondary)] font-mono">
-                    {feature.number}
-                  </span>
-                  <span className="h-px flex-1 bg-[var(--color-border)]" />
-                </div>
-
-                <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-3">
-                  {feature.overline}
-                </p>
-
-                <h3 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-[1.1] mb-4">
-                  {feature.title}
-                  <br />
-                  <span className="text-[var(--color-text-secondary)]">
-                    {feature.span}
-                  </span>
-                </h3>
-
-                <p className="text-[var(--color-text-secondary)] leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-
-              <CodeContainer
-                filename="experiment.cpp"
-                compact
-                headerExtra={
-                  <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)] uppercase">
-                    Auto-run
-                  </span>
-                }
-                footerLeft="stdout"
-                footerRight={
-                  <span className={`text-xs font-mono ${t.string}`}>
-                    {feature.output}
-                  </span>
-                }
-                theme="vitesse"
-              >
-                <ol className="space-y-1 text-xs">
-                  {feature.code.map((item) => (
-                    <li
-                      key={item.line}
-                      className="flex items-start gap-3 group"
-                    >
-                      <span className={`${t.textMuted} select-none w-4 text-right text-[10px]`}>
-                        {item.line}
-                      </span>
-                      <span className="flex-1">
-                        {item.content}
-                      </span>
-                      {item.time && (
-                        <span className={`${t.textMuted} text-[10px] shrink-0`}>
-                          {item.time}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ol>
-              </CodeContainer>
-            </article>
+            <FeatureRow key={feature.number} feature={feature} index={i} />
           ))}
         </div>
       </div>

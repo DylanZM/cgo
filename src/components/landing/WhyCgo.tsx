@@ -1,3 +1,4 @@
+import { useInView } from '../../hooks/useInView'
 import { Zap, Code2, Eye, Shield } from 'lucide-react'
 import CodeChip from './CodeChip'
 import ReasonCard from './ReasonCard'
@@ -26,10 +27,16 @@ const reasons = [
 ]
 
 export default function WhyCgo() {
+  const [headerRef, headerInView] = useInView<HTMLDivElement>()
+  const [gridRef, gridInView] = useInView<HTMLDivElement>()
+
   return (
     <section id="why" className="px-6 py-24 border-t border-[var(--color-border)]">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-16 animate-fade-up">
+        <div
+          ref={headerRef}
+          className={`mb-16 reveal-up ${headerInView ? 'is-visible' : ''}`}
+        >
           <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
             Why cgo
           </p>
@@ -42,15 +49,19 @@ export default function WhyCgo() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[var(--color-border)] overflow-hidden border border-[var(--color-border)] rounded-md">
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {reasons.map((reason, i) => (
-            <ReasonCard
+            <div
               key={reason.title}
-              icon={reason.icon}
-              title={reason.title}
-              description={reason.description}
-              style={{ animationDelay: `${100 + i * 100}ms` }}
-            />
+              className={`reveal-up ${gridInView ? 'is-visible' : ''}`}
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              <ReasonCard
+                icon={reason.icon}
+                title={reason.title}
+                description={reason.description}
+              />
+            </div>
           ))}
         </div>
       </div>

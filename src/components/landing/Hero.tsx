@@ -83,11 +83,11 @@ export default function Hero() {
                 </div>
                 <div className="flex gap-4">
                   <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>4</span>
-                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>if</span> (n {'<='} <CodeChip rotate={3} size={0.9} color="#79c0ff">1</CodeChip>) <span className={codeThemes.github.keyword}>return</span> n;</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>if</span> (n {'<='} <span className={codeThemes.github.number}>1</span>) <span className={codeThemes.github.keyword}>return</span> n;</span>
                 </div>
                 <div className="flex gap-4">
                   <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>5</span>
-                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>return</span> <span className={codeThemes.github.fn}>fibonacci</span>(n - <CodeChip rotate={-2} size={0.9} color="#79c0ff">1</CodeChip>) + <span className={codeThemes.github.fn}>fibonacci</span>(n - <CodeChip rotate={2} size={0.9} color="#79c0ff">2</CodeChip>);</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>return</span> <span className={codeThemes.github.fn}>fibonacci</span>(n - <span className={codeThemes.github.number}>1</span>) + <span className={codeThemes.github.fn}>fibonacci</span>(n - <span className={codeThemes.github.number}>2</span>);</span>
                 </div>
                 <div className="flex gap-4">
                   <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>6</span>
@@ -99,14 +99,9 @@ export default function Hero() {
                 <div className={`text-[10px] ${codeThemes.github.textMuted} uppercase tracking-wider mb-3`}>Output</div>
                 <div className="flex flex-wrap gap-1.5 items-center">
                   {[0, 1, 1, 2, 3, 5, 8, 13, 21, 34].map((n, i) => (
-                    <CodeChip
-                      key={i}
-                      rotate={i % 2 === 0 ? -3 : 2}
-                      size={1.5}
-                      color="#a5d6ff"
-                    >
-                      {n}
-                    </CodeChip>
+                    <span key={i} className={codeThemes.github.number}>
+                      {n}{' '}
+                    </span>
                   ))}
                 </div>
                 <div className={`mt-3 text-[10px] ${codeThemes.github.textMuted}`}>12ms</div>
