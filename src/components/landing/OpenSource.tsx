@@ -1,4 +1,4 @@
-import Github from '../icons/Github'
+import { SiGithub } from 'react-icons/si'
 
 export default function OpenSource() {
   return (
@@ -28,7 +28,7 @@ export default function OpenSource() {
           rel="noopener noreferrer"
           className="group flex items-center gap-3 px-4 py-3 rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-2)] transition-colors"
         >
-          <Github className="w-5 h-5 text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors" />
+          <SiGithub className="w-5 h-5 text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors" />
           <div className="flex flex-col">
             <span className="text-xs text-[var(--color-text-muted)]">github.com/</span>
             <span className="text-sm font-medium text-[var(--color-text)]">View source</span>

@@ -1,5 +1,6 @@
 import { Zap, Code2, Eye, Shield } from 'lucide-react'
 import CodeChip from './CodeChip'
+import ReasonCard from './ReasonCard'
 
 const reasons = [
   {
@@ -36,26 +37,20 @@ export default function WhyCgo() {
             A scratchpad built for
             <br />
             <span className="text-[var(--color-text-secondary)]">the way you actually </span>
-<CodeChip rotate={-2} size={1.3} width={2.6}>code</CodeChip>
+            <CodeChip rotate={-2} size={1.1} width={2.4}>code</CodeChip>
             <span className="text-[var(--color-text-secondary)]">.</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[var(--color-border)] overflow-hidden border border-[var(--color-border)]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[var(--color-border)] overflow-hidden border border-[var(--color-border)] rounded-md">
           {reasons.map((reason, i) => (
-            <article
+            <ReasonCard
               key={reason.title}
-              className="group p-8 bg-[var(--color-bg)] hover:bg-[var(--color-surface)] transition-colors duration-300 animate-fade-up"
+              icon={reason.icon}
+              title={reason.title}
+              description={reason.description}
               style={{ animationDelay: `${100 + i * 100}ms` }}
-            >
-              <reason.icon className="w-5 h-5 text-[var(--color-text-secondary)] mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-base font-medium text-[var(--color-text)] mb-2">
-                {reason.title}
-              </h3>
-              <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-                {reason.description}
-              </p>
-            </article>
+            />
           ))}
         </div>
       </div>

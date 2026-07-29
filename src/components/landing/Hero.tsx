@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import Github from '../icons/Github'
+import { SiGithub } from 'react-icons/si'
 import CodeChip from './CodeChip'
 import CodeContainer from './CodeContainer'
+import { codeThemes } from './codeThemes'
 
 export default function Hero() {
   return (
@@ -49,7 +50,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--color-border-strong)] text-[var(--color-text)] font-medium text-sm hover:bg-[var(--color-surface)] transition-colors"
             >
-              <Github className="w-4 h-4" />
+              <SiGithub className="w-4 h-4" />
               View on GitHub
             </a>
           </div>
@@ -63,37 +64,39 @@ export default function Hero() {
           <CodeContainer
             openAppLabel="Open full app ↗"
             footerLeft="Press Ctrl+Enter to run"
+            theme="github"
+            compact
           >
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8">
               <div className="space-y-1.5">
                 <div className="flex gap-4">
-                  <span className="text-[var(--color-text-muted)] select-none w-6 text-right">1</span>
-                  <span><span className="text-[var(--color-text-secondary)]">#include</span> <span className="text-[#a5d6ff]">{'<iostream>'}</span></span>
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>1</span>
+                  <span><span className={codeThemes.github.keyword}>#include</span> <span className={codeThemes.github.string}>{'<iostream>'}</span></span>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-[var(--color-text-muted)] select-none w-6 text-right">2</span>
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>2</span>
                   <span>&nbsp;</span>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-[var(--color-text-muted)] select-none w-6 text-right">3</span>
-                  <span><span className="text-[var(--color-text-secondary)]">int</span> <span className="text-[var(--color-text)]">fibonacci</span>(<span className="text-[var(--color-text-secondary)]">int</span> n) {'{'}</span>
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>3</span>
+                  <span><span className={codeThemes.github.keyword}>int</span> <span className={codeThemes.github.fn}>fibonacci</span>(<span className={codeThemes.github.keyword}>int</span> n) {'{'}</span>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-[var(--color-text-muted)] select-none w-6 text-right">4</span>
-                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[var(--color-text-secondary)]">if</span> (n {'<='} <CodeChip rotate={3} size={0.9} color="#d19a66">1</CodeChip>) <span className="text-[var(--color-text-secondary)]">return</span> n;</span>
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>4</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>if</span> (n {'<='} <CodeChip rotate={3} size={0.9} color="#79c0ff">1</CodeChip>) <span className={codeThemes.github.keyword}>return</span> n;</span>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-[var(--color-text-muted)] select-none w-6 text-right">5</span>
-                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[var(--color-text-secondary)]">return</span> <span className="text-[var(--color-text)]">fibonacci</span>(n - <CodeChip rotate={-2} size={0.9} color="#d19a66">1</CodeChip>) + <span className="text-[var(--color-text)]">fibonacci</span>(n - <CodeChip rotate={2} size={0.9} color="#d19a66">2</CodeChip>);</span>
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>5</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>return</span> <span className={codeThemes.github.fn}>fibonacci</span>(n - <CodeChip rotate={-2} size={0.9} color="#79c0ff">1</CodeChip>) + <span className={codeThemes.github.fn}>fibonacci</span>(n - <CodeChip rotate={2} size={0.9} color="#79c0ff">2</CodeChip>);</span>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-[var(--color-text-muted)] select-none w-6 text-right">6</span>
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>6</span>
                   <span>{'}'}</span>
                 </div>
               </div>
 
               <div className="hidden md:block w-56 pl-6 border-l border-[var(--color-border)]">
-                <div className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Output</div>
+                <div className={`text-[10px] ${codeThemes.github.textMuted} uppercase tracking-wider mb-3`}>Output</div>
                 <div className="flex flex-wrap gap-1.5 items-center">
                   {[0, 1, 1, 2, 3, 5, 8, 13, 21, 34].map((n, i) => (
                     <CodeChip
@@ -106,7 +109,7 @@ export default function Hero() {
                     </CodeChip>
                   ))}
                 </div>
-                <div className="mt-3 text-[10px] text-[var(--color-text-muted)]">12ms</div>
+                <div className={`mt-3 text-[10px] ${codeThemes.github.textMuted}`}>12ms</div>
               </div>
             </div>
           </CodeContainer>

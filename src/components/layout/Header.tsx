@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Code2, ArrowRight } from 'lucide-react'
-import Github from '../icons/Github'
+import { SiGithub } from 'react-icons/si'
 
 export interface HeaderSection {
   id: string
@@ -53,7 +53,7 @@ export default function Header({
           className="p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
           title="GitHub"
         >
-          <Github className="w-4 h-4" />
+          <SiGithub className="w-4 h-4" />
         </a>
 
         <Link

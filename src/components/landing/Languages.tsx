@@ -1,4 +1,5 @@
 import { Cpu, Terminal, Layers } from 'lucide-react'
+import LanguageCard from './LanguageCard'
 import CodeChip from './CodeChip'
 
 const languages = [
@@ -45,31 +46,15 @@ export default function Languages() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {languages.map((lang, i) => (
-            <article
+            <LanguageCard
               key={lang.name}
-              className="group p-6 border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:-translate-y-1 transition-all duration-300 animate-fade-up"
+              number={lang.number}
+              icon={lang.icon}
+              name={lang.name}
+              description={lang.description}
+              detail={lang.detail}
               style={{ animationDelay: `${100 + i * 100}ms` }}
-            >
-              <div className="flex items-start justify-between mb-6">
-                <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)]">
-                  {lang.number}
-                </span>
-                <lang.icon className="w-5 h-5 text-[var(--color-text-secondary)]" />
-              </div>
-
-              <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-[var(--color-text)] mb-1">
-                  {lang.name}
-                </h3>
-                <p className="text-sm text-[var(--color-text-secondary)]">
-                  {lang.description}
-                </p>
-              </div>
-
-              <p className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider">
-                {lang.detail}
-              </p>
-            </article>
+            />
           ))}
         </div>
       </div>

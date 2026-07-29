@@ -1,167 +1,136 @@
 import CodeChip from './CodeChip'
 import CodeContainer from './CodeContainer'
+import { codeThemes } from './codeThemes'
+
+const t = codeThemes.vitesse
 
 const features = [
   {
-    number: "01",
-    overline: "NATIVE COMPILATION",
-    title: "Compile and run.",
-    span: "In real time.",
+    number: '01',
+    overline: 'NATIVE COMPILATION',
+    title: 'Compile and run.',
+    span: 'In real time.',
     description:
-      "Write C or C++ code and watch it compile with g++ 16. Output streams as the binary executes, errors highlight the exact line that broke.",
+      'Write C or C++ code and watch it compile with g++ 16. Output streams as the binary executes, errors highlight the exact line that broke.',
     code: [
       {
         line: 1,
         content: (
           <>
-            <span className="text-[var(--color-text-secondary)]">int</span>{" "}
-            main() {"{"}
+            <span className={t.keyword}>int</span> main() {'{'}
           </>
         ),
-        time: "",
+        time: '',
       },
       {
         line: 2,
         content: (
           <>
-            &nbsp;&nbsp;std::cout {"<<"}{" "}
-            <span className="text-[#a5d6ff]">"Hello"</span>;
+            &nbsp;&nbsp;std::cout {'<<'} <span className={t.string}>"Hello"</span>;
           </>
         ),
-        time: "0.2 ms",
+        time: '0.2 ms',
       },
       {
         line: 3,
         content: (
           <>
-            &nbsp;&nbsp;
-            <span className="text-[var(--color-text-secondary)]">return</span>{" "}
-            <CodeChip color="#d19a66" rotate={2}>
-              0
-            </CodeChip>
-            ;
+            &nbsp;&nbsp;<span className={t.keyword}>return</span> <span className={t.number}>0</span>;
           </>
         ),
-        time: "",
+        time: '',
       },
       {
         line: 4,
-        content: <>{"}"}</>,
-        time: "",
+        content: <>{'}'}</>,
+        time: '',
       },
     ],
-    output: "Hello",
+    output: 'Hello',
   },
   {
-    number: "02",
-    overline: "VERSION HISTORY",
-    title: "Every run is",
-    span: "a snapshot.",
+    number: '02',
+    overline: 'VERSION HISTORY',
+    title: 'Every run is',
+    span: 'a snapshot.',
     description:
-      "Forget losing code. Every execution is saved with the exact code, language, and output. Restore any version with a single click.",
+      'Forget losing code. Every execution is saved with the exact code, language, and output. Restore any version with a single click.',
     code: [
       {
         line: 1,
         content: (
           <>
-            <span className="text-[var(--color-text-secondary)]">const</span>{" "}
-            prices = [
-            <CodeChip color="#d19a66" rotate={-2} size={1} width={1.4}>
-              12
-            </CodeChip>
-            ,{" "}
-            <CodeChip color="#d19a66" rotate={2} size={1} width={1.4}>
-              19
-            </CodeChip>
-            ,{" "}
-            <CodeChip color="#d19a66" rotate={-1} size={1} width={1.1}>
-              8
-            </CodeChip>
-            ];
+            <span className={t.keyword}>auto</span> start ={' '}
+            <span className={t.fn}>std::chrono::now</span>();
           </>
         ),
-        time: "",
+        time: '',
       },
       {
         line: 2,
         content: (
           <>
-            prices.
-            <span className="text-[var(--color-text-secondary)]">map</span>(n{" "}
-            {"=>"} n *{" "}
-            <CodeChip color="#d19a66" rotate={-2} size={1.2} width={1.6}>
-              1.21
-            </CodeChip>
-            );
+            <span className={t.fn}>process</span>(code, lang, output);{' '}
+            <span className={t.comment}>// run</span>
           </>
         ),
-        time: "[14.52, 22.99, 9.68]",
+        time: '124 ms',
       },
       {
         line: 3,
-        content: <></>,
-        time: "",
+        content: (
+          <>
+            <span className={t.fn}>save_snapshot</span>(start, output);{' '}
+            <span className={t.comment}>// store</span>
+          </>
+        ),
+        time: '',
       },
     ],
-    output: "3 versions saved",
+    output: '3 versions saved',
   },
   {
-    number: "03",
-    overline: "PERSONALIZATION",
-    title: "Your space,",
-    span: "your way.",
+    number: '03',
+    overline: 'PERSONALIZATION',
+    title: 'Your space,',
+    span: 'your way.',
     description:
-      "Nine editor themes, two font families, full control over minimap, ligatures, and line numbers. Every preference persists across sessions.",
+      'Nine editor themes, two font families, full control over minimap, ligatures, and line numbers. Every preference persists across sessions.',
     code: [
       {
         line: 1,
-        content: (
-          <span className="text-[var(--color-text-muted)]">
-            // theme: Tokyo Night
-          </span>
-        ),
-        time: "",
+        content: <span className={t.comment}>// theme: Vitesse Dark</span>,
+        time: '',
       },
       {
         line: 2,
-        content: (
-          <span className="text-[var(--color-text-muted)]">
-            // font: JetBrains Mono
-          </span>
-        ),
-        time: "",
+        content: <span className={t.comment}>// font: JetBrains Mono</span>,
+        time: '',
       },
       {
         line: 3,
-        content: (
-          <span className="text-[var(--color-text-muted)]">// size: 14px</span>
-        ),
-        time: "",
+        content: <span className={t.comment}>// size: 14px</span>,
+        time: '',
       },
     ],
-    output: "Settings saved",
+    output: 'Settings saved',
   },
-];
+]
 
 export default function Features() {
   return (
-    <section
-      id="features"
-      className="px-6 py-24 border-t border-[var(--color-border)]"
-    >
+    <section id="features" className="px-6 py-24 border-t border-[var(--color-border)]">
       <div className="max-w-5xl mx-auto">
         <div className="mb-16 animate-fade-up">
           <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
             The distance between idea and answer: zero.
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
-            A lab for{" "}
-            <CodeChip rotate={-2} size={1.3} width={2.6}>
-              code
-            </CodeChip>
+            A lab for{' '}
+            <CodeChip rotate={-2} size={1.3} width={2.6}>code</CodeChip>
             <br />
             <span className="text-[var(--color-text-secondary)]">
-              that is not a project{" "}
+              that is not a project{' '}
               <em className="text-[var(--color-text)] not-italic font-semibold">
                 yet.
               </em>
@@ -203,6 +172,7 @@ export default function Features() {
 
               <CodeContainer
                 filename="experiment.cpp"
+                compact
                 headerExtra={
                   <span className="text-[10px] tracking-[0.2em] text-[var(--color-text-muted)] uppercase">
                     Auto-run
@@ -210,26 +180,26 @@ export default function Features() {
                 }
                 footerLeft="stdout"
                 footerRight={
-                  <span className="text-xs font-mono text-[#a5d6ff]">
+                  <span className={`text-xs font-mono ${t.string}`}>
                     {feature.output}
                   </span>
                 }
-                className="text-xs"
+                theme="vitesse"
               >
-                <ol className="space-y-1">
+                <ol className="space-y-1 text-xs">
                   {feature.code.map((item) => (
                     <li
                       key={item.line}
                       className="flex items-start gap-3 group"
                     >
-                      <span className="text-[var(--color-text-muted)] select-none w-4 text-right">
+                      <span className={`${t.textMuted} select-none w-4 text-right text-[10px]`}>
                         {item.line}
                       </span>
-                      <span className="flex-1 text-[var(--color-text)]">
+                      <span className="flex-1">
                         {item.content}
                       </span>
                       {item.time && (
-                        <span className="text-[var(--color-text-muted)] text-[10px] shrink-0">
+                        <span className={`${t.textMuted} text-[10px] shrink-0`}>
                           {item.time}
                         </span>
                       )}
@@ -242,5 +212,5 @@ export default function Features() {
         </div>
       </div>
     </section>
-  );
+  )
 }
