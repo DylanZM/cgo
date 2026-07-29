@@ -31,9 +31,9 @@ export default function Header({
       >
         {brand ?? (
           <>
-            <img src="/cgo.webp" alt="" className="w-8 h-8" />
+            <img src="/cgo.webp" alt="" className="w-14 h-14" />
             <span className="text-base font-semibold tracking-tight leading-none">
-              cgo<span className="text-[var(--color-text-muted)]">_</span>
+              Cgo<span className="text-[var(--color-text-muted)]">_</span>
             </span>
           </>
         )}
