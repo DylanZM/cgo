@@ -1,26 +1,21 @@
 import { useInView } from '../../hooks/useInView'
-import { Cpu, Terminal, Layers } from 'lucide-react'
-import LanguageCard from './LanguageCard'
 import CodeChip from './CodeChip'
 
 const languages = [
   {
-    number: '01',
-    icon: Cpu,
+    ext: '.c',
     name: 'C',
     description: 'Low-level memory control',
     detail: 'C11 standard with full stdlib',
   },
   {
-    number: '02',
-    icon: Terminal,
+    ext: '.cpp',
     name: 'C++',
     description: 'Modern object-oriented',
     detail: 'C++17 standard, STL included',
   },
   {
-    number: '03',
-    icon: Layers,
+    ext: '.bin',
     name: 'System',
     description: 'Direct binary execution',
     detail: 'Native g++ 16 on your machine',
@@ -29,14 +24,14 @@ const languages = [
 
 export default function Languages() {
   const [headerRef, headerInView] = useInView<HTMLDivElement>()
-  const [gridRef, gridInView] = useInView<HTMLDivElement>()
+  const [listRef, listInView] = useInView<HTMLDivElement>()
 
   return (
-    <section id="languages" className="px-6 py-24">
-      <div className="max-w-5xl mx-auto">
+    <section id="languages" className="px-6 py-24 border-t border-border">
+      <div className="max-w-3xl mx-auto">
         <div
           ref={headerRef}
-          className={`text-center mb-12 reveal-up ${headerInView ? 'is-visible' : ''}`}
+          className={`mb-12 reveal-up ${headerInView ? 'is-visible' : ''}`}
         >
           <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted uppercase mb-4">
             One lab. The whole ecosystem.
@@ -51,20 +46,30 @@ export default function Languages() {
           </h2>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div ref={listRef} className="font-mono">
           {languages.map((lang, i) => (
             <div
               key={lang.name}
-              className={`reveal-up ${gridInView ? 'is-visible' : ''}`}
-              style={{ transitionDelay: `${i * 120}ms` }}
+              className={`group flex items-baseline gap-4 sm:gap-6 py-4 border-b border-border last:border-b-0 reveal-fade ${listInView ? 'is-visible' : ''}`}
+              style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <LanguageCard
-                number={lang.number}
-                icon={lang.icon}
-                name={lang.name}
-                description={lang.description}
-                detail={lang.detail}
-              />
+              <span className="text-[10px] text-text-muted select-none tabular-nums shrink-0 w-4">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="text-sm sm:text-base font-semibold text-accent shrink-0 w-12 sm:w-14">
+                {lang.ext}
+              </span>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base sm:text-lg font-medium text-text mb-1 font-sans group-hover:text-text transition-colors">
+                  {lang.name}
+                </h3>
+                <p className="text-xs sm:text-sm text-text-secondary font-sans">
+                  {lang.description}
+                </p>
+              </div>
+              <span className="hidden md:inline text-[10px] text-text-muted italic shrink-0 max-w-[180px] text-right">
+                // {lang.detail}
+              </span>
             </div>
           ))}
         </div>

@@ -1,31 +1,35 @@
 import { useInView } from '../../hooks/useInView'
 
 export default function Manifesto() {
-  const items = [
-    'NO LICENSE KEY.',
-    'NO CLOUD REQUIRED.',
-    'NO CONTEXT SWITCHING.',
+  const lines = [
+    { num: '01', text: 'NO LICENSE KEY.', note: 'forever, not a trial' },
+    { num: '02', text: 'NO CLOUD REQUIRED.', note: 'compiles on your machine' },
+    { num: '03', text: 'NO CONTEXT SWITCHING.', note: 'editor + runner, one tab' },
   ]
   const [ref, isInView] = useInView<HTMLDivElement>()
 
   return (
-    <section id="manifesto" className="px-6 py-12 border-y border-border bg-surface">
+    <section id="manifesto" className="px-6 py-10 border-y border-border bg-surface">
       <div
         ref={ref}
-        className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+        className="max-w-3xl mx-auto font-mono"
       >
-        {items.map((item, i) => (
+        {lines.map((line, i) => (
           <div
-            key={item}
-            className={`flex items-center gap-6 reveal-fade ${isInView ? 'is-visible' : ''}`}
-            style={{ transitionDelay: `${i * 120}ms` }}
+            key={line.num}
+            className={`flex items-baseline gap-3 sm:gap-5 py-2 reveal-fade ${isInView ? 'is-visible' : ''}`}
+            style={{ transitionDelay: `${i * 100}ms` }}
           >
-            <p className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-text-secondary">
-              {item}
-            </p>
-            {i < items.length - 1 && (
-              <span className="hidden sm:inline w-1 h-1 rounded-full bg-text-muted" />
-            )}
+            <span className="text-[10px] text-text-muted select-none shrink-0 tabular-nums">
+              {line.num}
+            </span>
+            <span className="text-xs sm:text-sm font-semibold text-text tracking-tight shrink-0">
+              {line.text}
+            </span>
+            <span className="hidden sm:inline flex-1 border-b border-dotted border-border" />
+            <span className="text-[10px] text-text-muted italic shrink-0 hidden sm:inline">
+              // {line.note}
+            </span>
           </div>
         ))}
       </div>

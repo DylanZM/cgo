@@ -1,26 +1,24 @@
 import { useInView } from '../../hooks/useInView'
-import { Zap, Code2, Eye, Shield } from 'lucide-react'
 import CodeChip from './CodeChip'
-import ReasonCard from './ReasonCard'
 
 const reasons = [
   {
-    icon: Zap,
+    command: 'cgo run',
     title: 'Instant feedback',
     description: 'No build pipelines, no waiting. Your code compiles the moment you press run.',
   },
   {
-    icon: Code2,
+    command: 'cgo edit',
     title: 'Real editor',
     description: 'The same Monaco editor that powers VS Code — autocomplete, errors, themes.',
   },
   {
-    icon: Eye,
+    command: 'cgo log',
     title: 'See every run',
     description: 'Every execution is preserved. Compare outputs, restore old versions, never lose work.',
   },
   {
-    icon: Shield,
+    command: 'cgo local',
     title: 'Your code, your machine',
     description: 'Everything runs locally. No accounts, no telemetry, no data leaving your laptop.',
   },
@@ -28,11 +26,11 @@ const reasons = [
 
 export default function WhyCgo() {
   const [headerRef, headerInView] = useInView<HTMLDivElement>()
-  const [gridRef, gridInView] = useInView<HTMLDivElement>()
+  const [listRef, listInView] = useInView<HTMLDivElement>()
 
   return (
     <section id="why" className="px-6 py-24 border-t border-border">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <div
           ref={headerRef}
           className={`mb-16 reveal-up ${headerInView ? 'is-visible' : ''}`}
@@ -49,18 +47,27 @@ export default function WhyCgo() {
           </h2>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div ref={listRef} className="font-mono">
           {reasons.map((reason, i) => (
             <div
-              key={reason.title}
-              className={`reveal-up ${gridInView ? 'is-visible' : ''}`}
-              style={{ transitionDelay: `${i * 100}ms` }}
+              key={reason.command}
+              className={`group flex items-baseline gap-4 sm:gap-6 py-4 border-b border-border last:border-b-0 reveal-fade ${listInView ? 'is-visible' : ''}`}
+              style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <ReasonCard
-                icon={reason.icon}
-                title={reason.title}
-                description={reason.description}
-              />
+              <span className="text-[10px] text-text-muted select-none tabular-nums shrink-0 w-4">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="text-sm sm:text-base font-semibold text-accent shrink-0">
+                {reason.command}
+              </span>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base sm:text-lg font-medium text-text mb-1 font-sans group-hover:text-text transition-colors">
+                  {reason.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-text-secondary font-sans">
+                  {reason.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
