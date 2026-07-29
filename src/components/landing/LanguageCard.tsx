@@ -21,13 +21,21 @@ export default function LanguageCard({
   return (
     <article
       style={style}
-      className="group p-6 border border-border bg-surface rounded-md hover:border-border-strong hover:bg-surface-2 hover:-translate-y-1 transition-all duration-300"
+      className="group relative p-6 border border-border bg-surface rounded-md hover:border-border-strong hover:bg-surface-2 hover:-translate-y-1 transition-all duration-300 overflow-hidden"
     >
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(80% 60% at 50% 0%, rgba(192,132,252,0.06), transparent 70%)',
+        }}
+      />
       <div className="flex items-start justify-between mb-6">
         <span className="text-[10px] tracking-[0.2em] text-text-muted">
           {number}
         </span>
-        <Icon className="w-5 h-5 text-text-secondary" />
+        <Icon className="w-5 h-5 text-text-secondary group-hover:text-accent group-hover:scale-110 transition-all duration-300 ease-out" />
       </div>
 
       <div className="mb-6">

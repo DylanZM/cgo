@@ -119,15 +119,18 @@ function TypewriterContent({
 }: TypewriterContentProps) {
   const ref = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)
-  const [width, setWidth] = useState(0)
+  const [padLeft, setPadLeft] = useState(0)
+  const [innerWidth, setInnerWidth] = useState(0)
   const [start, setStart] = useState(false)
 
   useEffect(() => {
     if (!ref.current || !innerRef.current) return
 
     const measure = () => {
-      if (innerRef.current) {
-        setWidth(innerRef.current.scrollWidth)
+      if (ref.current && innerRef.current) {
+        const parentStyle = getComputedStyle(ref.current)
+        setPadLeft(parseFloat(parentStyle.paddingLeft) || 0)
+        setInnerWidth(innerRef.current.scrollWidth)
       }
     }
 
@@ -176,7 +179,8 @@ function TypewriterContent({
           className="typewriter-cursor"
           style={
             {
-              '--cursor-distance': `${Math.max(0, width - 1.5)}px`,
+              left: `${padLeft}px`,
+              '--cursor-distance': `${Math.max(0, innerWidth - 1.5)}px`,
             } as React.CSSProperties
           }
         />
