@@ -181,9 +181,6 @@ export default function Toolbar({
         <button
           onClick={onRun}
           disabled={isRunning}
-          aria-label="Run code"
-          title={`Run (⌘↵)`}
-          className="group flex items-center justify-center w-8 h-8 ml-0.5 rounded-md bg-[var(--color-text)] text-[var(--color-bg)] transition-all hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isRunning ? (
             <Loader className="w-3.5 h-3.5 animate-spin" />
