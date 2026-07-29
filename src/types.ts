@@ -30,4 +30,6 @@ export interface Settings {
   fontLigatures: boolean
   stickyScroll: boolean
   tabSize: number
+  autoRun: boolean
+  autoRunDelay: number
 }

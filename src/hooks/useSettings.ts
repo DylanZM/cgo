@@ -13,6 +13,8 @@ const defaultSettings: Settings = {
   fontLigatures: true,
   stickyScroll: false,
   tabSize: 2,
+  autoRun: false,
+  autoRunDelay: 800,
 }
 
 export const themes = [

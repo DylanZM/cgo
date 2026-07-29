@@ -21,6 +21,8 @@ interface ToolbarProps {
   onToggleHistory: () => void
   settingsOpen: boolean
   historyOpen: boolean
+  autoRun: boolean
+  onToggleAutoRun: () => void
 }
 
 export default function Toolbar({
@@ -33,6 +35,8 @@ export default function Toolbar({
   onToggleHistory,
   settingsOpen,
   historyOpen,
+  autoRun,
+  onToggleAutoRun,
 }: ToolbarProps) {
   const [templatesOpen, setTemplatesOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -127,7 +131,7 @@ export default function Toolbar({
               ? 'text-[var(--color-text)] bg-[var(--color-surface-3)]'
               : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)]'
           }`}
-          title="History"
+          title="History (⌘H)"
         >
           <History className="w-4 h-4" />
         </button>
@@ -138,26 +142,42 @@ export default function Toolbar({
               ? 'text-[var(--color-text)] bg-[var(--color-surface-3)]'
               : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)]'
           }`}
-          title="Settings"
+          title="Settings (⌘,)"
         >
           <Settings className="w-4 h-4" />
         </button>
 
         <button
+          onClick={onToggleAutoRun}
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 ml-1 text-xs font-medium rounded-md transition-colors ${
+            autoRun
+              ? 'text-[var(--color-text)] bg-[var(--color-surface-3)]'
+              : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
+          }`}
+          title={`Auto-run ${autoRun ? 'on' : 'off'}`}
+        >
+          <span className={`relative w-7 h-3.5 rounded-full transition-colors ${autoRun ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface-3)]'}`}>
+            <span
+              className={`absolute top-0.5 w-2.5 h-2.5 rounded-full bg-[var(--color-bg)] transition-transform ${
+                autoRun ? 'translate-x-[14px]' : 'translate-x-0.5'
+              }`}
+            />
+          </span>
+          <span className="hidden sm:inline">Auto</span>
+        </button>
+
+        <div className="w-px h-5 bg-[var(--color-border)] mx-1.5" />
+
+        <button
           onClick={onRun}
           disabled={isRunning}
-          className="group flex items-center gap-1.5 px-3 py-1.5 ml-1 text-xs font-medium text-[var(--color-bg)] bg-[var(--color-text)] rounded-md transition-all hover:opacity-90 active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+          title={`Run (⌘↵)`}
+          className="group flex items-center justify-center w-8 h-8 ml-1 rounded-md bg-[var(--color-text)] text-[var(--color-bg)] transition-all hover:opacity-90 active:scale-[0.95] disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isRunning ? (
-            <Loader className="w-3 h-3 animate-spin" />
+            <Loader className="w-3.5 h-3.5 animate-spin" />
           ) : (
-            <Play className="w-3 h-3 transition-transform group-hover:translate-x-0.5 fill-current" />
-          )}
-          {isRunning ? 'Running' : 'Run'}
-          {!isRunning && (
-            <kbd className="hidden sm:inline-flex items-center px-1.5 ml-1 text-[9px] text-[var(--color-text-muted)] bg-[var(--color-surface)]/30 rounded border border-[var(--color-border)]">
-              ⌘↵
-            </kbd>
+            <Play className="w-3.5 h-3.5 fill-current transition-transform group-hover:scale-110" />
           )}
         </button>
       </div>

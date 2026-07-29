@@ -106,6 +106,42 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
             </select>
           </label>
         </section>
+
+        <section>
+          <h3 className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Execution</h3>
+
+          <label className="flex items-center justify-between cursor-pointer group mb-3">
+            <span className="text-xs text-[var(--color-text-secondary)] group-hover:text-[var(--color-text)] transition-colors">Auto-run on edit</span>
+            <button
+              onClick={() => onUpdate({ autoRun: !settings.autoRun })}
+              className={`relative w-8 rounded-full transition-colors ${
+                settings.autoRun ? 'bg-[var(--color-text)]' : 'bg-[var(--color-surface-3)]'
+              }`}
+              style={{ height: '18px' }}
+            >
+              <span
+                className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-[var(--color-bg)] transition-transform ${
+                  settings.autoRun ? 'translate-x-[14px]' : ''
+                }`}
+              />
+            </button>
+          </label>
+
+          <label className={`block ${!settings.autoRun ? 'opacity-40 pointer-events-none' : ''}`}>
+            <span className="text-xs text-[var(--color-text-secondary)] mb-1.5 block">
+              Auto-run delay: {settings.autoRunDelay}ms
+            </span>
+            <input
+              type="range"
+              min={200}
+              max={3000}
+              step={100}
+              value={settings.autoRunDelay}
+              onChange={(e) => onUpdate({ autoRunDelay: Number(e.target.value) })}
+              className="w-full accent-[var(--color-text)]"
+            />
+          </label>
+        </section>
       </div>
     </div>
   )

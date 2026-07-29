@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import Toolbar from '../components/playground/Toolbar'
 import Editor from '../components/playground/Editor'
 import Output from '../components/playground/Output'
@@ -49,6 +49,32 @@ export default function Playground() {
     setHistoryOpen(false)
   }, [])
 
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastSubmittedRef = useRef<{ code: string; language: 'c' | 'c++' } | null>(null)
+  const isRunningRef = useRef(false)
+
+  useEffect(() => {
+    if (!settings.autoRun) return
+    if (isRunning) return
+
+    const last = lastSubmittedRef.current
+    if (last && last.code === code && last.language === language) return
+
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      lastSubmittedRef.current = { code, language }
+      handleRun()
+    }, settings.autoRunDelay)
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
+  }, [code, language, settings.autoRun, settings.autoRunDelay, isRunning, handleRun])
+
+  useEffect(() => {
+    isRunningRef.current = isRunning
+  }, [isRunning])
+
   return (
     <div className="h-dvh flex flex-col bg-[var(--color-bg)]">
       <Toolbar
@@ -61,6 +87,8 @@ export default function Playground() {
         onToggleHistory={() => { setHistoryOpen(!historyOpen); setSettingsOpen(false) }}
         settingsOpen={settingsOpen}
         historyOpen={historyOpen}
+        autoRun={settings.autoRun}
+        onToggleAutoRun={() => updateSettings({ autoRun: !settings.autoRun })}
       />
 
       <div className="flex-1 flex min-h-0">
@@ -75,7 +103,7 @@ export default function Playground() {
         </div>
 
         <div className="w-[400px] min-w-[280px] flex flex-col border-l border-[var(--color-border)]">
-          <Output result={lastResult} isRunning={isRunning} />
+          <Output result={lastResult} isRunning={isRunning} autoRun={settings.autoRun} />
         </div>
 
         {settingsOpen && (
