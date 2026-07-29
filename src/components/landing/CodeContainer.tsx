@@ -48,7 +48,7 @@ export default function CodeContainer({
         <div className="flex items-center gap-3">
           {headerExtra}
           {filename && (
-            <span className="text-[10px] tracking-[0.1em] text-text-muted font-mono">
+            <span className="text-[10px] tracking-0.1em text-text-muted font-mono">
               {filename}
             </span>
           )}

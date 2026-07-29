@@ -42,8 +42,8 @@ function Toggle({
         style={{ height: '18px' }}
       >
         <span
-          className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-bg transition-transform duration-200 cubic-bezier(0.23, 1, 0.32, 1) ${
-            checked ? 'translate-x-[14px]' : ''
+          className={`absolute top-3px left-3px w-3 h-3 rounded-full bg-bg transition-transform duration-200 cubic-bezier(0.23, 1, 0.32, 1) ${
+            checked ? 'translate-x-14px' : ''
           }`}
         />
       </span>

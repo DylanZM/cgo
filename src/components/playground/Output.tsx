@@ -75,7 +75,7 @@ export default function Output({ result, isRunning }: OutputProps) {
           >
             {result.output && (
               <pre
-                className="text-sm font-mono whitespace-pre-wrap break-words leading-relaxed"
+                className="text-sm font-mono whitespace-pre-wrap  leading-relaxed"
                 style={{ color: 'var(--terminal-fg)' }}
               >
                 {result.output}
@@ -83,7 +83,7 @@ export default function Output({ result, isRunning }: OutputProps) {
             )}
             {result.error && (
               <pre
-                className="text-sm font-mono whitespace-pre-wrap break-words leading-relaxed"
+                className="text-sm font-mono whitespace-pre-wrap  leading-relaxed"
                 style={{ color: 'var(--terminal-error)' }}
               >
                 {result.error}

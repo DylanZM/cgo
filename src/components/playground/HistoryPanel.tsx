@@ -62,7 +62,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
           </div>
         ) : (
           <ol className="relative px-3 py-3">
-            <span className="absolute left-[27px] top-3 bottom-3 w-px bg-border" aria-hidden />
+            <span className="absolute left-3 top-3 bottom-3 w-px bg-border" aria-hidden />
 
             {history.map((entry, i) => {
               const isFirst = i === 0
