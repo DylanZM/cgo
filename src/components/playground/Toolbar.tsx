@@ -4,7 +4,6 @@ import {
   ChevronDown,
   Settings,
   History,
-  ChevronLeft,
   Rows2,
   Columns2,
 } from 'lucide-react'
@@ -49,11 +48,11 @@ export default function Toolbar({
   }, [])
 
   return (
-    <header className="flex items-center justify-between h-11 px-2.5 border-b border-[var(--color-border)] bg-[var(--color-surface)] shrink-0">
+    <header className="flex items-center justify-between h-11 px-2.5 border-b border-border bg-surface shrink-0">
       <div className="flex items-center gap-1">
         <Link
           to="/"
-          className="group flex items-center gap-1.5 px-1.5 py-1 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors text-sm font-sans"
+          className="group flex items-center gap-1.5 px-1.5 py-1 text-text-secondary hover:text-text transition-colors text-sm font-sans"
           title="Back to home"
         >
           <img src="/cgo.webp" alt="" className="w-12 h-12" />
@@ -72,11 +71,11 @@ export default function Toolbar({
 
           {templatesOpen && (
             <div
-              className="absolute top-full left-0 mt-1.5 w-72 py-1 bg-[var(--color-surface-2)] border border-[var(--color-border)] rounded-md shadow-2xl z-50 origin-top-left"
+              className="absolute top-full left-0 mt-1.5 w-72 py-1 bg-surface-2 border border-border rounded-md shadow-2xl z-50 origin-top-left"
               style={{ animation: 'dropdown-in 160ms cubic-bezier(0.23, 1, 0.32, 1)' }}
             >
-              <div className="px-2 py-1.5 mb-1 border-b border-[var(--color-border)]">
-                <p className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] font-medium">
+              <div className="px-2 py-1.5 mb-1 border-b border-border">
+                <p className="text-[10px] uppercase tracking-wider text-text-muted font-medium">
                   Templates
                 </p>
               </div>
@@ -87,13 +86,13 @@ export default function Toolbar({
                     onLoadTemplate(t.code)
                     setTemplatesOpen(false)
                   }}
-                  className="w-full px-3 py-2 text-left hover:bg-[var(--color-surface-3)] transition-colors flex items-start gap-3 group"
+                  className="w-full px-3 py-2 text-left hover:bg-surface-3 transition-colors flex items-start gap-3 group"
                 >
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs font-medium text-[var(--color-text)] group-hover:text-[var(--color-text)]">
+                    <div className="text-xs font-medium text-text group-hover:text-text">
                       {t.name}
                     </div>
-                    <div className="text-[10px] text-[var(--color-text-muted)] mt-0.5">
+                    <div className="text-[10px] text-text-muted mt-0.5">
                       {t.description}
                     </div>
                   </div>

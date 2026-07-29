@@ -11,14 +11,14 @@ export interface CodeTheme {
 
 export const codeThemes = {
   subtle: {
-    keyword: 'text-[var(--color-text-secondary)]',
-    string: 'text-[var(--color-text-secondary)]',
-    number: 'text-[var(--color-text-secondary)]',
-    fn: 'text-[var(--color-text)]',
-    comment: 'text-[var(--color-text-muted)]',
-    text: 'text-[var(--color-text)]',
-    textMuted: 'text-[var(--color-text-muted)]',
-    textSecondary: 'text-[var(--color-text-secondary)]',
+    keyword: 'text-text-secondary',
+    string: 'text-text-secondary',
+    number: 'text-text-secondary',
+    fn: 'text-text',
+    comment: 'text-text-muted',
+    text: 'text-text',
+    textMuted: 'text-text-muted',
+    textSecondary: 'text-text-secondary',
   },
   vitesse: {
     keyword: 'text-[#4d9375]',

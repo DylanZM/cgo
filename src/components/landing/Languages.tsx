@@ -38,7 +38,7 @@ export default function Languages() {
           ref={headerRef}
           className={`text-center mb-12 reveal-up ${headerInView ? 'is-visible' : ''}`}
         >
-          <p className="text-[10px] font-medium tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-4">
+          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted uppercase mb-4">
             One lab. The whole ecosystem.
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
@@ -47,7 +47,7 @@ export default function Languages() {
             <CodeChip rotate={2} size={1.1} width={1.7}>C++</CodeChip>
             {' '}at the core.
             <br />
-            <span className="text-[var(--color-text-secondary)]">Everything else <em className="text-[var(--color-text)] not-italic font-semibold">included.</em></span>
+            <span className="text-text-secondary">Everything else <em className="text-text not-italic font-semibold">included.</em></span>
           </h2>
         </div>
 

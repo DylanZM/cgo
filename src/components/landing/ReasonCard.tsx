@@ -13,12 +13,12 @@ export default function ReasonCard({
   description,
 }: ReasonCardProps): ReactElement {
   return (
-    <article className="group p-6 border border-[var(--color-border)] bg-[var(--color-surface)] rounded-md hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:-translate-y-1 transition-all duration-300">
-      <Icon className="w-5 h-5 text-[var(--color-text-secondary)] mb-4 group-hover:scale-110 transition-transform" />
-      <h3 className="text-base font-medium text-[var(--color-text)] mb-2">
+    <article className="group p-6 border border-border bg-surface rounded-md hover:border-border-strong hover:bg-surface-2 hover:-translate-y-1 transition-all duration-300">
+      <Icon className="w-5 h-5 text-text-secondary mb-4 group-hover:scale-110 transition-transform" />
+      <h3 className="text-base font-medium text-text mb-2">
         {title}
       </h3>
-      <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+      <p className="text-sm text-text-secondary leading-relaxed">
         {description}
       </p>
     </article>

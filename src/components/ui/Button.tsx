@@ -34,13 +34,13 @@ const iconSizeStyles: Record<ButtonSize, string> = {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90',
+    'bg-text text-bg hover:opacity-90',
   icon:
-    'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)]',
+    'text-text-secondary hover:text-text hover:bg-surface-2',
   ghost:
-    'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)]',
+    'text-text-secondary hover:text-text hover:bg-surface-2',
   outline:
-    'text-[var(--color-text)] border border-[var(--color-border-strong)] hover:bg-[var(--color-surface)]',
+    'text-text border border-border-strong hover:bg-surface',
 }
 
 export default function Button({
@@ -66,7 +66,7 @@ export default function Button({
 
   const activeOverlay =
     active && variant !== 'primary'
-      ? 'bg-[var(--color-surface-3)] text-[var(--color-text)]'
+      ? 'bg-surface-3 text-text'
       : ''
 
   const disabledStyles =

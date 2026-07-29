@@ -106,7 +106,7 @@ export default function Output({ result, isRunning }: OutputProps) {
             background: 'var(--terminal-bg-alt)',
           }}
         >
-          <span className="w-2 h-2 rounded-full bg-[var(--color-success)] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
           <span
             className="text-[10px] uppercase tracking-wider"
             style={{ color: 'var(--terminal-fg-muted)' }}

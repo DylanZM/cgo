@@ -9,7 +9,7 @@ export default function Manifesto() {
   const [ref, isInView] = useInView<HTMLDivElement>()
 
   return (
-    <section id="manifesto" className="px-6 py-12 border-y border-[var(--color-border)] bg-[var(--color-surface)]">
+    <section id="manifesto" className="px-6 py-12 border-y border-border bg-surface">
       <div
         ref={ref}
         className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
@@ -20,11 +20,11 @@ export default function Manifesto() {
             className={`flex items-center gap-6 reveal-fade ${isInView ? 'is-visible' : ''}`}
             style={{ transitionDelay: `${i * 120}ms` }}
           >
-            <p className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-[var(--color-text-secondary)]">
+            <p className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-text-secondary">
               {item}
             </p>
             {i < items.length - 1 && (
-              <span className="hidden sm:inline w-1 h-1 rounded-full bg-[var(--color-text-muted)]" />
+              <span className="hidden sm:inline w-1 h-1 rounded-full bg-text-muted" />
             )}
           </div>
         ))}
