@@ -125,6 +125,45 @@
   .animate-spin-slow { animation: spin-slow 8s linear infinite; }
   .animate-blink { animation: blink 1s step-end infinite; }
 
+  @keyframes typewriter {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @keyframes output-pop {
+    from { opacity: 0; transform: translateY(4px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .typewriter-content {
+    position: relative;
+    animation: typewriter var(--typewriter-duration, 4s)
+      steps(var(--typewriter-steps, 120), end) forwards;
+  }
+
+  .typewriter-cursor {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 1.5px;
+    background: currentColor;
+    opacity: 0;
+    animation: cursor-blink 1s step-end infinite;
+    animation-delay: var(--typewriter-duration, 4s);
+  }
+
+  .output-item {
+    opacity: 0;
+    animation: output-pop 0.35s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation-delay: var(--output-delay, 0s);
+  }
+
   .delay-100 { animation-delay: 100ms; }
   .delay-200 { animation-delay: 200ms; }
   .delay-300 { animation-delay: 300ms; }
@@ -202,6 +241,17 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+    }
+
+    .typewriter-content {
+      animation: none;
+      clip-path: none;
+    }
+
+    .typewriter-cursor,
+    .output-item {
+      animation: none;
+      opacity: 1;
     }
   }
 

@@ -66,6 +66,7 @@ export default function Hero() {
             footerLeft="Press Ctrl+Enter to run"
             theme="github"
             compact
+            typewriter={{ duration: '4.5s', steps: 140 }}
           >
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8">
               <div className="space-y-1.5">
@@ -99,12 +100,21 @@ export default function Hero() {
                 <div className={`text-[10px] ${codeThemes.github.textMuted} uppercase tracking-wider mb-3`}>Output</div>
                 <div className="flex flex-wrap gap-1.5 items-center">
                   {[0, 1, 1, 2, 3, 5, 8, 13, 21, 34].map((n, i) => (
-                    <span key={i} className={codeThemes.github.number}>
+                    <span
+                      key={i}
+                      className={`${codeThemes.github.number} output-item`}
+                      style={{ '--output-delay': `${4.7 + i * 0.08}s` } as React.CSSProperties}
+                    >
                       {n}{' '}
                     </span>
                   ))}
                 </div>
-                <div className={`mt-3 text-[10px] ${codeThemes.github.textMuted}`}>12ms</div>
+                <div
+                  className={`mt-3 text-[10px] ${codeThemes.github.textMuted} output-item`}
+                  style={{ '--output-delay': '5.6s' } as React.CSSProperties}
+                >
+                  12ms
+                </div>
               </div>
             </div>
           </CodeContainer>

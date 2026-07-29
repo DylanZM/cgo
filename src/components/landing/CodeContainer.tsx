@@ -15,6 +15,10 @@ interface CodeContainerProps {
   children: ReactNode
   className?: string
   compact?: boolean
+  typewriter?: {
+    duration?: string
+    steps?: number
+  }
 }
 
 export default function CodeContainer({
@@ -28,11 +32,19 @@ export default function CodeContainer({
   children,
   className = '',
   compact = false,
+  typewriter,
 }: CodeContainerProps) {
   const resolvedTheme: CodeTheme =
     typeof theme === 'string' ? codeThemes[theme] : theme
 
   const padding = compact ? 'p-4' : 'p-6'
+
+  const typewriterStyle = typewriter
+    ? ({
+        '--typewriter-duration': typewriter.duration ?? '4s',
+        '--typewriter-steps': String(typewriter.steps ?? 120),
+      } as React.CSSProperties)
+    : undefined
 
   return (
     <div
@@ -63,8 +75,14 @@ export default function CodeContainer({
         </div>
       </div>
 
-      <div className={`${padding} font-mono text-sm ${resolvedTheme.text}`}>
+      <div
+        className={`${padding} font-mono text-sm ${resolvedTheme.text} relative ${
+          typewriter ? 'typewriter-content' : ''
+        }`}
+        style={typewriterStyle}
+      >
         {children}
+        {typewriter && <span className="typewriter-cursor" aria-hidden />}
       </div>
 
       {(footerLeft || footerRight) && (
