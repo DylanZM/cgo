@@ -1,4 +1,4 @@
-import { X, Sun, Code, Hash, Zap } from 'lucide-react'
+import { X, Sun, Code, Hash } from 'lucide-react'
 import type { Settings } from '../../types'
 import { themes, fonts } from '../../hooks/useSettings'
 
@@ -207,39 +207,6 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
               ))}
             </div>
           </label>
-        </section>
-
-        <section>
-          <SectionHeader icon={Zap} title="Execution" />
-
-          <div className="space-y-3">
-            <Toggle
-              checked={settings.autoRun}
-              onChange={() => onUpdate({ autoRun: !settings.autoRun })}
-              label="Auto-run on edit"
-              description="Re-run after typing"
-            />
-
-            <label className={`block ${!settings.autoRun ? 'opacity-40 pointer-events-none' : ''}`}>
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Delay
-                </div>
-                <div className="text-[10px] tabular-nums text-[var(--color-text-secondary)] font-mono">
-                  {settings.autoRunDelay}ms
-                </div>
-              </div>
-              <input
-                type="range"
-                min={200}
-                max={3000}
-                step={100}
-                value={settings.autoRunDelay}
-                onChange={(e) => onUpdate({ autoRunDelay: Number(e.target.value) })}
-                className="w-full accent-[var(--color-text)]"
-              />
-            </label>
-          </div>
         </section>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Toolbar from '../components/playground/Toolbar'
 import Editor from '../components/playground/Editor'
 import Output from '../components/playground/Output'
@@ -17,9 +17,14 @@ export default function Playground() {
   const [lastResult, setLastResult] = useState<{ output: string; error: string; exitCode: number; time: number } | null>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
+  const [layout, setLayout] = useState<'horizontal' | 'vertical'>('horizontal')
 
   const { settings, updateSettings } = useSettings()
   const { history, addEntry, removeEntry, clearHistory } = useHistory()
+
+  useEffect(() => {
+    document.documentElement.dataset.editorTheme = settings.theme
+  }, [settings.theme])
 
   const handleRun = useCallback(async () => {
     setIsRunning(true)
@@ -49,31 +54,7 @@ export default function Playground() {
     setHistoryOpen(false)
   }, [])
 
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const lastSubmittedRef = useRef<{ code: string; language: 'c' | 'c++' } | null>(null)
-  const isRunningRef = useRef(false)
-
-  useEffect(() => {
-    if (!settings.autoRun) return
-    if (isRunning) return
-
-    const last = lastSubmittedRef.current
-    if (last && last.code === code && last.language === language) return
-
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => {
-      lastSubmittedRef.current = { code, language }
-      handleRun()
-    }, settings.autoRunDelay)
-
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current)
-    }
-  }, [code, language, settings.autoRun, settings.autoRunDelay, isRunning, handleRun])
-
-  useEffect(() => {
-    isRunningRef.current = isRunning
-  }, [isRunning])
+  const isHorizontal = layout === 'horizontal'
 
   return (
     <div className="h-dvh flex flex-col bg-[var(--color-bg)]">
@@ -87,12 +68,14 @@ export default function Playground() {
         onToggleHistory={() => { setHistoryOpen(!historyOpen); setSettingsOpen(false) }}
         settingsOpen={settingsOpen}
         historyOpen={historyOpen}
-        autoRun={settings.autoRun}
-        onToggleAutoRun={() => updateSettings({ autoRun: !settings.autoRun })}
+        layout={layout}
+        onToggleLayout={() => setLayout(isHorizontal ? 'vertical' : 'horizontal')}
       />
 
-      <div className="flex-1 flex min-h-0">
-        <div className="flex-1 min-w-0">
+      <div className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
+        <div
+          className={`flex-1 min-w-0 min-h-0 ${isHorizontal ? 'border-r' : 'border-b'} border-[var(--color-border)]`}
+        >
           <Editor
             code={code}
             onChange={setCode}
@@ -102,8 +85,14 @@ export default function Playground() {
           />
         </div>
 
-        <div className="w-[400px] min-w-[280px] flex flex-col border-l border-[var(--color-border)]">
-          <Output result={lastResult} isRunning={isRunning} autoRun={settings.autoRun} />
+        <div
+          className={`flex flex-col ${
+            isHorizontal
+              ? 'w-[400px] min-w-[280px]'
+              : 'h-[280px] min-h-[180px]'
+          }`}
+        >
+          <Output result={lastResult} isRunning={isRunning} />
         </div>
 
         {settingsOpen && (

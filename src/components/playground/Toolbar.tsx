@@ -7,7 +7,8 @@ import {
   History,
   ChevronLeft,
   Loader,
-  Zap,
+  Columns2,
+  Rows2,
 } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { templates } from './templates'
@@ -22,8 +23,8 @@ interface ToolbarProps {
   onToggleHistory: () => void
   settingsOpen: boolean
   historyOpen: boolean
-  autoRun: boolean
-  onToggleAutoRun: () => void
+  layout: 'horizontal' | 'vertical'
+  onToggleLayout: () => void
 }
 
 export default function Toolbar({
@@ -36,8 +37,8 @@ export default function Toolbar({
   onToggleHistory,
   settingsOpen,
   historyOpen,
-  autoRun,
-  onToggleAutoRun,
+  layout,
+  onToggleLayout,
 }: ToolbarProps) {
   const [templatesOpen, setTemplatesOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -163,17 +164,17 @@ export default function Toolbar({
         </button>
 
         <button
-          onClick={onToggleAutoRun}
-          aria-label={`Auto-run ${autoRun ? 'on' : 'off'}`}
-          aria-pressed={autoRun}
-          title={`Auto-run ${autoRun ? 'on' : 'off'}`}
-          className={`p-2 rounded-md transition-all active:scale-95 ${
-            autoRun
-              ? 'text-[var(--color-success)] bg-[var(--color-success-dim)]'
-              : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)]'
-          }`}
+          onClick={onToggleLayout}
+          aria-label={`${layout === 'horizontal' ? 'Vertical' : 'Horizontal'} layout`}
+          aria-pressed={layout === 'vertical'}
+          title={`Switch to ${layout === 'horizontal' ? 'vertical' : 'horizontal'} layout`}
+          className="p-2 rounded-md transition-all active:scale-95 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)]"
         >
-          <Zap className={`w-4 h-4 transition-transform ${autoRun ? 'fill-current' : ''}`} />
+          {layout === 'horizontal' ? (
+            <Rows2 className="w-4 h-4" />
+          ) : (
+            <Columns2 className="w-4 h-4" />
+          )}
         </button>
 
         <div className="w-px h-4 bg-[var(--color-border)] mx-1" />
