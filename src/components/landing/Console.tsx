@@ -54,18 +54,13 @@ export default function Console({ lines, startDelay = 0, className = '' }: Termi
   return (
     <div
       ref={ref}
-      className={`border border-border rounded-md bg-[#0a0e0c] overflow-hidden font-mono text-[12.5px] leading-relaxed ${className}`}
-      style={{
-        backgroundImage:
-          'linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px)',
-        backgroundSize: '100% 28px',
-      }}
+      className={`border border-border rounded-md bg-surface overflow-hidden font-mono text-[12.5px] leading-relaxed ${className}`}
     >
       <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-bg">
         <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-error" />
-          <span className="w-1.5 h-1.5 rounded-full bg-warning" />
-          <span className="w-1.5 h-1.5 rounded-full bg-success" />
+          <span className="w-1.5 h-1.5 rounded-full bg-error transition-transform duration-200 hover:scale-[1.6]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-warning transition-transform duration-200 hover:scale-[1.6]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-success transition-transform duration-200 hover:scale-[1.6]" />
         </div>
         <div className="flex items-center gap-1.5 text-text-muted text-[10px]">
           <Terminal className="w-3 h-3" />
