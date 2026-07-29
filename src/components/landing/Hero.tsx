@@ -2,65 +2,8 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 import CodeChip from './CodeChip'
-import Console from './Console'
-
-const consoleLines = [
-  {
-    prompt: '~/cgo',
-    text: 'cat fibonacci.c',
-    delay: 700,
-  },
-  {
-    prompt: '',
-    text: '#include <stdio.h>',
-    delay: 100,
-  },
-  {
-    prompt: '',
-    text: '',
-    delay: 0,
-  },
-  {
-    prompt: '',
-    text: 'int fib(int n) {',
-    delay: 120,
-  },
-  {
-    prompt: '',
-    text: '  if (n <= 1) return n;',
-    delay: 120,
-  },
-  {
-    prompt: '',
-    text: '  return fib(n-1) + fib(n-2);',
-    delay: 150,
-  },
-  {
-    prompt: '',
-    text: '}',
-    delay: 80,
-  },
-  {
-    prompt: '',
-    text: '',
-    delay: 400,
-  },
-  {
-    prompt: '~/cgo',
-    text: 'gcc fibonacci.c -O2 -o fib && ./fib',
-    delay: 800,
-  },
-  {
-    prompt: '',
-    text: '0 1 1 2 3 5 8 13 21 34',
-    delay: 900,
-  },
-  {
-    prompt: '',
-    text: '✓ process exited · 12ms',
-    delay: 200,
-  },
-]
+import CodeContainer from './CodeContainer'
+import { codeThemes } from './codeThemes'
 
 export default function Hero() {
   return (
@@ -130,11 +73,53 @@ export default function Hero() {
             Real · Native · Yours
           </div>
 
-          <Console
-            lines={consoleLines}
-            startDelay={500}
-            className="animate-fade-up"
-          />
+          <CodeContainer
+            openAppLabel="Open full app ↗"
+            footerLeft="Press Ctrl+Enter to run"
+            theme="github"
+            compact
+          >
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-8">
+              <div className="space-y-1.5">
+                <div className="flex gap-4">
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>1</span>
+                  <span><span className={codeThemes.github.keyword}>#include</span> <span className={codeThemes.github.string}>{'<iostream>'}</span></span>
+                </div>
+                <div className="flex gap-4">
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>2</span>
+                  <span>&nbsp;</span>
+                </div>
+                <div className="flex gap-4">
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>3</span>
+                  <span><span className={codeThemes.github.keyword}>int</span> <span className={codeThemes.github.fn}>fibonacci</span>(<span className={codeThemes.github.keyword}>int</span> n) {'{'}</span>
+                </div>
+                <div className="flex gap-4">
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>4</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>if</span> (n {'<='} <span className={codeThemes.github.number}>1</span>) <span className={codeThemes.github.keyword}>return</span> n;</span>
+                </div>
+                <div className="flex gap-4">
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>5</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;<span className={codeThemes.github.keyword}>return</span> <span className={codeThemes.github.fn}>fibonacci</span>(n - <span className={codeThemes.github.number}>1</span>) + <span className={codeThemes.github.fn}>fibonacci</span>(n - <span className={codeThemes.github.number}>2</span>);</span>
+                </div>
+                <div className="flex gap-4">
+                  <span className={`${codeThemes.github.textMuted} select-none w-6 text-right`}>6</span>
+                  <span>{'}'}</span>
+                </div>
+              </div>
+
+              <div className="hidden md:block w-56 pl-6 border-l border-border">
+                <div className={`text-[10px] ${codeThemes.github.textMuted} uppercase tracking-wider mb-3`}>Output</div>
+                <div className="flex flex-wrap gap-1.5 items-center">
+                  {[0, 1, 1, 2, 3, 5, 8, 13, 21, 34].map((n, i) => (
+                    <span key={i} className={codeThemes.github.number}>
+                      {n}{' '}
+                    </span>
+                  ))}
+                </div>
+                <div className={`mt-3 text-[10px] ${codeThemes.github.textMuted}`}>12ms</div>
+              </div>
+            </div>
+          </CodeContainer>
         </div>
       </div>
     </section>

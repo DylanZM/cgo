@@ -2,9 +2,9 @@ import { useInView } from '../../hooks/useInView'
 
 export default function Manifesto() {
   const lines = [
-    { num: '01', text: 'NO LICENSE KEY.', note: 'forever, not a trial' },
-    { num: '02', text: 'NO CLOUD REQUIRED.', note: 'compiles on your machine' },
-    { num: '03', text: 'NO CONTEXT SWITCHING.', note: 'editor + runner, one tab' },
+    { num: '01', text: 'NO LICENSE KEY.' },
+    { num: '02', text: 'NO CLOUD REQUIRED.' },
+    { num: '03', text: 'NO CONTEXT SWITCHING.' },
   ]
   const [ref, isInView] = useInView<HTMLDivElement>()
 
@@ -23,12 +23,8 @@ export default function Manifesto() {
             <span className="text-[10px] text-text-muted select-none shrink-0 tabular-nums">
               {line.num}
             </span>
-            <span className="text-xs sm:text-sm font-semibold text-text tracking-tight shrink-0">
+            <span className="text-xs sm:text-sm font-semibold text-text tracking-tight">
               {line.text}
-            </span>
-            <span className="hidden sm:inline flex-1 border-b border-dotted border-border" />
-            <span className="text-[10px] text-text-muted italic shrink-0 hidden sm:inline">
-              // {line.note}
             </span>
           </div>
         ))}
