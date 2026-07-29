@@ -65,7 +65,7 @@ export default function Hero() {
         </div>
 
         <div className="relative mt-8 animate-fade-up delay-400">
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-surface border border-border text-[9px] tracking-[0.2em] text-text-muted uppercase z-10 flex items-center gap-1.5">
+          <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-surface border border-border text-[9px] tracking-[0.2em] text-text-muted uppercase z-10 flex items-center gap-1.5 shadow-sm shadow-black/20">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-success" />

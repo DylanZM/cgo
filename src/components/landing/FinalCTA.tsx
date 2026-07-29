@@ -8,6 +8,14 @@ export default function FinalCTA() {
   return (
     <section id="cta" className="relative px-6 py-32 border-t border-border overflow-hidden">
       <div
+        aria-hidden
+        className="absolute inset-0 -z-10 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(60% 50% at 50% 50%, rgba(192,132,252,0.10), transparent 70%)',
+        }}
+      />
+      <div
         ref={ref}
         className={`relative max-w-5xl mx-auto text-center reveal-up ${inView ? 'is-visible' : ''}`}
       >
