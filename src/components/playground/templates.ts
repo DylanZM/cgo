@@ -1,7 +1,6 @@
 export interface Template {
   name: string
   description: string
-  language: 'c' | 'c++'
   code: string
 }
 
@@ -9,7 +8,6 @@ export const templates: Template[] = [
   {
     name: 'Hello World',
     description: 'Minimal starting point',
-    language: 'c++',
     code: `#include <iostream>
 
 int main() {
@@ -18,20 +16,8 @@ int main() {
 }`,
   },
   {
-    name: 'Hello World (C)',
-    description: 'Minimal C starting point',
-    language: 'c',
-    code: `#include <stdio.h>
-
-int main() {
-    printf("Hello, World!\\n");
-    return 0;
-}`,
-  },
-  {
     name: 'Fibonacci',
     description: 'Recursive sequence',
-    language: 'c++',
     code: `#include <iostream>
 
 int fibonacci(int n) {
@@ -50,7 +36,6 @@ int main() {
   {
     name: 'Structs',
     description: 'Custom types & methods',
-    language: 'c++',
     code: `#include <iostream>
 #include <string>
 
@@ -76,7 +61,6 @@ int main() {
   {
     name: 'Pointers',
     description: 'References and memory',
-    language: 'c++',
     code: `#include <iostream>
 
 void swap(int* a, int* b) {
@@ -96,26 +80,24 @@ int main() {
 }`,
   },
   {
-    name: 'Arrays (C)',
-    description: 'Bubble sort example',
-    language: 'c',
-    code: `#include <stdio.h>
+    name: 'Bubble Sort',
+    description: 'Arrays & algorithm',
+    code: `#include <iostream>
 
 void printArray(int arr[], int size) {
     for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
+        std::cout << arr[i] << " ";
     }
-    printf("\\n");
+    std::cout << std::endl;
 }
 
 int main() {
     int numbers[] = {5, 3, 8, 1, 9, 2};
     int size = sizeof(numbers) / sizeof(numbers[0]);
 
-    printf("Original: ");
+    std::cout << "Original: ";
     printArray(numbers, size);
 
-    // Bubble sort
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
             if (numbers[j] > numbers[j + 1]) {
@@ -126,7 +108,7 @@ int main() {
         }
     }
 
-    printf("Sorted:   ");
+    std::cout << "Sorted:   ";
     printArray(numbers, size);
 
     return 0;

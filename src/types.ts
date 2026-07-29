@@ -13,7 +13,6 @@ export interface CompileResponse {
 export interface HistoryEntry {
   id: string
   code: string
-  language: 'c' | 'c++'
   timestamp: number
   output: string
   error: string

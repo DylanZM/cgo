@@ -8,20 +8,16 @@ import http from 'node:http'
 const PORT = 3001
 const TIMEOUT = 5000
 
-function compile(code, language) {
+function compile(code) {
   const id = randomUUID()
-  const ext = language === 'c++' ? '.cpp' : '.c'
-  const sourceFile = join(tmpdir(), `cgo_${id}${ext}`)
+  const sourceFile = join(tmpdir(), `cgo_${id}.cpp`)
   const binaryFile = join(tmpdir(), `cgo_${id}`)
   const start = performance.now()
 
   try {
     writeFileSync(sourceFile, code, 'utf-8')
 
-    const compiler = language === 'c++' ? 'g++' : 'gcc'
-    const std = language === 'c++' ? '-std=c++17' : '-std=c11'
-
-    execSync(`${compiler} ${std} -o ${binaryFile} ${sourceFile} 2>&1`, {
+    execSync(`g++ -std=c++17 -o ${binaryFile} ${sourceFile} 2>&1`, {
       timeout: TIMEOUT,
       encoding: 'utf-8',
     })
@@ -77,18 +73,13 @@ const server = http.createServer((req, res) => {
     req.on('data', (chunk) => { body += chunk })
     req.on('end', () => {
       try {
-        const { code, language } = JSON.parse(body)
-        if (!code || !language) {
+        const { code } = JSON.parse(body)
+        if (!code) {
           res.writeHead(400, { 'Content-Type': 'application/json' })
-          res.end(JSON.stringify({ error: 'Missing code or language' }))
+          res.end(JSON.stringify({ error: 'Missing code' }))
           return
         }
-        if (language !== 'c' && language !== 'c++') {
-          res.writeHead(400, { 'Content-Type': 'application/json' })
-          res.end(JSON.stringify({ error: 'Language must be "c" or "c++"' }))
-          return
-        }
-        const result = compile(code, language)
+        const result = compile(code)
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify(result))
       } catch {

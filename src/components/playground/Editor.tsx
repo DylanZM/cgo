@@ -5,7 +5,6 @@ import type { Settings } from '../../types'
 interface EditorProps {
   code: string
   onChange: (value: string) => void
-  language: 'c' | 'c++'
   settings: Settings
   onRun?: () => void
 }
@@ -185,7 +184,7 @@ function registerThemes(monaco: Parameters<OnMount>[1]) {
   })
 }
 
-export default function Editor({ code, onChange, language, settings, onRun }: EditorProps) {
+export default function Editor({ code, onChange, settings, onRun }: EditorProps) {
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null)
 
   const handleMount: OnMount = (editor, monaco) => {
@@ -200,7 +199,7 @@ export default function Editor({ code, onChange, language, settings, onRun }: Ed
   return (
     <MonacoEditor
       height="100%"
-      language={language === 'c++' ? 'cpp' : 'c'}
+      language="cpp"
       value={code}
       onChange={(value) => onChange(value || '')}
       onMount={handleMount}

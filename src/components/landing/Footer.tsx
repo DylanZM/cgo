@@ -1,20 +1,25 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
     <footer className="px-6 py-6 border-t border-[var(--color-border)] bg-[var(--color-surface)]">
       <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors font-sans">
-          <img src="/cgo.webp" alt="" className="w-7 h-7" />
-          <span className="text-base font-semibold tracking-tight leading-none">cgo<span className="text-[var(--color-text-muted)]">_</span></span>
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors font-sans"
+        >
+          <img src="/cgo.webp" alt="" className="w-14 h-14" />
         </Link>
 
         <p className="text-xs text-[var(--color-text-muted)]">
-          Built with React, Monaco Editor, and g++.
+          Free and open source, built by DylanZM.
         </p>
 
         <div className="flex items-center gap-4">
-          <Link to="/app" className="text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors">
+          <Link
+            to="/app"
+            className="text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+          >
             Web app
           </Link>
           <a
@@ -28,5 +33,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

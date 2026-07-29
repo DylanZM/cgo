@@ -105,8 +105,6 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                         {firstLine(entry.code)}
                       </p>
                       <div className="flex items-center gap-1.5 mt-1 text-[10px] text-[var(--color-text-muted)]">
-                        <span className="uppercase tracking-wider">{entry.language}</span>
-                        <span>·</span>
                         <span>{timeAgo(entry.timestamp)}</span>
                       </div>
                     </div>

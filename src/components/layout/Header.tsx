@@ -1,25 +1,26 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { SiGithub } from "react-icons/si";
+import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
+import { SiGithub } from 'react-icons/si'
+import Button from '../ui/Button'
 
 export interface HeaderSection {
-  id: string;
-  label: string;
+  id: string
+  label: string
 }
 
 interface HeaderProps {
-  sections?: HeaderSection[];
-  githubUrl?: string;
-  ctaTo?: string;
-  ctaLabel?: string;
-  brand?: React.ReactNode;
+  sections?: HeaderSection[]
+  githubUrl?: string
+  ctaTo?: string
+  ctaLabel?: string
+  brand?: React.ReactNode
 }
 
 export default function Header({
   sections = [],
-  githubUrl = "https://github.com",
-  ctaTo = "/app",
-  ctaLabel = "Open App",
+  githubUrl = 'https://github.com',
+  ctaTo = '/app',
+  ctaLabel = 'Open App',
   brand,
 }: HeaderProps) {
   return (
@@ -51,24 +52,30 @@ export default function Header({
       </div>
 
       <div className="flex items-center gap-1 shrink-0">
-        <a
+        <Button
+          variant="icon"
+          size="sm"
+          iconOnly
+          as="a"
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+          aria-label="GitHub"
           title="GitHub"
         >
           <SiGithub className="w-4 h-4" />
-        </a>
+        </Button>
 
-        <Link
+        <Button
+          variant="primary"
+          size="sm"
+          as={Link}
           to={ctaTo}
-          className="group inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-md hover:opacity-90 transition-all font-sans text-[var(--color-bg)] bg-[var(--color-text)]"
         >
           {ctaLabel}
           <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
-        </Link>
+        </Button>
       </div>
     </nav>
-  );
+  )
 }

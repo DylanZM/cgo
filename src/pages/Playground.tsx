@@ -11,7 +11,6 @@ import { templates } from '../components/playground/templates'
 import type { HistoryEntry } from '../types'
 
 export default function Playground() {
-  const [language, setLanguage] = useState<'c' | 'c++'>('c++')
   const [code, setCode] = useState(templates[0].code)
   const [isRunning, setIsRunning] = useState(false)
   const [lastResult, setLastResult] = useState<{ output: string; error: string; exitCode: number; time: number } | null>(null)
@@ -29,27 +28,25 @@ export default function Playground() {
   const handleRun = useCallback(async () => {
     setIsRunning(true)
     try {
-      const result = await compileCode(code, language)
+      const result = await compileCode(code)
       setLastResult(result)
-      addEntry({ code, language, output: result.output, error: result.error, exitCode: result.exitCode })
+      addEntry({ code, output: result.output, error: result.error, exitCode: result.exitCode })
     } catch {
       const err = { output: '', error: 'Failed to connect to compilation server.', exitCode: 1, time: 0 }
       setLastResult(err)
-      addEntry({ code, language, output: '', error: err.error, exitCode: 1 })
+      addEntry({ code, output: '', error: err.error, exitCode: 1 })
     } finally {
       setIsRunning(false)
     }
-  }, [code, language, addEntry])
+  }, [code, addEntry])
 
-  const handleLoadTemplate = useCallback((templateCode: string, lang: 'c' | 'c++') => {
+  const handleLoadTemplate = useCallback((templateCode: string) => {
     setCode(templateCode)
-    setLanguage(lang)
     setLastResult(null)
   }, [])
 
   const handleRestore = useCallback((entry: HistoryEntry) => {
     setCode(entry.code)
-    setLanguage(entry.language)
     setLastResult({ output: entry.output, error: entry.error, exitCode: entry.exitCode, time: 0 })
     setHistoryOpen(false)
   }, [])
@@ -59,8 +56,6 @@ export default function Playground() {
   return (
     <div className="h-dvh flex flex-col bg-[var(--color-bg)]">
       <Toolbar
-        language={language}
-        onLanguageChange={setLanguage}
         onRun={handleRun}
         isRunning={isRunning}
         onLoadTemplate={handleLoadTemplate}
@@ -79,7 +74,6 @@ export default function Playground() {
           <Editor
             code={code}
             onChange={setCode}
-            language={language}
             settings={settings}
             onRun={handleRun}
           />
