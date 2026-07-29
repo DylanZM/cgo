@@ -130,16 +130,6 @@
     to { clip-path: inset(0 0 0 0); }
   }
 
-  @keyframes cursor-track {
-    from { transform: translateX(0); }
-    to { transform: translateX(var(--cursor-distance, 300px)); }
-  }
-
-  @keyframes cursor-blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-
   @keyframes output-pop {
     from { opacity: 0; transform: translateY(4px) scale(0.9); }
     to { opacity: 1; transform: translateY(0) scale(1); }
@@ -148,19 +138,6 @@
   .typewriter-content {
     animation: typewriter var(--typewriter-duration, 4s)
       steps(var(--typewriter-steps, 120), end) forwards;
-  }
-
-  .typewriter-cursor {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 1.5px;
-    background: currentColor;
-    pointer-events: none;
-    animation:
-      cursor-track var(--typewriter-duration, 4s) cubic-bezier(0.65, 0, 0.35, 1) forwards,
-      cursor-blink 1s step-end infinite var(--typewriter-duration, 4s);
   }
 
   .output-item {
@@ -253,10 +230,11 @@
       clip-path: none;
     }
 
-    .typewriter-cursor,
+    .typewriter-content,
     .output-item {
       animation: none;
       opacity: 1;
+      clip-path: none;
     }
   }
 

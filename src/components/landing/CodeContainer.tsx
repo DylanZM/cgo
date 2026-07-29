@@ -118,23 +118,10 @@ function TypewriterContent({
   steps,
 }: TypewriterContentProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const innerRef = useRef<HTMLDivElement>(null)
-  const [padLeft, setPadLeft] = useState(0)
-  const [innerWidth, setInnerWidth] = useState(0)
   const [start, setStart] = useState(false)
 
   useEffect(() => {
-    if (!ref.current || !innerRef.current) return
-
-    const measure = () => {
-      if (ref.current && innerRef.current) {
-        const parentStyle = getComputedStyle(ref.current)
-        setPadLeft(parseFloat(parentStyle.paddingLeft) || 0)
-        setInnerWidth(innerRef.current.scrollWidth)
-      }
-    }
-
-    measure()
+    if (!ref.current) return
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -147,13 +134,7 @@ function TypewriterContent({
     )
     observer.observe(ref.current)
 
-    const resizeObserver = new ResizeObserver(measure)
-    resizeObserver.observe(innerRef.current)
-
-    return () => {
-      observer.disconnect()
-      resizeObserver.disconnect()
-    }
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -162,7 +143,6 @@ function TypewriterContent({
       className={`${padding} font-mono text-sm ${themeText} relative overflow-hidden`}
     >
       <div
-        ref={innerRef}
         className={start ? 'typewriter-content' : ''}
         style={
           {
@@ -173,18 +153,6 @@ function TypewriterContent({
       >
         {children}
       </div>
-      {start && (
-        <span
-          aria-hidden
-          className="typewriter-cursor"
-          style={
-            {
-              left: `${padLeft}px`,
-              '--cursor-distance': `${Math.max(0, innerWidth - 1.5)}px`,
-            } as React.CSSProperties
-          }
-        />
-      )}
     </div>
   )
 }
