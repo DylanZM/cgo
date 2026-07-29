@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Terminal, Loader, AlertCircle, CheckCircle2, Clock } from 'lucide-react'
 import type { CompileResponse } from '../../types'
 
@@ -6,21 +7,54 @@ interface OutputProps {
   isRunning: boolean
 }
 
+type Tab = 'stdout' | 'stderr' | 'both'
+
 export default function Output({ result, isRunning }: OutputProps) {
+  const [tab, setTab] = useState<Tab>('both')
+
+  const hasStdout = !!result?.output
+  const hasStderr = !!result?.error
+  const exitOk = result?.exitCode === 0
+
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-2 px-3 h-9 border-b border-[var(--color-border)] bg-[var(--color-surface)] shrink-0">
+      <div className="flex items-center gap-2 px-3 h-10 border-b border-[var(--color-border)] bg-[var(--color-surface)] shrink-0">
         <Terminal className="w-3.5 h-3.5 text-[var(--color-text-muted)]" />
         <span className="text-xs font-medium text-[var(--color-text-secondary)]">Output</span>
+
+        {result && !isRunning && (hasStdout || hasStderr) && (
+          <div className="flex items-center gap-0.5 ml-2">
+            {(['both', 'stdout', 'stderr'] as Tab[]).map((t) => {
+              const disabled =
+                (t === 'stdout' && !hasStdout) ||
+                (t === 'stderr' && !hasStderr)
+              return (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  disabled={disabled}
+                  className={`px-2 py-0.5 text-[10px] uppercase tracking-wider rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
+                    tab === t
+                      ? 'bg-[var(--color-surface-3)] text-[var(--color-text)]'
+                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
+                  }`}
+                >
+                  {t}
+                </button>
+              )
+            })}
+          </div>
+        )}
+
         {result && (
           <div className="ml-auto flex items-center gap-2">
-            {result.exitCode === 0 ? (
-              <CheckCircle2 className="w-3 h-3 text-[var(--color-success)] animate-scale-in" />
+            {exitOk ? (
+              <CheckCircle2 className="w-3 h-3 text-[var(--color-success)]" />
             ) : (
-              <AlertCircle className="w-3 h-3 text-[var(--color-error)] animate-scale-in" />
+              <AlertCircle className="w-3 h-3 text-[var(--color-error)]" />
             )}
             {result.time > 0 && (
-              <span className="flex items-center gap-1 text-[10px] text-[var(--color-text-muted)] animate-fade-in">
+              <span className="flex items-center gap-1 text-[10px] text-[var(--color-text-muted)]">
                 <Clock className="w-2.5 h-2.5" />
                 {result.time}ms
               </span>
@@ -31,39 +65,52 @@ export default function Output({ result, isRunning }: OutputProps) {
 
       <div className="flex-1 overflow-auto bg-[var(--color-bg)] p-4">
         {isRunning && (
-          <div className="flex items-center gap-2 text-[var(--color-text-muted)] text-xs animate-fade-in">
+          <div className="flex items-center gap-2 text-[var(--color-text-secondary)] text-xs animate-fade-in">
             <Loader className="w-3.5 h-3.5 animate-spin" />
             Compiling and running...
           </div>
         )}
 
         {!isRunning && !result && (
-          <div className="flex flex-col items-center justify-center h-full gap-2 text-[var(--color-text-muted)]">
-            <Terminal className="w-8 h-8 opacity-30" />
-            <p className="text-xs">Press Run or Ctrl+Enter to execute</p>
+          <div className="flex flex-col items-center justify-center h-full gap-3 text-[var(--color-text-muted)]">
+            <div className="w-12 h-12 rounded-full border border-[var(--color-border)] flex items-center justify-center">
+              <Terminal className="w-5 h-5 opacity-50" />
+            </div>
+            <div className="text-center space-y-1">
+              <p className="text-xs text-[var(--color-text-secondary)]">No output yet</p>
+              <p className="text-[10px] text-[var(--color-text-muted)]">
+                Press <kbd className="px-1.5 py-0.5 mx-0.5 rounded bg-[var(--color-surface-2)] border border-[var(--color-border)] text-[var(--color-text-secondary)]">⌘↵</kbd> to run
+              </p>
+            </div>
           </div>
         )}
 
         {!isRunning && result && (
-          <div key={`${result.output.length}-${result.error.length}`} className="space-y-3 animate-fade-in">
-            {result.output && (
+          <div key={`${result.output.length}-${result.error.length}-${tab}`} className="space-y-3 animate-fade-in">
+            {(tab === 'both' || tab === 'stdout') && result.output && (
               <div>
                 <span className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider">stdout</span>
-                <pre className="mt-1 text-sm font-mono text-[var(--color-text)] whitespace-pre-wrap break-words leading-relaxed">
+                <pre className="mt-1.5 text-sm font-mono text-[var(--color-text)] whitespace-pre-wrap break-words leading-relaxed">
                   {result.output}
                 </pre>
               </div>
             )}
-            {result.error && (
+            {(tab === 'both' || tab === 'stderr') && result.error && (
               <div>
                 <span className="text-[10px] font-medium text-[var(--color-error)] uppercase tracking-wider">stderr</span>
-                <pre className="mt-1 text-sm font-mono text-[var(--color-error)] whitespace-pre-wrap break-words leading-relaxed">
+                <pre className="mt-1.5 text-sm font-mono text-[var(--color-error)] whitespace-pre-wrap break-words leading-relaxed">
                   {result.error}
                 </pre>
               </div>
             )}
             {!result.output && !result.error && (
               <p className="text-xs text-[var(--color-text-muted)]">No output.</p>
+            )}
+            {tab === 'stdout' && !result.output && result.error && (
+              <p className="text-xs text-[var(--color-text-muted)]">No stdout output. View stderr for details.</p>
+            )}
+            {tab === 'stderr' && !result.error && result.output && (
+              <p className="text-xs text-[var(--color-text-muted)]">No errors. View stdout for output.</p>
             )}
           </div>
         )}

@@ -47,7 +47,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       {i === 0 && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-text)] shrink-0" />
                       )}
                       <span className="text-xs font-medium text-[var(--color-text)]">
                         {i === 0 ? 'Current' : `Snapshot ${i}`}
@@ -70,7 +70,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                   <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                     <button
                       onClick={() => onRestore(entry)}
-                      className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] transition-colors"
+                      className="p-1 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-3)] transition-colors"
                       title="Restore"
                     >
                       <RotateCcw className="w-3 h-3" />
