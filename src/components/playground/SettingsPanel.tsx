@@ -43,6 +43,8 @@ function Toggle({
         style={{
           height: '18px',
           backgroundColor: checked ? accent : surface,
+          border: '1px solid',
+          borderColor: checked ? accent : 'rgba(128,128,128,0.2)',
         }}
       >
         <span

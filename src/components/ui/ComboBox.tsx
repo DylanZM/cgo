@@ -33,10 +33,16 @@ export default function ComboBox({ options, value, onChange, accent, surface, bo
   }, [])
 
   useEffect(() => {
-    if (open && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect()
-      setCoords({ top: rect.bottom + 4, left: rect.left, width: rect.width })
+    if (!open) return
+    function update() {
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect()
+        setCoords({ top: rect.bottom + 4, left: rect.left, width: rect.width })
+      }
     }
+    update()
+    window.addEventListener('scroll', update, true)
+    return () => window.removeEventListener('scroll', update, true)
   }, [open])
 
   return (
