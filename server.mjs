@@ -135,6 +135,7 @@ wss.on('connection', (ws) => {
       })
 
       childProcess.on('exit', (exitCode) => {
+        if (cleanedUp) return
         if (processTimer) clearTimeout(processTimer)
         send('exit', { code: exitCode, time: Math.round(performance.now() - startTime) })
         cleanup()
