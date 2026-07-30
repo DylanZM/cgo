@@ -6,21 +6,18 @@ import SettingsPanel from '../components/playground/SettingsPanel'
 import HistoryPanel from '../components/playground/HistoryPanel'
 import { useSettings, themes } from '../hooks/useSettings'
 import { useHistory } from '../hooks/useHistory'
-import { compileCode } from '../lib/compiler'
+import { useTerminal } from '../hooks/useTerminal'
 import { templates } from '../components/playground/templates'
 import type { HistoryEntry } from '../types'
 
 export default function Playground() {
   const [code, setCode] = useState(templates[0].code)
-  const [isRunning, setIsRunning] = useState(false)
-  const [lastResult, setLastResult] = useState<{ output: string; error: string; exitCode: number; time: number } | null>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [settingsClosing, setSettingsClosing] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [historyClosing, setHistoryClosing] = useState(false)
   const [layout, setLayout] = useState<'horizontal' | 'vertical'>('horizontal')
   const [splitPos, setSplitPos] = useState(50)
-  const [stdin, setStdin] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ active: false, horizontal: true })
 
@@ -93,29 +90,25 @@ export default function Playground() {
     }
   }, [settings.theme])
 
-  const handleRun = useCallback(async () => {
-    setIsRunning(true)
-    try {
-      const result = await compileCode(code, stdin)
-      setLastResult(result)
-      addEntry({ code, output: result.output, error: result.error, exitCode: result.exitCode })
-    } catch {
-      const err = { output: '', error: 'Failed to connect to compilation server.', exitCode: 1, time: 0 }
-      setLastResult(err)
-      addEntry({ code, output: '', error: err.error, exitCode: 1 })
-    } finally {
-      setIsRunning(false)
-    }
-  }, [code, stdin, addEntry])
+  const currentCodeRef = useRef(code)
+  currentCodeRef.current = code
+
+  const terminal = useTerminal({
+    onExit() {
+      addEntry({ code: currentCodeRef.current, output: '', error: '', exitCode: 0 })
+    },
+  })
+
+  const handleRun = useCallback(() => {
+    terminal.run(code)
+  }, [code, terminal.run])
 
   const handleLoadTemplate = useCallback((templateCode: string) => {
     setCode(templateCode)
-    setLastResult(null)
   }, [])
 
   const handleRestore = useCallback((entry: HistoryEntry) => {
     setCode(entry.code)
-    setLastResult({ output: entry.output, error: entry.error, exitCode: entry.exitCode, time: 0 })
     setHistoryClosing(true)
     setTimeout(() => {
       setHistoryOpen(false)
@@ -187,7 +180,7 @@ export default function Playground() {
       <Toolbar
         toolbarBg={themeVars['--color-bg']}
         onRun={handleRun}
-        isRunning={isRunning}
+        isRunning={terminal.running}
         onLoadTemplate={handleLoadTemplate}
         onToggleSettings={toggleSettings}
         onToggleHistory={toggleHistory}
@@ -227,7 +220,16 @@ export default function Playground() {
             isHorizontal ? 'min-h-0' : 'min-h-[180px]'
           } flex-1 overflow-hidden`}
         >
-          <Output result={lastResult} isRunning={isRunning} stdin={stdin} onStdinChange={setStdin} />
+          <Output
+            lines={terminal.lines}
+            running={terminal.running}
+            inputBuffer={terminal.inputBuffer}
+            onInputChange={terminal.setInputBuffer}
+            onInputSubmit={() => {
+              terminal.stdin(terminal.inputBuffer + '\n')
+              terminal.setInputBuffer('')
+            }}
+          />
         </div>
 
         {settingsVisible && (
