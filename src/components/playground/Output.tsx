@@ -1,12 +1,14 @@
-import {  Loader } from 'lucide-react'
+import { Loader } from 'lucide-react'
 import type { CompileResponse } from '../../types'
 
 interface OutputProps {
   result: CompileResponse | null
   isRunning: boolean
+  stdin: string
+  onStdinChange: (val: string) => void
 }
 
-export default function Output({ result, isRunning }: OutputProps) {
+export default function Output({ result, isRunning, stdin, onStdinChange }: OutputProps) {
   return (
     <div className="flex flex-col h-full terminal">
       <div
@@ -38,13 +40,7 @@ export default function Output({ result, isRunning }: OutputProps) {
         )}
 
         {!isRunning && !result && (
-          <div
-            className="flex flex-col items-center justify-center h-full gap-3 font-sans"
-            style={{ color: 'var(--terminal-fg-muted)' }}
-          >
-         
-            
-          </div>
+          <div className="h-full" />
         )}
 
         {!isRunning && result && (
@@ -54,7 +50,7 @@ export default function Output({ result, isRunning }: OutputProps) {
           >
             {result.output && (
               <pre
-                className="text-sm font-mono whitespace-pre-wrap  leading-relaxed"
+                className="text-sm font-mono whitespace-pre-wrap leading-relaxed"
                 style={{ color: 'var(--terminal-fg)' }}
               >
                 {result.output}
@@ -62,7 +58,7 @@ export default function Output({ result, isRunning }: OutputProps) {
             )}
             {result.error && (
               <pre
-                className="text-sm font-mono whitespace-pre-wrap  leading-relaxed"
+                className="text-sm font-mono whitespace-pre-wrap leading-relaxed"
                 style={{ color: 'var(--terminal-error)' }}
               >
                 {result.error}
@@ -75,6 +71,45 @@ export default function Output({ result, isRunning }: OutputProps) {
             )}
           </div>
         )}
+      </div>
+
+      <div
+        className="shrink-0 border-t px-4 py-2.5"
+        style={{
+          background: 'var(--terminal-bg-alt)',
+          borderColor: 'var(--terminal-border)',
+        }}
+      >
+        <div className="flex items-center gap-2 mb-1.5">
+          <span
+            className="text-[10px] uppercase tracking-wider font-medium"
+            style={{ color: 'var(--terminal-fg-subtle)' }}
+          >
+            Input
+          </span>
+          {stdin && (
+            <span
+              className="text-[10px] px-1.5 py-0.5 rounded"
+              style={{
+                color: 'var(--terminal-fg-muted)',
+                background: 'var(--terminal-bg)',
+              }}
+            >
+              Will be sent on next run
+            </span>
+          )}
+        </div>
+        <textarea
+          value={stdin}
+          onChange={(e) => onStdinChange(e.target.value)}
+          placeholder="Type input here before running..."
+          rows={2}
+          className="w-full resize-none text-xs font-mono leading-relaxed rounded border-none outline-none p-2 placeholder:opacity-40"
+          style={{
+            background: 'var(--terminal-bg)',
+            color: 'var(--terminal-fg)',
+          }}
+        />
       </div>
     </div>
   )

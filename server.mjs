@@ -8,7 +8,7 @@ import http from 'node:http'
 const PORT = 3001
 const TIMEOUT = 5000
 
-function compile(code) {
+function compile(code, stdin) {
   const id = randomUUID()
   const sourceFile = join(tmpdir(), `cgo_${id}.cpp`)
   const binaryFile = join(tmpdir(), `cgo_${id}`)
@@ -25,6 +25,7 @@ function compile(code) {
     let output = ''
     try {
       output = execSync(`${binaryFile}`, {
+        input: stdin || '',
         timeout: TIMEOUT,
         encoding: 'utf-8',
         maxBuffer: 1024 * 1024,
@@ -73,13 +74,13 @@ const server = http.createServer((req, res) => {
     req.on('data', (chunk) => { body += chunk })
     req.on('end', () => {
       try {
-        const { code } = JSON.parse(body)
+        const { code, stdin } = JSON.parse(body)
         if (!code) {
           res.writeHead(400, { 'Content-Type': 'application/json' })
           res.end(JSON.stringify({ error: 'Missing code' }))
           return
         }
-        const result = compile(code)
+        const result = compile(code, stdin)
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify(result))
       } catch {

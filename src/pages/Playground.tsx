@@ -20,6 +20,7 @@ export default function Playground() {
   const [historyClosing, setHistoryClosing] = useState(false)
   const [layout, setLayout] = useState<'horizontal' | 'vertical'>('horizontal')
   const [splitPos, setSplitPos] = useState(50)
+  const [stdin, setStdin] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ active: false, horizontal: true })
 
@@ -95,7 +96,7 @@ export default function Playground() {
   const handleRun = useCallback(async () => {
     setIsRunning(true)
     try {
-      const result = await compileCode(code)
+      const result = await compileCode(code, stdin)
       setLastResult(result)
       addEntry({ code, output: result.output, error: result.error, exitCode: result.exitCode })
     } catch {
@@ -105,7 +106,7 @@ export default function Playground() {
     } finally {
       setIsRunning(false)
     }
-  }, [code, addEntry])
+  }, [code, stdin, addEntry])
 
   const handleLoadTemplate = useCallback((templateCode: string) => {
     setCode(templateCode)
@@ -226,7 +227,7 @@ export default function Playground() {
             isHorizontal ? 'min-h-0' : 'min-h-[180px]'
           } flex-1 overflow-hidden`}
         >
-          <Output result={lastResult} isRunning={isRunning} />
+          <Output result={lastResult} isRunning={isRunning} stdin={stdin} onStdinChange={setStdin} />
         </div>
 
         {settingsVisible && (

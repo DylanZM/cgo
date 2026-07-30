@@ -1,10 +1,10 @@
 import type { CompileResponse } from '../types'
 
-export async function compileCode(code: string): Promise<CompileResponse> {
+export async function compileCode(code: string, stdin?: string): Promise<CompileResponse> {
   const res = await fetch('/api/compile', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code }),
+    body: JSON.stringify({ code, stdin }),
   })
 
   if (!res.ok) {
