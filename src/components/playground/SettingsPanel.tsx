@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useMemo } from 'react'
 import { X, Sun, Code, Hash, Check } from 'lucide-react'
 import type { Settings } from '../../types'
 import { themes, fonts } from '../../hooks/useSettings'
+import ComboBox from '../ui/ComboBox'
 
 interface SettingsPanelProps {
   settings: Settings
@@ -192,31 +193,16 @@ export default function SettingsPanel({ settings, onUpdate, onClose, closing }: 
 
             <div>
               <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: labelColor }}>Font family</div>
-              <div
-                className="flex rounded-lg p-0.5"
-                style={{
-                  backgroundColor: surface,
-                  border: `1px solid ${border}`,
-                }}
-              >
-                {fonts.map((f) => {
-                  const isActive = settings.fontFamily === f.id
-                  return (
-                    <button
-                      key={f.id}
-                      onClick={() => onUpdate({ fontFamily: f.id })}
-                      className="flex-1 px-3 py-2 text-xs rounded-md transition-all duration-150 active:scale-95"
-                      style={{
-                        fontFamily: f.id,
-                        backgroundColor: isActive ? accent : 'transparent',
-                        color: isActive ? (isDark ? '#fff' : '#000') : labelColor,
-                      }}
-                    >
-                      {f.label}
-                    </button>
-                  )
-                })}
-              </div>
+              <ComboBox
+                options={fonts.map((f) => ({ value: f.id, label: f.label }))}
+                value={settings.fontFamily}
+                onChange={(val) => onUpdate({ fontFamily: val })}
+                accent={accent}
+                surface={surface}
+                border={border}
+                fg={panelFg}
+                labelColor={labelColor}
+              />
             </div>
 
             <div>
