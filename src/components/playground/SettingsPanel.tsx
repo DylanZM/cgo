@@ -122,7 +122,7 @@ export default function SettingsPanel({ settings, onUpdate, onClose, closing }: 
 
   return (
     <div
-      className={`${closing ? 'settings-panel-out' : 'settings-panel'} h-full flex flex-col border-l border-border w-96 relative transition-colors duration-300 ease-out`}
+      className={`${closing ? 'settings-panel-out' : 'settings-panel'} h-full flex flex-col w-full relative transition-colors duration-300 ease-out`}
       style={{
         backgroundColor: panelBg,
         color: panelFg,

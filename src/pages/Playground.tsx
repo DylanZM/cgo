@@ -151,7 +151,7 @@ export default function Playground() {
         </div>
 
         {settingsVisible && (
-          <div className="absolute inset-y-0 right-0 z-50">
+          <div className="absolute inset-y-0 right-0 z-50 w-1/2 min-w-[320px]">
             <SettingsPanel
               settings={settings}
               onUpdate={updateSettings}
@@ -162,7 +162,7 @@ export default function Playground() {
         )}
 
         {historyVisible && (
-          <div className="absolute inset-y-0 right-0 z-40">
+          <div className="absolute inset-y-0 right-0 z-40 w-1/2 min-w-[320px]">
             <HistoryPanel
               history={history}
               onRestore={handleRestore}
