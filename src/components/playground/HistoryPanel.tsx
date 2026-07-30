@@ -131,56 +131,43 @@ function HighlightedCode({ code, accent, isDark }: { code: string; accent: strin
   const lines = useMemo(() => tokenize(code), [code])
   const lineCount = lines.length
 
-  const addColor = isDark ? 'rgba(52, 211, 153, 0.15)' : 'rgba(52, 211, 153, 0.1)'
-  const addBorder = isDark ? 'rgba(52, 211, 153, 0.3)' : 'rgba(52, 211, 153, 0.25)'
-  const gutterFg = isDark ? 'rgba(52, 211, 153, 0.6)' : 'rgba(52, 211, 153, 0.7)'
+  const addBg = isDark ? 'rgba(52, 211, 153, 0.12)' : 'rgba(52, 211, 153, 0.08)'
+  const addBorder = isDark ? 'rgba(52, 211, 153, 0.25)' : 'rgba(52, 211, 153, 0.2)'
+  const gutterFg = isDark ? 'rgba(52, 211, 153, 0.5)' : 'rgba(52, 211, 153, 0.6)'
 
   return (
     <div className="font-mono text-[10px] leading-[18px]">
       <div
-        className="flex items-center gap-2 px-3 py-1.5 text-[9px] sticky top-0"
+        className="flex items-center gap-3 px-3 py-1.5 text-[9px] sticky top-0"
         style={{
           backgroundColor: isDark ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.04)',
           borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
           color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)',
         }}
       >
-        <span
-          className="text-[10px] font-semibold tracking-tight"
-          style={{ color: accent }}
-        >
-          main.cpp
-        </span>
+        <span className="text-[10px] font-semibold tracking-tight" style={{ color: accent }}>main.cpp</span>
         <span className="opacity-50">+{lineCount}</span>
         <span className="opacity-30">·</span>
         <span className="opacity-50">−0</span>
         <span className="ml-auto opacity-40">{lineCount} lines</span>
       </div>
-      <div className="overflow-x-auto max-h-96 overflow-y-auto">
+      <div className="overflow-x-auto max-h-[60vh] overflow-y-auto">
         {lines.map((tokens, li) => (
           <div
             key={li}
             className="flex"
-            style={{ backgroundColor: li % 2 === 0 ? 'transparent' : (isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)') }}
+            style={{ backgroundColor: li % 2 === 0 ? 'transparent' : (isDark ? 'rgba(255,255,255,0.015)' : 'rgba(0,0,0,0.008)') }}
           >
             <div
               className="w-9 shrink-0 flex items-center justify-center text-[9px] select-none border-r"
-              style={{
-                color: gutterFg,
-                backgroundColor: addColor,
-                borderColor: addBorder,
-              }}
+              style={{ color: gutterFg, backgroundColor: addBg, borderColor: addBorder }}
             >
               +
             </div>
-            <span className="whitespace-pre px-2" style={{ backgroundColor: addColor }}>
+            <span className="whitespace-pre px-2" style={{ backgroundColor: addBg }}>
               {tokens.map((t, tj) => {
                 const color = t.type === 'normal' || t.type === 'punctuation' ? undefined : colors[t.type]
-                return (
-                  <span key={tj} style={color ? { color } : undefined}>
-                    {t.text}
-                  </span>
-                )
+                return <span key={tj} style={color ? { color } : undefined}>{t.text}</span>
               })}
             </span>
           </div>
@@ -215,8 +202,6 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
   const surface = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'
   const surfaceAlt = isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 
-  const statusColor = useCallback((hasError: boolean) => hasError ? '#f87171' : '#34d399', [])
-
   const toggleExpand = useCallback((id: string) => {
     setExpandedId(prev => prev === id ? null : id)
   }, [])
@@ -227,137 +212,89 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
       style={{
         backgroundColor: panelBg,
         color: panelFg,
+        boxShadow: '-4px 0 16px rgba(0,0,0,0.15)',
       }}
     >
-      <div
-        className="h-0.5"
-        style={{ backgroundColor: accent }}
-        aria-hidden
-      />
-
-      <div
-        className="flex items-center justify-between px-4 h-11 border-b shrink-0"
-        style={{ borderColor: border }}
-      >
-        <div className="flex items-center gap-2.5">
-          <FileCode className="w-3.5 h-3.5" style={{ color: accent }} />
-          <span className="text-xs font-semibold" style={{ color: panelFg }}>
-            History
-          </span>
+      <div className="flex items-center justify-between px-5 h-12 border-b shrink-0" style={{ borderColor: border }}>
+        <div className="flex items-center gap-3">
+          <FileCode className="w-4 h-4" style={{ color: accent }} />
+          <span className="text-sm font-semibold" style={{ color: panelFg }}>History</span>
           {history.length > 0 && (
-            <span
-              className="px-1.5 py-0.5 text-[10px] tabular-nums rounded font-medium"
-              style={{
-                color: panelFg,
-                backgroundColor: surface,
-              }}
-            >
+            <span className="px-2 py-0.5 text-[10px] tabular-nums rounded" style={{ color: panelFg, backgroundColor: surface }}>
               {history.length}
             </span>
           )}
         </div>
-        <button
-          onClick={onClose}
-          aria-label="Close history"
-          className="p-1 rounded transition-colors active:scale-90 duration-150"
-          style={{ color: muted }}
-        >
-          <X className="w-3.5 h-3.5" />
+        <button onClick={onClose} aria-label="Close history" className="p-1.5 rounded transition-colors active:scale-90 duration-150" style={{ color: muted }}>
+          <X className="w-4 h-4" />
         </button>
       </div>
 
       <div className="flex-1 overflow-y-auto">
         {history.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full px-6 text-center">
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
-              style={{ backgroundColor: surface }}
-            >
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: surface }}>
               <Clock className="w-5 h-5" style={{ color: muted, opacity: 0.6 }} />
             </div>
             <p className="text-xs font-medium" style={{ color: panelFg, opacity: 0.7 }}>No versions yet</p>
-            <p className="text-[10px] mt-1 leading-relaxed max-w-[200px]" style={{ color: muted }}>
+            <p className="text-[10px] mt-1 leading-relaxed max-w-[240px]" style={{ color: muted }}>
               A snapshot is saved every time your code runs.
             </p>
           </div>
         ) : (
-          <div className="px-2 py-2 space-y-1.5">
+          <div className="p-3 space-y-3">
             {history.map((entry, i) => {
               const isFirst = i === 0
               const hasError = !!entry.error
               const isExpanded = expandedId === entry.id
-              const status = statusColor(hasError)
+              const status = hasError ? '#f87171' : '#34d399'
 
               return (
                 <div
                   key={entry.id}
-                  className="rounded-lg overflow-hidden transition-shadow duration-200"
+                  className="rounded-xl overflow-hidden transition-shadow duration-200"
                   style={{
                     backgroundColor: surface,
                     border: `1px solid ${border}`,
-                    boxShadow: isExpanded ? `0 1px 6px ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.08)'}` : 'none',
+                    boxShadow: isExpanded ? `0 2px 12px ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.08)'}` : 'none',
                   }}
                 >
                   <div
                     onClick={() => toggleExpand(entry.id)}
-                    className="relative cursor-pointer transition-colors"
+                    className="relative cursor-pointer"
                     style={{ color: panelFg }}
                   >
-                    <div
-                      className="flex items-start gap-2.5 px-3 py-2"
-                      style={{ backgroundColor: isFirst ? surfaceAlt : 'transparent' }}
-                    >
-                      <div
-                        className="w-1.5 h-1.5 rounded-full mt-1 shrink-0"
-                        style={{ backgroundColor: status }}
-                      />
+                    <div className="flex items-start gap-3 px-4 py-3" style={{ backgroundColor: isFirst ? surfaceAlt : 'transparent' }}>
+                      <div className="w-2 h-2 rounded-full mt-1 shrink-0" style={{ backgroundColor: status }} />
 
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-medium" style={{ color: panelFg }}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm font-medium" style={{ color: panelFg }}>
                             {isFirst ? 'Current' : `#${String(i).padStart(2, '0')}`}
                           </span>
-                          <span className="text-[9px]" style={{ color: muted }}>
-                            {timeAgo(entry.timestamp)}
+                          <span className="text-[10px]" style={{ color: muted }}>{timeAgo(entry.timestamp)}</span>
+                          <span className="text-[9px] px-1.5 py-0.25 rounded font-medium" style={{ color: isFirst ? '#34d399' : muted, backgroundColor: surface }}>
+                            {hasError ? 'error' : 'ok'}
                           </span>
                         </div>
-                        <p className="font-mono text-[10px] truncate mt-0.5" style={{ color: muted }}>
+                        <p className="font-mono text-[10px] truncate mt-1" style={{ color: muted }}>
                           {entry.code.split('\n')[0]}
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-0.5 shrink-0">
-                        <button
-                          onClick={(e) => { e.stopPropagation(); onRestore(entry) }}
-                          className="p-1 rounded transition-colors hover:opacity-70 active:scale-90"
-                          style={{ color: muted }}
-                          title="Restore"
-                        >
-                          <RotateCcw className="w-3 h-3" />
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button onClick={(e) => { e.stopPropagation(); onRestore(entry) }} className="p-1.5 rounded transition-colors hover:opacity-70 active:scale-90" style={{ color: muted }} title="Restore">
+                          <RotateCcw className="w-3.5 h-3.5" />
                         </button>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); onRemove(entry.id) }}
-                          className="p-1 rounded transition-colors hover:opacity-70 active:scale-90"
-                          style={{ color: muted }}
-                          title="Delete"
-                        >
-                          <Trash2 className="w-3 h-3" />
+                        <button onClick={(e) => { e.stopPropagation(); onRemove(entry.id) }} className="p-1.5 rounded transition-colors hover:opacity-70 active:scale-90" style={{ color: muted }} title="Delete">
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
-                        <ChevronDown
-                          className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                          style={{ color: muted }}
-                        />
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} style={{ color: muted }} />
                       </div>
                     </div>
                   </div>
 
-                  <div
-                    className="overflow-hidden transition-all duration-200 ease-out"
-                    style={{
-                      maxHeight: isExpanded ? '960px' : '0px',
-                      opacity: isExpanded ? 1 : 0,
-                    }}
-                  >
+                  <div className="overflow-hidden transition-all duration-200 ease-out" style={{ maxHeight: isExpanded ? '960px' : '0px', opacity: isExpanded ? 1 : 0 }}>
                     <div style={{ borderTop: `1px solid ${border}` }}>
                       <HighlightedCode code={entry.code} accent={accent} isDark={isDark} />
                     </div>
@@ -370,16 +307,13 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
       </div>
 
       {history.length > 0 && (
-        <div
-          className="px-4 py-3 border-t"
-          style={{ borderColor: border }}
-        >
+        <div className="px-5 py-3 border-t" style={{ borderColor: border }}>
           <button
             onClick={onClear}
-            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs rounded transition-colors active:scale-95"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs rounded-lg transition-colors active:scale-95"
             style={{ color: '#f87171' }}
           >
-            <Trash2 className="w-3 h-3" />
+            <Trash2 className="w-3.5 h-3.5" />
             Clear all
           </button>
         </div>
