@@ -191,8 +191,8 @@ export default function Playground() {
         </div>
 
         <div
-          className={`shrink-0 bg-border hover:bg-accent/30 transition-colors duration-150 ${
-            isHorizontal ? 'w-1 cursor-col-resize' : 'h-1 cursor-row-resize'
+          className={`shrink-0 bg-border ${
+            isHorizontal ? 'w-px cursor-col-resize' : 'h-px cursor-row-resize'
           }`}
           onMouseDown={handleDividerMouseDown}
         />
