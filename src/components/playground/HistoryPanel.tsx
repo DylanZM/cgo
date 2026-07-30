@@ -156,7 +156,7 @@ function HighlightedCode({ code, accent, isDark }: { code: string; accent: strin
         <span className="opacity-50">−0</span>
         <span className="ml-auto opacity-40">{lineCount} lines</span>
       </div>
-      <div className="overflow-x-auto max-h-72 overflow-y-auto">
+      <div className="overflow-x-auto max-h-96 overflow-y-auto">
         {lines.map((tokens, li) => (
           <div
             key={li}
@@ -223,7 +223,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
 
   return (
     <div
-      className={`h-full flex flex-col border-l w-80 ${closing ? 'settings-panel-out' : 'settings-panel'}`}
+      className={`h-full flex flex-col border-l w-96 ${closing ? 'settings-panel-out' : 'settings-panel'}`}
       style={{
         backgroundColor: panelBg,
         color: panelFg,
@@ -354,7 +354,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                   <div
                     className="overflow-hidden transition-all duration-200 ease-out"
                     style={{
-                      maxHeight: isExpanded ? '800px' : '0px',
+                      maxHeight: isExpanded ? '960px' : '0px',
                       opacity: isExpanded ? 1 : 0,
                     }}
                   >
