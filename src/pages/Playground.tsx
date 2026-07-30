@@ -50,8 +50,11 @@ export default function Playground() {
   const handleRestore = useCallback((entry: HistoryEntry) => {
     setCode(entry.code)
     setLastResult({ output: entry.output, error: entry.error, exitCode: entry.exitCode, time: 0 })
-    setHistoryOpen(false)
     setHistoryClosing(true)
+    setTimeout(() => {
+      setHistoryOpen(false)
+      setHistoryClosing(false)
+    }, 220)
   }, [])
 
   const toggleSettings = useCallback(() => {
@@ -61,13 +64,17 @@ export default function Playground() {
         setSettingsOpen(false)
         setSettingsClosing(false)
       }, 220)
-    } else {
-      setHistoryOpen(false)
+    } else if (historyOpen) {
       setHistoryClosing(true)
-      setTimeout(() => setHistoryClosing(false), 220)
+      setTimeout(() => {
+        setHistoryOpen(false)
+        setHistoryClosing(false)
+        setSettingsOpen(true)
+      }, 220)
+    } else {
       setSettingsOpen(true)
     }
-  }, [settingsOpen])
+  }, [settingsOpen, historyOpen])
 
   const toggleHistory = useCallback(() => {
     if (historyOpen) {
@@ -76,13 +83,17 @@ export default function Playground() {
         setHistoryOpen(false)
         setHistoryClosing(false)
       }, 220)
-    } else {
-      setSettingsOpen(false)
+    } else if (settingsOpen) {
       setSettingsClosing(true)
-      setTimeout(() => setSettingsClosing(false), 220)
+      setTimeout(() => {
+        setSettingsOpen(false)
+        setSettingsClosing(false)
+        setHistoryOpen(true)
+      }, 220)
+    } else {
       setHistoryOpen(true)
     }
-  }, [historyOpen])
+  }, [historyOpen, settingsOpen])
 
   const closeSettings = useCallback(() => {
     setSettingsClosing(true)
