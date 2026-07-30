@@ -41,15 +41,26 @@ export default function Header({
       </Link>
 
       <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1">
-        {sections.map((s) => (
-          <a
-            key={s.id}
-            href={`#${s.id}`}
-            className="px-3 py-1.5 text-xs text-text-secondary hover:text-text transition-colors font-sans"
-          >
-            {s.label}
-          </a>
-        ))}
+        {sections.map((s) =>
+          s.id === 'hero' ? (
+            <Link
+              key={s.id}
+              to="/"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="px-3 py-1.5 text-xs text-text-secondary hover:text-text transition-colors font-sans"
+            >
+              {s.label}
+            </Link>
+          ) : (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              className="px-3 py-1.5 text-xs text-text-secondary hover:text-text transition-colors font-sans"
+            >
+              {s.label}
+            </a>
+          )
+        )}
       </div>
 
       <div className="flex items-center gap-1 shrink-0">
