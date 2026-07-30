@@ -26,7 +26,7 @@ export default function Footer() {
             Web app
           </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/DylanZM/cgo"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-text-secondary hover:text-text transition-colors"

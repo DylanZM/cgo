@@ -18,7 +18,7 @@ interface HeaderProps {
 
 export default function Header({
   sections = [],
-  githubUrl = 'https://github.com',
+  githubUrl = 'https://github.com/DylanZM/cgo',
   ctaTo = '/app',
   ctaLabel = 'Open App',
   brand,

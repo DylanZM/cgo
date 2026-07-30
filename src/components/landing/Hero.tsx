@@ -53,7 +53,7 @@ export default function Hero() {
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <a
-              href="https://github.com"
+              href="https://github.com/DylanZM/cgo"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border-strong text-text font-medium text-sm hover:bg-surface transition-colors"
