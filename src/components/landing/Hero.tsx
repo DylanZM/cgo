@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
@@ -6,15 +5,7 @@ import CodeChip from './CodeChip'
 import CodeContainer from './CodeContainer'
 import { codeThemes } from './codeThemes'
 
-const CAROUSEL_ITEMS = ['NO LICENSE KEY', 'NO CLOUD REQUIRED', 'NO CONTEXT SWITCHING']
-
 export default function Hero() {
-  const [carouselIdx, setCarouselIdx] = useState(0)
-
-  useEffect(() => {
-    const t = setInterval(() => setCarouselIdx((i) => (i + 1) % CAROUSEL_ITEMS.length), 2500)
-    return () => clearInterval(t)
-  }, [])
   return (
     <section id="hero" className="relative px-6 pt-12 pb-20 overflow-hidden">
       <div
@@ -27,17 +18,8 @@ export default function Hero() {
       />
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted mb-8 uppercase overflow-hidden">
-            <span
-              className="flex transition-transform duration-300 ease-out"
-              style={{ transform: `translateX(-${carouselIdx * 100}%)` }}
-            >
-              {CAROUSEL_ITEMS.map((item) => (
-                <span key={item} className="w-full flex-shrink-0">
-                  {item}
-                </span>
-              ))}
-            </span>
+          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted mb-8 uppercase animate-fade-down">
+            Free. Open source. Yours.
           </p>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05] text-text mb-6 animate-fade-up delay-100">

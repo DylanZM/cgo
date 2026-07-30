@@ -7,7 +7,8 @@ import http from 'node:http'
 import { WebSocketServer } from 'ws'
 
 const PORT = 3001
-const TIMEOUT = 10000
+const COMPILE_TIMEOUT = 10000
+const PROCESS_TIMEOUT = 30000
 
 const server = http.createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -50,9 +51,13 @@ const wss = new WebSocketServer({ server, path: '/ws' })
 
 wss.on('connection', (ws) => {
   let childProcess = null
-  let compileTimer = null
+  let processTimer = null
   let startTime = 0
   let cleanedUp = false
+
+  function close() {
+    try { ws.close() } catch {}
+  }
 
   function cleanup() {
     if (cleanedUp) return
@@ -61,10 +66,19 @@ wss.on('connection', (ws) => {
       try { childProcess.kill() } catch {}
       childProcess = null
     }
-    if (compileTimer) {
-      clearTimeout(compileTimer)
-      compileTimer = null
+    if (processTimer) {
+      clearTimeout(processTimer)
+      processTimer = null
     }
+  }
+
+  function resetTimer() {
+    if (processTimer) clearTimeout(processTimer)
+    processTimer = setTimeout(() => {
+      send('error', 'Process timed out')
+      cleanup()
+      close()
+    }, PROCESS_TIMEOUT)
   }
 
   const send = (type, data) => {
@@ -95,21 +109,18 @@ wss.on('connection', (ws) => {
       try {
         writeFileSync(sourceFile, msg.code, 'utf-8')
         execSync(`g++ -std=c++17 -o ${binaryFile} ${sourceFile} 2>&1`, {
-          timeout: TIMEOUT,
+          timeout: COMPILE_TIMEOUT,
           encoding: 'utf-8',
         })
       } catch (e) {
         send('error', e.stderr || e.message || 'Compilation failed')
         cleanup()
+        close()
         try { unlinkSync(sourceFile) } catch {}
         return
       }
 
-      compileTimer = setTimeout(() => {
-        send('error', 'Process timed out')
-        cleanup()
-        try { unlinkSync(binaryFile) } catch {}
-      }, TIMEOUT)
+      resetTimer()
 
       childProcess = spawn(binaryFile, [], {
         stdio: ['pipe', 'pipe', 'pipe'],
@@ -124,15 +135,17 @@ wss.on('connection', (ws) => {
       })
 
       childProcess.on('exit', (exitCode) => {
-        if (compileTimer) clearTimeout(compileTimer)
+        if (processTimer) clearTimeout(processTimer)
         send('exit', { code: exitCode, time: Math.round(performance.now() - startTime) })
         cleanup()
+        close()
         try { unlinkSync(sourceFile) } catch {}
         try { unlinkSync(binaryFile) } catch {}
       })
     } else if (msg.type === 'stdin') {
       if (childProcess && childProcess.stdin.writable) {
         childProcess.stdin.write(msg.data)
+        resetTimer()
       }
     }
   })
@@ -152,7 +165,7 @@ function compile(code, stdin) {
     writeFileSync(sourceFile, code, 'utf-8')
 
     execSync(`g++ -std=c++17 -o ${binaryFile} ${sourceFile} 2>&1`, {
-      timeout: TIMEOUT,
+      timeout: COMPILE_TIMEOUT,
       encoding: 'utf-8',
     })
 
@@ -160,7 +173,7 @@ function compile(code, stdin) {
     try {
       output = execSync(`${binaryFile}`, {
         input: stdin || '',
-        timeout: TIMEOUT,
+        timeout: PROCESS_TIMEOUT,
         encoding: 'utf-8',
         maxBuffer: 1024 * 1024,
       })
