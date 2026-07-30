@@ -179,7 +179,9 @@ export default function Playground() {
         className={`flex-1 flex min-h-0 relative ${isHorizontal ? 'flex-row' : 'flex-col'}`}
       >
         <div
-          className="min-w-0 min-h-0 overflow-hidden"
+          className={`min-w-0 min-h-0 overflow-hidden ${
+            isHorizontal ? 'border-r' : 'border-b'
+          } border-border`}
           style={{ flex: `0 0 ${splitPos}%` }}
         >
           <Editor
@@ -191,11 +193,9 @@ export default function Playground() {
         </div>
 
         <div
-          className={`shrink-0 bg-border ${
-            isHorizontal
-              ? 'w-px cursor-col-resize px-1 -mx-1'
-              : 'h-px cursor-row-resize py-1 -my-1'
-          }`}
+          className={`shrink-0 ${
+            isHorizontal ? 'w-3 -mx-1.5 cursor-col-resize' : 'h-3 -my-1.5 cursor-row-resize'
+          } z-10`}
           onMouseDown={handleDividerMouseDown}
         />
 
