@@ -136,16 +136,16 @@ function HighlightedCode({ code, accent, isDark }: { code: string; accent: strin
   const gutterFg = isDark ? 'rgba(52, 211, 153, 0.5)' : 'rgba(52, 211, 153, 0.6)'
 
   return (
-    <div className="font-mono text-[10px] leading-[18px]">
+    <div className="font-mono text-xs leading-[20px]">
       <div
-        className="flex items-center gap-3 px-3 py-1.5 text-[9px] sticky top-0"
+        className="flex items-center gap-3 px-3 py-1.5 text-[10px] sticky top-0"
         style={{
           backgroundColor: isDark ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.04)',
           borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
           color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)',
         }}
       >
-        <span className="text-[10px] font-semibold tracking-tight" style={{ color: accent }}>main.cpp</span>
+        <span className="text-xs font-semibold tracking-tight" style={{ color: accent }}>main.cpp</span>
         <span className="opacity-50">+{lineCount}</span>
         <span className="opacity-30">·</span>
         <span className="opacity-50">−0</span>
@@ -159,7 +159,7 @@ function HighlightedCode({ code, accent, isDark }: { code: string; accent: strin
             style={{ backgroundColor: li % 2 === 0 ? 'transparent' : (isDark ? 'rgba(255,255,255,0.015)' : 'rgba(0,0,0,0.008)') }}
           >
             <div
-              className="w-9 shrink-0 flex items-center justify-center text-[9px] select-none border-r"
+              className="w-9 shrink-0 flex items-center justify-center text-[10px] select-none border-r"
               style={{ color: gutterFg, backgroundColor: addBg, borderColor: addBorder }}
             >
               +
