@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import Toolbar from '../components/playground/Toolbar'
 import Editor from '../components/playground/Editor'
 import Output from '../components/playground/Output'
 import SettingsPanel from '../components/playground/SettingsPanel'
 import HistoryPanel from '../components/playground/HistoryPanel'
-import { useSettings } from '../hooks/useSettings'
+import { useSettings, themes } from '../hooks/useSettings'
 import { useHistory } from '../hooks/useHistory'
 import { compileCode } from '../lib/compiler'
 import { templates } from '../components/playground/templates'
@@ -69,6 +69,27 @@ export default function Playground() {
 
   useEffect(() => {
     document.documentElement.dataset.editorTheme = settings.theme
+  }, [settings.theme])
+
+  const themeVars = useMemo(() => {
+    const theme = themes.find((t) => t.id === settings.theme) ?? themes[0]
+    const c = theme.bg.replace('#', '')
+    const r = parseInt(c.slice(0, 2), 16)
+    const g = parseInt(c.slice(2, 4), 16)
+    const b = parseInt(c.slice(4, 6), 16)
+    const isDark = (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5
+    const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'
+    return {
+      '--color-bg': theme.bg,
+      '--color-surface': isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+      '--color-surface-2': isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+      '--color-surface-3': isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.10)',
+      '--color-text': theme.fg,
+      '--color-text-secondary': isDark ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,0.65)',
+      '--color-text-muted': isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)',
+      '--color-border': border,
+      '--divider-border': border,
+    }
   }, [settings.theme])
 
   const handleRun = useCallback(async () => {
@@ -163,6 +184,7 @@ export default function Playground() {
   return (
     <div className="h-dvh flex flex-col bg-bg">
       <Toolbar
+        themeVars={themeVars}
         onRun={handleRun}
         isRunning={isRunning}
         onLoadTemplate={handleLoadTemplate}
@@ -181,8 +203,8 @@ export default function Playground() {
         <div
           className={`min-w-0 min-h-0 overflow-hidden ${
             isHorizontal ? 'border-r' : 'border-b'
-          } border-border`}
-          style={{ flex: `0 0 ${splitPos}%` }}
+          }`}
+          style={{ flex: `0 0 ${splitPos}%`, borderColor: themeVars['--divider-border'] }}
         >
           <Editor
             code={code}

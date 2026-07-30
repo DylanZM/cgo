@@ -21,6 +21,7 @@ interface ToolbarProps {
   historyOpen: boolean
   layout: 'horizontal' | 'vertical'
   onToggleLayout: () => void
+  themeVars: Record<string, string>
 }
 
 export default function Toolbar({
@@ -33,6 +34,7 @@ export default function Toolbar({
   historyOpen,
   layout,
   onToggleLayout,
+  themeVars,
 }: ToolbarProps) {
   const [templatesOpen, setTemplatesOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -48,7 +50,10 @@ export default function Toolbar({
   }, [])
 
   return (
-    <header className="flex items-center justify-between h-11 px-2.5 border-b border-border bg-surface shrink-0 gap-2">
+    <header
+      style={themeVars as React.CSSProperties}
+      className="flex items-center justify-between h-11 px-2.5 border-b shrink-0 gap-2"
+    >
       <div className="flex items-center gap-1">
         <Link
           to="/"
