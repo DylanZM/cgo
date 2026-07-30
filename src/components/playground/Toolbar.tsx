@@ -57,6 +57,7 @@ export default function Toolbar({
       <div className="flex items-center gap-1">
         <Link
           to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="group flex items-center gap-1.5 px-1.5 py-1 text-text-secondary text-sm font-sans rounded-md "
           title="Back to home"
         >

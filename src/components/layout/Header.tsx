@@ -27,6 +27,7 @@ export default function Header({
     <nav className="sticky top-0 z-50 flex items-center justify-between px-6 h-14 bg-bg/80 backdrop-blur-lg border-b border-border">
       <Link
         to="/"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         className="flex items-center gap-0.5 text-text shrink-0 font-sans"
       >
         {brand ?? (
