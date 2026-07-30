@@ -170,6 +170,7 @@ export default function Playground() {
               onClear={clearHistory}
               onClose={closeHistory}
               closing={historyClosing}
+              settings={settings}
             />
           </div>
         )}
