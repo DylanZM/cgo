@@ -30,6 +30,7 @@ export const themes = [
 export const fonts = [
   { id: "'JetBrains Mono', monospace", label: 'JetBrains Mono' },
   { id: "'Cascadia Code', monospace", label: 'Cascadia Code' },
+  { id: "'Fira Code', monospace", label: 'Fira Code' },
 ]
 
 function loadSettings(): Settings {
