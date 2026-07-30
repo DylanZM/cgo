@@ -115,6 +115,7 @@ export default function Playground() {
 
   const settingsVisible = settingsOpen || settingsClosing
   const historyVisible = historyOpen || historyClosing
+  const sidePanelVisible = settingsVisible || historyVisible
 
   return (
     <div className="h-dvh flex flex-col bg-bg">
@@ -132,7 +133,7 @@ export default function Playground() {
 
       <div className={`flex-1 flex min-h-0 relative ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
         <div
-          className={`flex-1 min-w-0 min-h-0 ${isHorizontal ? 'border-r' : 'border-b'} border-border`}
+          className={`flex-1 min-w-0 min-h-0 ${isHorizontal ? (sidePanelVisible ? 'border-r-0' : 'border-r') : 'border-b'} border-border transition-colors duration-300`}
         >
           <Editor
             code={code}
@@ -151,7 +152,7 @@ export default function Playground() {
         </div>
 
         {settingsVisible && (
-          <div className="absolute inset-y-0 right-0 z-50 w-1/2 min-w-[320px]">
+          <div className="absolute inset-y-0 right-0 z-50 w-[calc(50%+2rem)] min-w-[360px] shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.3)]">
             <SettingsPanel
               settings={settings}
               onUpdate={updateSettings}
@@ -162,7 +163,7 @@ export default function Playground() {
         )}
 
         {historyVisible && (
-          <div className="absolute inset-y-0 right-0 z-40 w-1/2 min-w-[320px]">
+          <div className="absolute inset-y-0 right-0 z-40 w-[calc(50%+2rem)] min-w-[360px] shadow-[-8px_0_24px_-8px_rgba(0,0,0,0.3)]">
             <HistoryPanel
               history={history}
               onRestore={handleRestore}
