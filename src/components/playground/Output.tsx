@@ -11,7 +11,7 @@ interface OutputProps {
 
 export default function Output({ lines, running, inputBuffer, onInputChange, onInputSubmit }: OutputProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -80,13 +80,12 @@ export default function Output({ lines, running, inputBuffer, onInputChange, onI
           <span className="text-xs font-mono mr-2" style={{ color: 'var(--terminal-fg-subtle)' }}>
             {'>'}
           </span>
-          <textarea
+          <input
             ref={inputRef}
             value={inputBuffer}
             onChange={(e) => onInputChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            rows={1}
-            className="flex-1 resize-none text-xs font-mono leading-relaxed border-none outline-none bg-transparent placeholder:opacity-30"
+            className="flex-1 text-xs font-mono leading-relaxed border-none outline-none bg-transparent placeholder:opacity-30"
             style={{ color: 'var(--terminal-fg)' }}
             placeholder="Type input and press Enter..."
           />

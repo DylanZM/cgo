@@ -54,6 +54,7 @@ wss.on('connection', (ws) => {
   let processTimer = null
   let startTime = 0
   let cleanedUp = false
+  let stdinBuffer = []
 
   function close() {
     try { ws.close() } catch {}
@@ -126,6 +127,13 @@ wss.on('connection', (ws) => {
         stdio: ['pipe', 'pipe', 'pipe'],
       })
 
+      if (stdinBuffer.length) {
+        for (const data of stdinBuffer) {
+          childProcess.stdin.write(data)
+        }
+        stdinBuffer = []
+      }
+
       childProcess.stdout.on('data', (chunk) => {
         send('stdout', chunk.toString())
       })
@@ -147,6 +155,8 @@ wss.on('connection', (ws) => {
       if (childProcess && childProcess.stdin.writable) {
         childProcess.stdin.write(msg.data)
         resetTimer()
+      } else {
+        stdinBuffer.push(msg.data)
       }
     }
   })
