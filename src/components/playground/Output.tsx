@@ -1,4 +1,4 @@
-import { Terminal, Loader } from 'lucide-react'
+import {  Loader } from 'lucide-react'
 import type { CompileResponse } from '../../types'
 
 interface OutputProps {
@@ -42,29 +42,8 @@ export default function Output({ result, isRunning }: OutputProps) {
             className="flex flex-col items-center justify-center h-full gap-3 font-sans"
             style={{ color: 'var(--terminal-fg-muted)' }}
           >
-            <div
-              className="w-12 h-12 rounded-full border flex items-center justify-center"
-              style={{ borderColor: 'var(--terminal-border)' }}
-            >
-              <Terminal className="w-5 h-5 opacity-50" />
-            </div>
-            <div className="text-center space-y-1">
-              <p style={{ color: 'var(--terminal-fg-subtle)' }}>No output yet</p>
-              <p style={{ color: 'var(--terminal-fg-muted)' }} className="text-[10px]">
-                Press{' '}
-                <kbd
-                  className="px-1.5 py-0.5 mx-0.5 rounded font-mono"
-                  style={{
-                    background: 'var(--terminal-bg-alt)',
-                    border: '1px solid var(--terminal-border)',
-                    color: 'var(--terminal-fg-subtle)',
-                  }}
-                >
-                  ⌘↵
-                </kbd>{' '}
-                to run
-              </p>
-            </div>
+         
+            
           </div>
         )}
 
@@ -97,24 +76,6 @@ export default function Output({ result, isRunning }: OutputProps) {
           </div>
         )}
       </div>
-
-      {isRunning && (
-        <div
-          className="flex items-center gap-2 px-4 py-2 border-t"
-          style={{
-            borderColor: 'var(--terminal-border)',
-            background: 'var(--terminal-bg-alt)',
-          }}
-        >
-          <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-          <span
-            className="text-[10px] uppercase tracking-wider"
-            style={{ color: 'var(--terminal-fg-muted)' }}
-          >
-            Process running
-          </span>
-        </div>
-      )}
     </div>
   )
 }
