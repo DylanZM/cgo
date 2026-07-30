@@ -48,9 +48,11 @@ function Toggle({
         }}
       >
         <span
-          className={`absolute top-[3px] left-[3px] w-3 h-3 rounded-full bg-bg shadow-sm transition-all duration-200 ease-out ${
-            checked ? 'translate-x-[14px] scale-110' : 'translate-x-0 scale-100'
-          }`}
+          className="absolute top-[3px] left-[3px] w-3 h-3 rounded-full transition-all duration-200 ease-out"
+          style={{
+            backgroundColor: checked ? '#fff' : '#888',
+            transform: checked ? 'translateX(14px)' : 'translateX(0)',
+          }}
         />
       </span>
     </button>
