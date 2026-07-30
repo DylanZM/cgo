@@ -130,7 +130,7 @@ export default function Playground() {
         onToggleLayout={() => setLayout(isHorizontal ? 'vertical' : 'horizontal')}
       />
 
-      <div className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
+      <div className={`flex-1 flex min-h-0 relative ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
         <div
           className={`flex-1 min-w-0 min-h-0 ${isHorizontal ? 'border-r' : 'border-b'} border-border`}
         >
@@ -151,23 +151,27 @@ export default function Playground() {
         </div>
 
         {settingsVisible && (
-          <SettingsPanel
-            settings={settings}
-            onUpdate={updateSettings}
-            onClose={closeSettings}
-            closing={settingsClosing}
-          />
+          <div className="absolute inset-y-0 right-0 z-50">
+            <SettingsPanel
+              settings={settings}
+              onUpdate={updateSettings}
+              onClose={closeSettings}
+              closing={settingsClosing}
+            />
+          </div>
         )}
 
         {historyVisible && (
-          <HistoryPanel
-            history={history}
-            onRestore={handleRestore}
-            onRemove={removeEntry}
-            onClear={clearHistory}
-            onClose={closeHistory}
-            closing={historyClosing}
-          />
+          <div className="absolute inset-y-0 right-0 z-40">
+            <HistoryPanel
+              history={history}
+              onRestore={handleRestore}
+              onRemove={removeEntry}
+              onClear={clearHistory}
+              onClose={closeHistory}
+              closing={historyClosing}
+            />
+          </div>
         )}
       </div>
     </div>

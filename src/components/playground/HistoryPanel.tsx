@@ -26,11 +26,10 @@ function firstLine(code: string): string {
   return line?.trim().slice(0, 50) ?? code.slice(0, 50)
 }
 
-export default function HistoryPanel({ history, onRestore, onRemove, onClear, onClose }: HistoryPanelProps) {
+export default function HistoryPanel({ history, onRestore, onRemove, onClear, onClose, closing }: HistoryPanelProps) {
   return (
     <div
-      className="h-full flex flex-col bg-surface border-l border-border w-72"
-      style={{ animation: 'panel-in 200ms cubic-bezier(0.23, 1, 0.32, 1)' }}
+      className={`h-full flex flex-col bg-surface border-l border-border w-72 ${closing ? 'settings-panel-out' : 'settings-panel'}`}
     >
       <div className="flex items-center justify-between px-4 h-11 border-b border-border shrink-0">
         <div className="flex items-center gap-2">
