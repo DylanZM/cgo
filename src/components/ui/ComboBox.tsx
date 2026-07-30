@@ -20,6 +20,8 @@ interface ComboBoxProps {
 export default function ComboBox({ options, value, onChange, accent, surface, border, fg, labelColor }: ComboBoxProps) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 })
   const active = options.find((o) => o.value === value)
 
   useEffect(() => {
@@ -30,9 +32,17 @@ export default function ComboBox({ options, value, onChange, accent, surface, bo
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
+  useEffect(() => {
+    if (open && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      setCoords({ top: rect.bottom + 4, left: rect.left, width: rect.width })
+    }
+  }, [open])
+
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref}>
       <button
+        ref={buttonRef}
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between px-3 py-2 text-xs rounded-lg transition-all duration-150 active:scale-95"
         style={{
@@ -48,8 +58,12 @@ export default function ComboBox({ options, value, onChange, accent, surface, bo
 
       {open && (
         <div
-          className="absolute top-full left-0 right-0 mt-1 py-1 rounded-lg z-50 overflow-hidden"
+          className="py-1 rounded-lg z-50 overflow-hidden"
           style={{
+            position: 'fixed',
+            top: coords.top,
+            left: coords.left,
+            width: coords.width,
             backgroundColor: surface,
             border: `1px solid ${border}`,
           }}
