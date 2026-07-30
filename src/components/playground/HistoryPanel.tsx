@@ -223,7 +223,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
 
   return (
     <div
-      className={`h-full flex flex-col w-full ${closing ? 'settings-panel-out' : 'settings-panel'}`}
+      className={`h-full flex flex-col border-l border-border w-full ${closing ? 'settings-panel-out' : 'settings-panel'}`}
       style={{
         backgroundColor: panelBg,
         color: panelFg,
