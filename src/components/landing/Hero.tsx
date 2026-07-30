@@ -27,9 +27,16 @@ export default function Hero() {
       />
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted mb-8 uppercase">
-            <span key={carouselIdx} className="animate-fade-in inline-block">
-              {CAROUSEL_ITEMS[carouselIdx]}
+          <p className="text-[10px] font-medium tracking-[0.2em] text-text-muted mb-8 uppercase overflow-hidden">
+            <span
+              className="flex transition-transform duration-300 ease-out"
+              style={{ transform: `translateX(-${carouselIdx * 100}%)` }}
+            >
+              {CAROUSEL_ITEMS.map((item) => (
+                <span key={item} className="w-full flex-shrink-0">
+                  {item}
+                </span>
+              ))}
             </span>
           </p>
 
