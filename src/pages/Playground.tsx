@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import Toolbar from '../components/playground/Toolbar'
 import Editor from '../components/playground/Editor'
 import Output from '../components/playground/Output'
 import SettingsPanel from '../components/playground/SettingsPanel'
 import HistoryPanel from '../components/playground/HistoryPanel'
-import { useSettings } from '../hooks/useSettings'
+import { useSettings, themes } from '../hooks/useSettings'
 import { useHistory } from '../hooks/useHistory'
 import { compileCode } from '../lib/compiler'
 import { templates } from '../components/playground/templates'
@@ -20,6 +20,11 @@ export default function Playground() {
 
   const { settings, updateSettings } = useSettings()
   const { history, addEntry, removeEntry, clearHistory } = useHistory()
+
+  const themeLabel = useMemo(
+    () => themes.find((t) => t.id === settings.theme)?.label,
+    [settings.theme]
+  )
 
   useEffect(() => {
     document.documentElement.dataset.editorTheme = settings.theme
@@ -65,6 +70,7 @@ export default function Playground() {
         historyOpen={historyOpen}
         layout={layout}
         onToggleLayout={() => setLayout(isHorizontal ? 'vertical' : 'horizontal')}
+        themeLabel={themeLabel}
       />
 
       <div className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
