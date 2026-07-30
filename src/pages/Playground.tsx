@@ -192,7 +192,9 @@ export default function Playground() {
 
         <div
           className={`shrink-0 bg-border ${
-            isHorizontal ? 'w-px cursor-col-resize' : 'h-px cursor-row-resize'
+            isHorizontal
+              ? 'w-px cursor-col-resize px-1 -mx-1'
+              : 'h-px cursor-row-resize py-1 -my-1'
           }`}
           onMouseDown={handleDividerMouseDown}
         />
