@@ -15,7 +15,9 @@ export default function Playground() {
   const [isRunning, setIsRunning] = useState(false)
   const [lastResult, setLastResult] = useState<{ output: string; error: string; exitCode: number; time: number } | null>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [settingsClosing, setSettingsClosing] = useState(false)
   const [historyOpen, setHistoryOpen] = useState(false)
+  const [historyClosing, setHistoryClosing] = useState(false)
   const [layout, setLayout] = useState<'horizontal' | 'vertical'>('horizontal')
 
   const { settings, updateSettings } = useSettings()
@@ -49,9 +51,59 @@ export default function Playground() {
     setCode(entry.code)
     setLastResult({ output: entry.output, error: entry.error, exitCode: entry.exitCode, time: 0 })
     setHistoryOpen(false)
+    setHistoryClosing(true)
+  }, [])
+
+  const toggleSettings = useCallback(() => {
+    if (settingsOpen) {
+      setSettingsClosing(true)
+      setTimeout(() => {
+        setSettingsOpen(false)
+        setSettingsClosing(false)
+      }, 220)
+    } else {
+      setHistoryOpen(false)
+      setHistoryClosing(true)
+      setTimeout(() => setHistoryClosing(false), 220)
+      setSettingsOpen(true)
+    }
+  }, [settingsOpen])
+
+  const toggleHistory = useCallback(() => {
+    if (historyOpen) {
+      setHistoryClosing(true)
+      setTimeout(() => {
+        setHistoryOpen(false)
+        setHistoryClosing(false)
+      }, 220)
+    } else {
+      setSettingsOpen(false)
+      setSettingsClosing(true)
+      setTimeout(() => setSettingsClosing(false), 220)
+      setHistoryOpen(true)
+    }
+  }, [historyOpen])
+
+  const closeSettings = useCallback(() => {
+    setSettingsClosing(true)
+    setTimeout(() => {
+      setSettingsOpen(false)
+      setSettingsClosing(false)
+    }, 220)
+  }, [])
+
+  const closeHistory = useCallback(() => {
+    setHistoryClosing(true)
+    setTimeout(() => {
+      setHistoryOpen(false)
+      setHistoryClosing(false)
+    }, 220)
   }, [])
 
   const isHorizontal = layout === 'horizontal'
+
+  const settingsVisible = settingsOpen || settingsClosing
+  const historyVisible = historyOpen || historyClosing
 
   return (
     <div className="h-dvh flex flex-col bg-bg">
@@ -59,10 +111,10 @@ export default function Playground() {
         onRun={handleRun}
         isRunning={isRunning}
         onLoadTemplate={handleLoadTemplate}
-        onToggleSettings={() => { setSettingsOpen(!settingsOpen); setHistoryOpen(false) }}
-        onToggleHistory={() => { setHistoryOpen(!historyOpen); setSettingsOpen(false) }}
-        settingsOpen={settingsOpen}
-        historyOpen={historyOpen}
+        onToggleSettings={toggleSettings}
+        onToggleHistory={toggleHistory}
+        settingsOpen={settingsOpen && !settingsClosing}
+        historyOpen={historyOpen && !historyClosing}
         layout={layout}
         onToggleLayout={() => setLayout(isHorizontal ? 'vertical' : 'horizontal')}
       />
@@ -80,30 +132,30 @@ export default function Playground() {
         </div>
 
         <div
-          className={`flex flex-col ${
-            isHorizontal
-              ? 'w-[400px] min-w-[280px]'
-              : 'h-[280px] min-h-[180px]'
+          className={`flex flex-col min-w-0 min-h-0 ${
+            isHorizontal ? 'flex-1' : 'h-1/2 min-h-[180px]'
           }`}
         >
           <Output result={lastResult} isRunning={isRunning} />
         </div>
 
-        {settingsOpen && (
+        {settingsVisible && (
           <SettingsPanel
             settings={settings}
             onUpdate={updateSettings}
-            onClose={() => setSettingsOpen(false)}
+            onClose={closeSettings}
+            closing={settingsClosing}
           />
         )}
 
-        {historyOpen && (
+        {historyVisible && (
           <HistoryPanel
             history={history}
             onRestore={handleRestore}
             onRemove={removeEntry}
             onClear={clearHistory}
-            onClose={() => setHistoryOpen(false)}
+            onClose={closeHistory}
+            closing={historyClosing}
           />
         )}
       </div>

@@ -7,6 +7,7 @@ interface SettingsPanelProps {
   settings: Settings
   onUpdate: (partial: Partial<Settings>) => void
   onClose: () => void
+  closing?: boolean
 }
 
 function Toggle({
@@ -89,7 +90,7 @@ function SectionHeader({
   )
 }
 
-export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsPanelProps) {
+export default function SettingsPanel({ settings, onUpdate, onClose, closing }: SettingsPanelProps) {
   const prevTheme = useRef(settings.theme)
   const [flashTheme, setFlashTheme] = useState<string | null>(null)
 
@@ -121,7 +122,7 @@ export default function SettingsPanel({ settings, onUpdate, onClose }: SettingsP
 
   return (
     <div
-      className="settings-panel h-full flex flex-col border-l border-border w-72 relative transition-colors duration-300 ease-out"
+      className={`${closing ? 'settings-panel-out' : 'settings-panel'} h-full flex flex-col border-l border-border w-72 relative transition-colors duration-300 ease-out`}
       style={{
         backgroundColor: panelBg,
         color: panelFg,

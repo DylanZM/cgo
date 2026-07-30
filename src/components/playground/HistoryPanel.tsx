@@ -7,6 +7,7 @@ interface HistoryPanelProps {
   onRemove: (id: string) => void
   onClear: () => void
   onClose: () => void
+  closing?: boolean
 }
 
 function timeAgo(timestamp: number): string {
