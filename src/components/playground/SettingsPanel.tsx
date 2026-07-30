@@ -221,34 +221,22 @@ export default function SettingsPanel({ settings, onUpdate, onClose, closing }: 
 
             <div>
               <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: labelColor }}>Font size</div>
-              <div
-                className="flex items-center rounded-lg overflow-hidden"
+              <input
+                type="number"
+                min={10}
+                max={22}
+                value={settings.fontSize}
+                onChange={(e) => {
+                  const v = parseInt(e.target.value, 10)
+                  if (!isNaN(v)) onUpdate({ fontSize: Math.max(10, Math.min(22, v)) })
+                }}
                 style={{
                   backgroundColor: surface,
-                  border: `1px solid ${border}`,
+                  borderColor: border,
+                  color: panelFg,
                 }}
-              >
-                <button
-                  onClick={() => onUpdate({ fontSize: Math.max(10, settings.fontSize - 1) })}
-                  className="px-3 py-2 text-sm font-medium active:scale-95 transition-all duration-150"
-                  style={{ color: labelColor }}
-                >
-                  −
-                </button>
-                <div
-                  className="flex-1 text-center text-xs tabular-nums font-mono py-2"
-                  style={{ color: panelFg }}
-                >
-                  {settings.fontSize}px
-                </div>
-                <button
-                  onClick={() => onUpdate({ fontSize: Math.min(22, settings.fontSize + 1) })}
-                  className="px-3 py-2 text-sm font-medium active:scale-95 transition-all duration-150"
-                  style={{ color: labelColor }}
-                >
-                  +
-                </button>
-              </div>
+                className="w-full px-3 py-2 text-xs tabular-nums font-mono rounded-lg border outline-none transition-colors duration-150"
+              />
             </div>
           </div>
         </section>
