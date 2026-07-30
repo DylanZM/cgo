@@ -17,12 +17,14 @@ function Toggle({
   label,
   description,
   accent,
+  surface,
 }: {
   checked: boolean
   onChange: () => void
   label: string
   description?: string
   accent: string
+  surface: string
 }) {
   return (
     <button
@@ -40,7 +42,7 @@ function Toggle({
         className="relative shrink-0 w-8 rounded-full transition-colors duration-200 ease-out"
         style={{
           height: '18px',
-          backgroundColor: checked ? accent : undefined,
+          backgroundColor: checked ? accent : surface,
         }}
       >
         <span
@@ -231,11 +233,11 @@ export default function SettingsPanel({ settings, onUpdate, onClose, closing }: 
           <SectionHeader icon={Code} title="Editor" accent={accent} />
 
           <div className="space-y-px">
-            <Toggle checked={settings.minimap} onChange={() => onUpdate({ minimap: !settings.minimap })} label="Minimap" description="Code overview on the right" accent={accent} />
-            <Toggle checked={settings.lineNumbers} onChange={() => onUpdate({ lineNumbers: !settings.lineNumbers })} label="Line numbers" accent={accent} />
-            <Toggle checked={settings.wordWrap} onChange={() => onUpdate({ wordWrap: !settings.wordWrap })} label="Word wrap" description="Wrap long lines" accent={accent} />
-            <Toggle checked={settings.fontLigatures} onChange={() => onUpdate({ fontLigatures: !settings.fontLigatures })} label="Font ligatures" accent={accent} />
-            <Toggle checked={settings.stickyScroll} onChange={() => onUpdate({ stickyScroll: !settings.stickyScroll })} label="Sticky scroll" description="Pin scope headers" accent={accent} />
+            <Toggle checked={settings.minimap} onChange={() => onUpdate({ minimap: !settings.minimap })} label="Minimap" description="Code overview on the right" accent={accent} surface={surface} />
+            <Toggle checked={settings.lineNumbers} onChange={() => onUpdate({ lineNumbers: !settings.lineNumbers })} label="Line numbers" accent={accent} surface={surface} />
+            <Toggle checked={settings.wordWrap} onChange={() => onUpdate({ wordWrap: !settings.wordWrap })} label="Word wrap" description="Wrap long lines" accent={accent} surface={surface} />
+            <Toggle checked={settings.fontLigatures} onChange={() => onUpdate({ fontLigatures: !settings.fontLigatures })} label="Font ligatures" accent={accent} surface={surface} />
+            <Toggle checked={settings.stickyScroll} onChange={() => onUpdate({ stickyScroll: !settings.stickyScroll })} label="Sticky scroll" description="Pin scope headers" accent={accent} surface={surface} />
           </div>
         </section>
 
