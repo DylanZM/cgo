@@ -184,7 +184,7 @@ export default function Playground() {
   return (
     <div className="h-dvh flex flex-col bg-bg">
       <Toolbar
-        themeVars={themeVars}
+        toolbarBg={themeVars['--color-bg']}
         onRun={handleRun}
         isRunning={isRunning}
         onLoadTemplate={handleLoadTemplate}
