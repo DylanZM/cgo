@@ -1,26 +1,37 @@
+import { useState, useEffect } from 'react'
 import { useInView } from '../../hooks/useInView'
 
+const LINES = ['NO LICENSE KEY.', 'NO CLOUD REQUIRED.', 'NO CONTEXT SWITCHING.']
+
 export default function Manifesto() {
-  const lines = ['NO LICENSE KEY.', 'NO CLOUD REQUIRED.', 'NO CONTEXT SWITCHING.']
+  const [idx, setIdx] = useState(0)
   const [ref, isInView] = useInView<HTMLDivElement>()
+
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % LINES.length), 3000)
+    return () => clearInterval(t)
+  }, [])
 
   return (
     <section id="manifesto" className="px-6 py-16 border-y border-border bg-surface">
       <div
         ref={ref}
-        className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-y-6 gap-x-4 text-center sm:text-left"
+        className={`max-w-5xl mx-auto reveal-up ${isInView ? 'is-visible' : ''}`}
       >
-        {lines.map((line, i) => (
+        <div className="overflow-hidden">
           <div
-            key={line}
-            className={`reveal-up ${isInView ? 'is-visible' : ''}`}
-            style={{ transitionDelay: `${i * 120}ms` }}
+            className="flex transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(-${idx * 100}%)` }}
           >
-            <p className="text-lg sm:text-xl md:text-2xl font-semibold text-text tracking-tight leading-tight">
-              {line}
-            </p>
+            {LINES.map((line) => (
+              <div key={line} className="w-full flex-shrink-0 text-center">
+                <p className="text-lg sm:text-xl md:text-2xl font-semibold text-text tracking-tight leading-tight">
+                  {line}
+                </p>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </section>
   )

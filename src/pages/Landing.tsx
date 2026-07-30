@@ -9,6 +9,7 @@ import Footer from '../components/landing/Footer'
 import Header from '../components/layout/Header'
 
 const sections = [
+  { id: 'hero', label: 'Home' },
   { id: 'features', label: 'Features' },
   { id: 'languages', label: 'Languages' },
   { id: 'why', label: 'Why cgo' },
