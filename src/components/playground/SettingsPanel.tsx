@@ -220,27 +220,35 @@ export default function SettingsPanel({ settings, onUpdate, onClose, closing }: 
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-[10px] uppercase tracking-wider" style={{ color: labelColor }}>Font size</div>
+              <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: labelColor }}>Font size</div>
+              <div
+                className="flex items-center rounded-lg overflow-hidden"
+                style={{
+                  backgroundColor: surface,
+                  border: `1px solid ${border}`,
+                }}
+              >
+                <button
+                  onClick={() => onUpdate({ fontSize: Math.max(10, settings.fontSize - 1) })}
+                  className="px-3 py-2 text-sm font-medium active:scale-95 transition-all duration-150"
+                  style={{ color: labelColor }}
+                >
+                  −
+                </button>
                 <div
-                  className="text-[10px] tabular-nums font-mono px-2 py-0.5 rounded"
-                  style={{
-                    color: panelFg,
-                    backgroundColor: surface,
-                  }}
+                  className="flex-1 text-center text-xs tabular-nums font-mono py-2"
+                  style={{ color: panelFg }}
                 >
                   {settings.fontSize}px
                 </div>
+                <button
+                  onClick={() => onUpdate({ fontSize: Math.min(22, settings.fontSize + 1) })}
+                  className="px-3 py-2 text-sm font-medium active:scale-95 transition-all duration-150"
+                  style={{ color: labelColor }}
+                >
+                  +
+                </button>
               </div>
-              <input
-                type="range"
-                min={10}
-                max={22}
-                value={settings.fontSize}
-                onChange={(e) => onUpdate({ fontSize: Number(e.target.value) })}
-                style={{ accentColor: accent }}
-                className="w-full"
-              />
             </div>
           </div>
         </section>
