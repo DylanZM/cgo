@@ -129,30 +129,64 @@ function deriveColors(accent: string, isDark: boolean) {
 function HighlightedCode({ code, accent, isDark }: { code: string; accent: string; isDark: boolean }) {
   const colors = useMemo(() => deriveColors(accent, isDark), [accent, isDark])
   const lines = useMemo(() => tokenize(code), [code])
+  const lineCount = lines.length
+
+  const addColor = isDark ? 'rgba(52, 211, 153, 0.15)' : 'rgba(52, 211, 153, 0.1)'
+  const addBorder = isDark ? 'rgba(52, 211, 153, 0.3)' : 'rgba(52, 211, 153, 0.25)'
+  const gutterFg = isDark ? 'rgba(52, 211, 153, 0.6)' : 'rgba(52, 211, 153, 0.7)'
 
   return (
-    <code className="text-[10px] font-mono leading-relaxed block">
-      {lines.map((tokens, li) => (
-        <div key={li} className="flex">
-          <span
-            className="select-none text-right pr-3 w-7 shrink-0"
-            style={{ color: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)' }}
+    <div className="font-mono text-[10px] leading-[18px]">
+      <div
+        className="flex items-center gap-2 px-3 py-1.5 text-[9px] sticky top-0"
+        style={{
+          backgroundColor: isDark ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.04)',
+          borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+          color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)',
+        }}
+      >
+        <span
+          className="text-[10px] font-semibold tracking-tight"
+          style={{ color: accent }}
+        >
+          main.cpp
+        </span>
+        <span className="opacity-50">+{lineCount}</span>
+        <span className="opacity-30">·</span>
+        <span className="opacity-50">−0</span>
+        <span className="ml-auto opacity-40">{lineCount} lines</span>
+      </div>
+      <div className="overflow-x-auto max-h-72 overflow-y-auto">
+        {lines.map((tokens, li) => (
+          <div
+            key={li}
+            className="flex"
+            style={{ backgroundColor: li % 2 === 0 ? 'transparent' : (isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)') }}
           >
-            {li + 1}
-          </span>
-          <span className="whitespace-pre">
-            {tokens.map((t, tj) => {
-              const color = t.type === 'normal' || t.type === 'punctuation' ? undefined : colors[t.type]
-              return (
-                <span key={tj} style={color ? { color } : undefined}>
-                  {t.text}
-                </span>
-              )
-            })}
-          </span>
-        </div>
-      ))}
-    </code>
+            <div
+              className="w-9 shrink-0 flex items-center justify-center text-[9px] select-none border-r"
+              style={{
+                color: gutterFg,
+                backgroundColor: addColor,
+                borderColor: addBorder,
+              }}
+            >
+              +
+            </div>
+            <span className="whitespace-pre px-2" style={{ backgroundColor: addColor }}>
+              {tokens.map((t, tj) => {
+                const color = t.type === 'normal' || t.type === 'punctuation' ? undefined : colors[t.type]
+                return (
+                  <span key={tj} style={color ? { color } : undefined}>
+                    {t.text}
+                  </span>
+                )
+              })}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -247,7 +281,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
             </p>
           </div>
         ) : (
-          <div>
+          <div className="px-2 py-2 space-y-1.5">
             {history.map((entry, i) => {
               const isFirst = i === 0
               const hasError = !!entry.error
@@ -257,7 +291,12 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
               return (
                 <div
                   key={entry.id}
-                  style={{ borderColor: border }}
+                  className="rounded-lg overflow-hidden transition-shadow duration-200"
+                  style={{
+                    backgroundColor: surface,
+                    border: `1px solid ${border}`,
+                    boxShadow: isExpanded ? `0 1px 6px ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.08)'}` : 'none',
+                  }}
                 >
                   <div
                     onClick={() => toggleExpand(entry.id)}
@@ -265,15 +304,7 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                     style={{ color: panelFg }}
                   >
                     <div
-                      className="absolute left-0 top-2 bottom-2 w-0.5 rounded-full transition-colors duration-300"
-                      style={{
-                        backgroundColor: isExpanded ? accent : 'transparent',
-                        opacity: isExpanded ? 1 : 0,
-                      }}
-                    />
-
-                    <div
-                      className="flex items-start gap-2.5 pl-4 pr-2.5 py-2 hover:opacity-90"
+                      className="flex items-start gap-2.5 px-3 py-2"
                       style={{ backgroundColor: isFirst ? surfaceAlt : 'transparent' }}
                     >
                       <div
@@ -323,36 +354,12 @@ export default function HistoryPanel({ history, onRestore, onRemove, onClear, on
                   <div
                     className="overflow-hidden transition-all duration-200 ease-out"
                     style={{
-                      maxHeight: isExpanded ? '600px' : '0px',
+                      maxHeight: isExpanded ? '800px' : '0px',
                       opacity: isExpanded ? 1 : 0,
                     }}
                   >
-                    <div
-                      className="mx-3 mb-3 rounded-md overflow-hidden"
-                      style={{
-                        backgroundColor: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.03)',
-                        border: `1px solid ${border}`,
-                      }}
-                    >
-                      <div
-                        className="flex items-center gap-2 px-3 py-1.5 border-b"
-                        style={{ borderColor: border, backgroundColor: surface }}
-                      >
-                        <span
-                          className="w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: isFirst ? status : accent, opacity: 0.7 }}
-                        />
-                        <span className="text-[9px] font-mono" style={{ color: muted }}>
-                          {entry.code.split('\n').length} lines
-                        </span>
-                        <span style={{ color: border }}>·</span>
-                        <span className="text-[9px]" style={{ color: muted }}>
-                          {timeAgo(entry.timestamp)}
-                        </span>
-                      </div>
-                      <div className="p-2.5 overflow-x-auto max-h-72 overflow-y-auto">
-                        <HighlightedCode code={entry.code} accent={accent} isDark={isDark} />
-                      </div>
+                    <div style={{ borderTop: `1px solid ${border}` }}>
+                      <HighlightedCode code={entry.code} accent={accent} isDark={isDark} />
                     </div>
                   </div>
                 </div>
