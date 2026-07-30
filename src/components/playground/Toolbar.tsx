@@ -63,8 +63,11 @@ export default function Toolbar({
         >
           <img src="/cgo.webp" alt="" className="w-12 h-12" />
         </Link>
+      </div>
 
-        <div className="relative" ref={dropdownRef}>
+      <div className="flex items-center gap-0.5">
+
+        <div className="relative" ref={dropdownRef}>          
           <Button
             variant="ghost"
             size="xs"
@@ -76,7 +79,7 @@ export default function Toolbar({
           </Button>
 
           {templatesOpen && (
-            <div className="dropdown-panel absolute top-full left-0 mt-1.5 w-72 py-1 bg-surface-2 border border-border rounded-md shadow-2xl z-50 origin-top-left overflow-hidden">
+            <div className="dropdown-panel absolute top-full right-0 mt-1.5 w-72 py-1 bg-surface-2 border border-border rounded-md shadow-2xl z-50 origin-top-right overflow-hidden">
               <div className="px-2 py-1.5 mb-1 border-b border-border">
                 <p className="text-[10px] uppercase tracking-wider text-text-muted font-medium">
                   Templates
@@ -107,9 +110,9 @@ export default function Toolbar({
             </div>
           )}
         </div>
-      </div>
 
-      <div className="flex items-center gap-0.5">
+
+        
         <Button
           variant="icon"
           size="sm"
