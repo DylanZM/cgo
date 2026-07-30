@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useMemo } from 'react'
 import { X, Sun, Code, Hash, Check } from 'lucide-react'
 import type { Settings } from '../../types'
 import { themes, fonts } from '../../hooks/useSettings'
-import ComboBox from '../ui/ComboBox'
+
 
 interface SettingsPanelProps {
   settings: Settings
@@ -197,16 +197,26 @@ export default function SettingsPanel({ settings, onUpdate, onClose, closing }: 
 
             <div>
               <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: labelColor }}>Font family</div>
-              <ComboBox
-                options={fonts.map((f) => ({ value: f.id, label: f.label }))}
-                value={settings.fontFamily}
-                onChange={(val) => onUpdate({ fontFamily: val })}
-                accent={accent}
-                surface={surface}
-                border={border}
-                fg={panelFg}
-                labelColor={labelColor}
-              />
+              <div className="flex gap-1.5">
+                {fonts.map((f) => {
+                  const active = settings.fontFamily === f.id
+                  return (
+                    <button
+                      key={f.id}
+                      onClick={() => onUpdate({ fontFamily: f.id })}
+                      className="flex-1 px-2.5 py-2 text-xs rounded-lg transition-all duration-150 active:scale-95"
+                      style={{
+                        fontFamily: f.id,
+                        backgroundColor: active ? accent : 'transparent',
+                        color: active ? '#fff' : panelFg,
+                        border: `1px solid ${active ? accent : border}`,
+                      }}
+                    >
+                      {f.label}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
 
             <div>
