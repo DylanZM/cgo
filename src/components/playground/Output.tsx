@@ -11,24 +11,38 @@ interface OutputProps {
 
 export default function Output({ lines, running, inputBuffer, onInputChange, onInputSubmit }: OutputProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [lines])
+  }, [lines, inputBuffer])
 
   useEffect(() => {
-    if (running && inputRef.current) {
-      inputRef.current.focus()
+    if (running && scrollRef.current) {
+      scrollRef.current.focus()
     }
   }, [running])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (!running) return
+
+    if (e.key === 'Enter') {
       e.preventDefault()
       onInputSubmit()
+      return
+    }
+
+    if (e.key === 'Backspace') {
+      e.preventDefault()
+      onInputChange(inputBuffer.slice(0, -1))
+      return
+    }
+
+    if (e.ctrlKey || e.metaKey || e.altKey) return
+    if (e.key.length === 1) {
+      e.preventDefault()
+      onInputChange(inputBuffer + e.key)
     }
   }
 
@@ -38,7 +52,9 @@ export default function Output({ lines, running, inputBuffer, onInputChange, onI
     <div className="flex flex-col h-full terminal">
       <div
         ref={scrollRef}
-        className="flex-1 overflow-auto p-4 font-mono"
+        tabIndex={0}
+        className="flex-1 overflow-auto p-4 font-mono outline-none"
+        onKeyDown={handleKeyDown}
         style={{ background: 'var(--terminal-bg)', color: 'var(--terminal-fg)' }}
       >
         {isEmpty && (
@@ -67,30 +83,13 @@ export default function Output({ lines, running, inputBuffer, onInputChange, onI
             ))}
           </div>
         )}
-      </div>
 
-      {running && (
-        <div
-          className="shrink-0 flex items-center border-t px-4 py-2"
-          style={{
-            background: 'var(--terminal-bg-alt)',
-            borderColor: 'var(--terminal-border)',
-          }}
-        >
-          <span className="text-xs font-mono mr-2" style={{ color: 'var(--terminal-fg-subtle)' }}>
-            {'>'}
+        {running && (
+          <span className="text-sm font-mono leading-relaxed" style={{ color: 'var(--terminal-fg)' }}>
+            {inputBuffer}<span className="animate-pulse">▊</span>
           </span>
-          <input
-            ref={inputRef}
-            value={inputBuffer}
-            onChange={(e) => onInputChange(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 text-xs font-mono leading-relaxed border-none outline-none bg-transparent placeholder:opacity-30"
-            style={{ color: 'var(--terminal-fg)' }}
-            placeholder="Type input and press Enter..."
-          />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
