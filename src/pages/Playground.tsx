@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import Toolbar from '../components/playground/Toolbar'
 import Editor from '../components/playground/Editor'
 import Output from '../components/playground/Output'
@@ -19,6 +19,50 @@ export default function Playground() {
   const [historyOpen, setHistoryOpen] = useState(false)
   const [historyClosing, setHistoryClosing] = useState(false)
   const [layout, setLayout] = useState<'horizontal' | 'vertical'>('horizontal')
+  const [splitPos, setSplitPos] = useState(50)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const dragState = useRef({ active: false, horizontal: true })
+
+  const handleDividerMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    dragState.current = { active: true, horizontal: layout === 'horizontal' }
+    document.body.style.cursor = layout === 'horizontal' ? 'col-resize' : 'row-resize'
+    document.body.style.userSelect = 'none'
+    document.body.style.pointerEvents = 'none'
+  }, [layout])
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const ds = dragState.current
+      if (!ds.active) return
+      const container = containerRef.current
+      if (!container) return
+      const rect = container.getBoundingClientRect()
+      const pct = ds.horizontal
+        ? ((e.clientX - rect.left) / rect.width) * 100
+        : ((e.clientY - rect.top) / rect.height) * 100
+      setSplitPos(Math.max(20, Math.min(80, pct)))
+    }
+
+    const handleMouseUp = () => {
+      if (dragState.current.active) {
+        dragState.current.active = false
+        document.body.style.cursor = ''
+        document.body.style.userSelect = ''
+        document.body.style.pointerEvents = ''
+      }
+    }
+
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+      document.body.style.cursor = ''
+      document.body.style.userSelect = ''
+      document.body.style.pointerEvents = ''
+    }
+  }, [])
 
   const { settings, updateSettings } = useSettings()
   const { history, addEntry, removeEntry, clearHistory } = useHistory()
@@ -115,7 +159,6 @@ export default function Playground() {
 
   const settingsVisible = settingsOpen || settingsClosing
   const historyVisible = historyOpen || historyClosing
-  const sidePanelVisible = settingsVisible || historyVisible
 
   return (
     <div className="h-dvh flex flex-col bg-bg">
@@ -131,9 +174,13 @@ export default function Playground() {
         onToggleLayout={() => setLayout(isHorizontal ? 'vertical' : 'horizontal')}
       />
 
-      <div className={`flex-1 flex min-h-0 relative ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
+      <div
+        ref={containerRef}
+        className={`flex-1 flex min-h-0 relative ${isHorizontal ? 'flex-row' : 'flex-col'}`}
+      >
         <div
-          className={`flex-1 min-w-0 min-h-0 ${isHorizontal ? (sidePanelVisible ? 'border-r-0' : 'border-r') : 'border-b'} border-border transition-colors duration-300`}
+          className="min-w-0 min-h-0 overflow-hidden"
+          style={{ flex: `0 0 ${splitPos}%` }}
         >
           <Editor
             code={code}
@@ -144,9 +191,16 @@ export default function Playground() {
         </div>
 
         <div
-          className={`flex flex-col min-w-0 min-h-0 ${
-            isHorizontal ? 'flex-1' : 'h-1/2 min-h-[180px]'
+          className={`shrink-0 bg-border hover:bg-accent/30 transition-colors duration-150 ${
+            isHorizontal ? 'w-1 cursor-col-resize' : 'h-1 cursor-row-resize'
           }`}
+          onMouseDown={handleDividerMouseDown}
+        />
+
+        <div
+          className={`flex flex-col min-w-0 ${
+            isHorizontal ? 'min-h-0' : 'min-h-[180px]'
+          } flex-1 overflow-hidden`}
         >
           <Output result={lastResult} isRunning={isRunning} />
         </div>
