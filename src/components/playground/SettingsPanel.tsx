@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { X, Sun, Code, Hash, Check } from 'lucide-react'
 import type { Settings } from '../../types'
-import { themes, fonts } from '../../hooks/useSettings'
+import { themes, fonts } from '../../storage'
 
 
 interface SettingsPanelProps {
