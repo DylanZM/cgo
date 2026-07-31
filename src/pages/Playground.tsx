@@ -4,11 +4,10 @@ import Editor from '../components/playground/Editor'
 import Output from '../components/playground/Output'
 import SettingsPanel from '../components/playground/SettingsPanel'
 import HistoryPanel from '../components/playground/HistoryPanel'
-import { useSettings } from '../hooks/useSettings'
+import { useSettings, themes } from '../hooks/useSettings'
 import { useHistory } from '../hooks/useHistory'
 import { useTerminal } from '../hooks/useTerminal'
 import { templates } from '../components/playground/templates'
-import { applyThemeUiColors, syncThemeColors, loadThemeData } from '../themeSystem'
 import type { HistoryEntry } from '../types'
 
 export default function Playground() {
@@ -66,34 +65,28 @@ export default function Playground() {
   const { settings, updateSettings } = useSettings()
   const { history, addEntry, removeEntry, clearHistory } = useHistory()
 
-  async function applyTheme(themeName: string) {
-    try {
-      const themeData = await loadThemeData(themeName)
-      applyThemeUiColors(themeName, themeData)
-      syncThemeColors(themeData)
-      document.documentElement.dataset.editorTheme = themeName
-    } catch (e) {
-      console.error('Failed to apply theme:', e)
-    }
-  }
-
   useEffect(() => {
-    applyTheme(settings.theme)
+    document.documentElement.dataset.editorTheme = settings.theme
   }, [settings.theme])
 
   const themeVars = useMemo(() => {
-    const root = document.documentElement
+    const theme = themes.find((t) => t.id === settings.theme) ?? themes[0]
+    const c = theme.bg.replace('#', '')
+    const r = parseInt(c.slice(0, 2), 16)
+    const g = parseInt(c.slice(2, 4), 16)
+    const b = parseInt(c.slice(4, 6), 16)
+    const isDark = (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5
+    const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'
     return {
-      '--color-bg': root.style.getPropertyValue('--color-bg-primary') || '#121212',
-      '--color-surface': root.style.getPropertyValue('--color-bg-secondary') || 'rgba(255,255,255,0.04)',
-      '--color-surface-2': root.style.getPropertyValue('--color-bg-tertiary') || 'rgba(255,255,255,0.06)',
-      '--color-surface-3': 'rgba(255,255,255,0.10)',
-      '--color-text': root.style.getPropertyValue('--color-text-primary') || '#dbd7ca',
-      '--color-text-secondary': root.style.getPropertyValue('--color-text-secondary') || 'rgba(255,255,255,0.65)',
-      '--color-text-muted': root.style.getPropertyValue('--color-text-muted') || 'rgba(255,255,255,0.35)',
-      '--color-border': root.style.getPropertyValue('--color-border') || 'rgba(255,255,255,0.08)',
-      '--divider-border': root.style.getPropertyValue('--color-border') || 'rgba(255,255,255,0.08)',
-      '--color-accent': root.style.getPropertyValue('--color-accent') || '#4d9375',
+      '--color-bg': theme.bg,
+      '--color-surface': isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+      '--color-surface-2': isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+      '--color-surface-3': isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.10)',
+      '--color-text': theme.fg,
+      '--color-text-secondary': isDark ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,0.65)',
+      '--color-text-muted': isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)',
+      '--color-border': border,
+      '--divider-border': border,
     }
   }, [settings.theme])
 
@@ -202,7 +195,9 @@ export default function Playground() {
         className={`flex-1 flex min-h-0 relative ${isHorizontal ? 'flex-row' : 'flex-col'}`}
       >
         <div
-          className={`min-w-0 min-h-0 overflow-hidden ${isHorizontal ? 'border-r' : 'border-b'}`}
+          className={`min-w-0 min-h-0 overflow-hidden ${
+            isHorizontal ? 'border-r' : 'border-b'
+          }`}
           style={{ flex: `0 0 ${splitPos}%`, borderColor: themeVars['--divider-border'] }}
         >
           <Editor
@@ -214,12 +209,16 @@ export default function Playground() {
         </div>
 
         <div
-          className={`shrink-0 ${isHorizontal ? 'w-3 -mx-1.5 cursor-col-resize' : 'h-3 -my-1.5 cursor-row-resize'} z-10`}
+          className={`shrink-0 ${
+            isHorizontal ? 'w-3 -mx-1.5 cursor-col-resize' : 'h-3 -my-1.5 cursor-row-resize'
+          } z-10`}
           onMouseDown={handleDividerMouseDown}
         />
 
         <div
-          className={`flex flex-col min-w-0 ${isHorizontal ? 'min-h-0' : 'min-h-[180px]'} flex-1 overflow-hidden`}
+          className={`flex flex-col min-w-0 ${
+            isHorizontal ? 'min-h-0' : 'min-h-[180px]'
+          } flex-1 overflow-hidden`}
         >
           <Output
             lines={terminal.lines}

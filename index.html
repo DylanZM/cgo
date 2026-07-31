@@ -6,48 +6,6 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CGO Playground</title>
-
-    <style>
-      html {
-        background-color: #121212;
-        color-scheme: dark;
-      }
-    </style>
-
-    <script>
-      (function () {
-        var BG = {
-          'vitesse-dark': ['#121212', 'dark'],
-          'vitesse-light': ['#ffffff', 'light'],
-          'github-dark': ['#0d1117', 'dark'],
-          'github-light': ['#ffffff', 'light'],
-          'dracula': ['#282a36', 'dark'],
-          'monokai': ['#272822', 'dark'],
-          'nord': ['#2e3440', 'dark'],
-          'tokyo-night': ['#1a1b26', 'dark'],
-          'one-dark-pro': ['#282c34', 'dark'],
-        }
-        try {
-          var theme = 'vitesse-dark'
-          var raw = localStorage.getItem('cgo-settings')
-          if (raw) {
-            var saved = JSON.parse(raw)
-            if (saved && typeof saved.theme === 'string' && BG[saved.theme]) {
-              theme = saved.theme
-            }
-          }
-          var entry = BG[theme]
-          var root = document.documentElement
-          root.style.setProperty('--editor-background', entry[0])
-          root.style.setProperty('--color-bg-primary', entry[0])
-          root.style.backgroundColor = entry[0]
-          root.style.colorScheme = entry[1]
-          root.dataset.theme = theme
-          root.dataset.themeType = entry[1]
-        } catch (e) {}
-      })()
-    </script>
-
     <link rel="stylesheet" href="/src/fonts.css" />
   </head>
   <body>

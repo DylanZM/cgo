@@ -22,7 +22,6 @@
     "react-icons": "^5.7.0",
     "react-router-dom": "^7.18.1",
     "tailwindcss": "^4.3.3",
-    "tm-themes": "^1.12.2",
     "ws": "^8.21.1"
   },
   "devDependencies": {
