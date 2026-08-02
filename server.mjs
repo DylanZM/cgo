@@ -1,6 +1,6 @@
-import { writeFileSync, unlinkSync, existsSync, readFileSync, statSync } from 'node:fs'
-import { execSync, spawn } from 'node:child_process'
-import { randomUUID } from 'node:crypto'
+import { writeFileSync, unlinkSync, existsSync, readFileSync, statSync, mkdirSync, readdirSync, renameSync } from 'node:fs'
+import { spawn, spawnSync } from 'node:child_process'
+import { createHash, randomUUID } from 'node:crypto'
 import { tmpdir } from 'node:os'
 import { join, extname, normalize } from 'node:path'
 import http from 'node:http'
@@ -16,6 +16,11 @@ const RATE_LIMIT_WINDOW = 60 * 1000       // 60s window
 const RATE_LIMIT_MAX = 10                 // max compiles per window per IP
 const MAX_WS_CONNECTIONS = 20             // max simultaneous WebSocket clients
 const DIST_DIR = new URL('./dist', import.meta.url).pathname
+const CACHE_DIR = join(tmpdir(), 'cgo_cache')
+const CACHE_MAX_ENTRIES = 64              // max cached binaries
+const CACHE_MAX_SIZE = 64 * 1024 * 1024   // 64 MB cache budget
+
+mkdirSync(CACHE_DIR, { recursive: true })
 
 const activeProcesses = new Set()
 let activeCompiles = 0
@@ -45,6 +50,63 @@ function isRateLimited(ip) {
   }
 
   return bucket.count > RATE_LIMIT_MAX
+}
+
+function evictCacheIfNeeded() {
+  try {
+    const entries = readdirSync(CACHE_DIR).map((name) => {
+      const path = join(CACHE_DIR, name)
+      const st = statSync(path)
+      return { path, size: st.size, mtime: st.mtimeMs }
+    })
+    let total = entries.reduce((sum, e) => sum + e.size, 0)
+    if (entries.length <= CACHE_MAX_ENTRIES && total <= CACHE_MAX_SIZE) return
+    entries.sort((a, b) => a.mtime - b.mtime)
+    let i = 0
+    while (i < entries.length && (entries.length - i > CACHE_MAX_ENTRIES || total > CACHE_MAX_SIZE)) {
+      try { unlinkSync(entries[i].path) } catch {}
+      total -= entries[i].size
+      i++
+    }
+  } catch {}
+}
+
+function compileWithCache(code) {
+  const hash = createHash('sha256').update(code).digest('hex')
+  const cached = join(CACHE_DIR, hash)
+
+  if (existsSync(cached)) {
+    return { binary: cached, fromCache: true }
+  }
+
+  const sourceFile = join(tmpdir(), `cgo_${randomUUID()}.cpp`)
+  const binaryFile = join(tmpdir(), `cgo_${randomUUID()}`)
+  writeFileSync(sourceFile, code, 'utf-8')
+
+  let compileRes
+  try {
+    compileRes = spawnSync('g++', ['-std=c++17', '-o', binaryFile, sourceFile], {
+      timeout: COMPILE_TIMEOUT,
+      encoding: 'utf-8',
+    })
+  } finally {
+    try { unlinkSync(sourceFile) } catch {}
+  }
+
+  if (compileRes.error) {
+    throw new Error(compileRes.error.message)
+  }
+  if (compileRes.status !== 0) {
+    const err = new Error(compileRes.stderr || `g++ exited with code ${compileRes.status}`)
+    err.code = compileRes.status
+    throw err
+  }
+
+  try { renameSync(binaryFile, cached) } catch {
+    try { unlinkSync(binaryFile) } catch {}
+  }
+  evictCacheIfNeeded()
+  return { binary: cached, fromCache: false }
 }
 
 function applySecurityHeaders(res) {
@@ -277,21 +339,14 @@ wss.on('connection', (ws, req) => {
       activeProcesses.add(ws)
       startTime = performance.now()
 
-      const id = randomUUID()
-      const sourceFile = join(tmpdir(), `cgo_${id}.cpp`)
-      const binaryFile = join(tmpdir(), `cgo_${id}`)
-
+      let binaryFile
       try {
-        writeFileSync(sourceFile, msg.code, 'utf-8')
-        execSync(`g++ -std=c++17 -o ${binaryFile} ${sourceFile} 2>&1`, {
-          timeout: COMPILE_TIMEOUT,
-          encoding: 'utf-8',
-        })
+        const res = compileWithCache(msg.code)
+        binaryFile = res.binary
       } catch (e) {
         send('error', e.stderr || e.message || 'Compilation failed')
         cleanup()
         close()
-        try { unlinkSync(sourceFile) } catch {}
         return
       }
 
@@ -322,8 +377,6 @@ wss.on('connection', (ws, req) => {
         send('exit', { code: exitCode, time: Math.round(performance.now() - startTime) })
         cleanup()
         close()
-        try { unlinkSync(sourceFile) } catch {}
-        try { unlinkSync(binaryFile) } catch {}
       })
     } else if (msg.type === 'stdin') {
       if (typeof msg.data !== 'string' || msg.data.length > MAX_CODE_SIZE) return
@@ -342,52 +395,40 @@ wss.on('connection', (ws, req) => {
 })
 
 function compile(code, stdin) {
-  const id = randomUUID()
-  const sourceFile = join(tmpdir(), `cgo_${id}.cpp`)
-  const binaryFile = join(tmpdir(), `cgo_${id}`)
   const start = performance.now()
 
   try {
-    writeFileSync(sourceFile, code, 'utf-8')
+    const { binary } = compileWithCache(code)
 
-    execSync(`g++ -std=c++17 -o ${binaryFile} ${sourceFile} 2>&1`, {
-      timeout: COMPILE_TIMEOUT,
+    const runRes = spawnSync(binary, [], {
+      input: stdin || '',
+      timeout: PROCESS_TIMEOUT,
       encoding: 'utf-8',
+      maxBuffer: 1024 * 1024,
     })
 
-    let output = ''
-    try {
-      output = execSync(`${binaryFile}`, {
-        input: stdin || '',
-        timeout: PROCESS_TIMEOUT,
-        encoding: 'utf-8',
-        maxBuffer: 1024 * 1024,
-      })
-    } catch (runErr) {
+    if (runRes.error) {
       return {
-        output: runErr.stdout || '',
-        error: runErr.stderr || `Process exited with code ${runErr.status}`,
-        exitCode: runErr.status || 1,
+        output: runRes.stdout || '',
+        error: runRes.error.message || `Process exited with code ${runRes.status}`,
+        exitCode: runRes.status || 1,
         time: Math.round(performance.now() - start),
       }
     }
 
     return {
-      output,
-      error: '',
-      exitCode: 0,
+      output: runRes.stdout || '',
+      error: runRes.status !== 0 ? runRes.stderr || `Process exited with code ${runRes.status}` : '',
+      exitCode: runRes.status || 0,
       time: Math.round(performance.now() - start),
     }
   } catch (compileErr) {
     return {
       output: '',
       error: compileErr.stderr || compileErr.message || 'Compilation failed',
-      exitCode: compileErr.status || 1,
+      exitCode: compileErr.code || 1,
       time: Math.round(performance.now() - start),
     }
-  } finally {
-    try { unlinkSync(sourceFile) } catch {}
-    try { unlinkSync(binaryFile) } catch {}
   }
 }
 
