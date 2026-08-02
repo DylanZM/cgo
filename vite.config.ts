@@ -19,4 +19,13 @@ export default defineConfig({
       '/api': 'http://localhost:3001',
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('monaco-editor')) return 'monaco'
+        },
+      },
+    },
+  },
 })

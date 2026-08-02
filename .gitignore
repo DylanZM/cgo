@@ -27,3 +27,6 @@ dist-ssr
 .hallmark/
 design.md
 .interface-design/
+
+# Local server (not shared)
+server.mjs
