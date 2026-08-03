@@ -20,6 +20,17 @@ export default function Playground() {
   const [splitPos, setSplitPos] = useState(50)
   const containerRef = useRef<HTMLDivElement>(null)
   const dragState = useRef({ active: false, horizontal: true })
+  const manualLayout = useRef(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const apply = () => {
+      if (!manualLayout.current) setLayout(mq.matches ? 'vertical' : 'horizontal')
+    }
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
 
   const handleDividerMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -187,7 +198,10 @@ export default function Playground() {
         settingsOpen={settingsOpen && !settingsClosing}
         historyOpen={historyOpen && !historyClosing}
         layout={layout}
-        onToggleLayout={() => setLayout(isHorizontal ? 'vertical' : 'horizontal')}
+        onToggleLayout={() => {
+          manualLayout.current = true
+          setLayout((prev) => (prev === 'horizontal' ? 'vertical' : 'horizontal'))
+        }}
       />
 
       <div
@@ -233,7 +247,7 @@ export default function Playground() {
         </div>
 
         {settingsVisible && (
-          <div className="absolute inset-y-0 right-0 z-50 w-[calc(50%+2rem)] min-w-[360px]">
+          <div className="absolute inset-y-0 right-0 z-50 w-full sm:w-[calc(50%+2rem)] sm:min-w-[360px]">
             <SettingsPanel
               settings={settings}
               onUpdate={updateSettings}
@@ -244,7 +258,7 @@ export default function Playground() {
         )}
 
         {historyVisible && (
-          <div className="absolute inset-y-0 right-0 z-40 w-[calc(50%+2rem)] min-w-[360px]">
+          <div className="absolute inset-y-0 right-0 z-40 w-full sm:w-[calc(50%+2rem)] sm:min-w-[360px]">
             <HistoryPanel
               history={history}
               onRestore={handleRestore}

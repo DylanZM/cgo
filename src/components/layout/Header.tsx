@@ -24,7 +24,7 @@ export default function Header({
   brand,
 }: HeaderProps) {
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 h-14 bg-bg/80 backdrop-blur-lg border-b border-border">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 h-14 bg-bg/80 backdrop-blur-lg border-b border-border">
       <Link
         to="/"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -32,7 +32,7 @@ export default function Header({
       >
         {brand ?? (
           <>
-            <img src="/cgo.webp" alt="" className="w-14 h-14" />
+            <img src="/cgo.webp" alt="" className="w-10 h-10 sm:w-14 sm:h-14" />
             <span className="text-base font-semibold tracking-tight leading-none">
               Cgo<span className="text-text-muted animate-blink">_</span>
             </span>
@@ -40,7 +40,7 @@ export default function Header({
         )}
       </Link>
 
-      <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1">
+      <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1">
         {sections.map((s) =>
           s.id === 'hero' ? (
             <Link

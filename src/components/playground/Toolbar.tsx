@@ -61,20 +61,22 @@ export default function Toolbar({
           className="group flex items-center gap-1.5 px-1.5 py-1 text-text-secondary text-sm font-sans rounded-md "
           title="Back to home"
         >
-          <img src="/cgo.webp" alt="" className="w-12 h-12" />
+          <img src="/cgo.webp" alt="" className="w-8 h-8 sm:w-12 sm:h-12" />
         </Link>
       </div>
 
       <div className="flex items-center gap-0.5">
 
-        <div className="relative" ref={dropdownRef}>          
+        <div className="relative" ref={dropdownRef}>
           <Button
             variant="ghost"
             size="xs"
             active={templatesOpen}
             onClick={() => setTemplatesOpen(!templatesOpen)}
+            aria-label="Templates"
+            title="Templates"
           >
-            Templates
+            <span className="hidden sm:inline">Templates</span>
             <ChevronDown className={`w-3 h-3 transition-transform duration-200 ease-out ${templatesOpen ? 'rotate-180' : ''}`} />
           </Button>
 
