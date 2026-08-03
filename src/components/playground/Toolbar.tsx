@@ -81,7 +81,7 @@ export default function Toolbar({
           </Button>
 
           {templatesOpen && (
-            <div className="dropdown-panel absolute top-full right-0 mt-1.5 w-72 py-1 bg-surface-2 border border-border rounded-md shadow-2xl z-50 origin-top-right overflow-hidden">
+            <div className="dropdown-panel z-50 overflow-hidden rounded-md border border-border bg-surface-2 py-1 shadow-2xl fixed left-3 right-3 top-[3.25rem] origin-top sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-1.5 sm:w-72 sm:origin-top-right">
               <div className="px-2 py-1.5 mb-1 border-b border-border">
                 <p className="text-[10px] uppercase tracking-wider text-text-muted font-medium">
                   Templates
