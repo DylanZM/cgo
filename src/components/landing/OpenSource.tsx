@@ -35,7 +35,7 @@ export default function OpenSource() {
 
         <a
           ref={buttonRef}
-          href="https://github.com"
+          href="https://github.com/DylanZM/cgo"
           target="_blank"
           rel="noopener noreferrer"
           className={`group flex items-center gap-3 px-4 py-3 rounded-lg border border-border-strong bg-surface hover:bg-surface-2 transition-all reveal-up ${buttonInView ? 'is-visible' : ''}`}
